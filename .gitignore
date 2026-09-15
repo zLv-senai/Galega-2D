@@ -1,0 +1,57 @@
+# ---- Pastas geradas pela Unity (NUNCA vão pro Git) ----
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Os .meta de dentro de Assets SEMPRE vão (sem eles a Unity perde as referências)
+!/[Aa]ssets/**/*.meta
+
+# ---- Arquivos de IDE (Visual Studio / VS Code / Rider) ----
+.vs/
+.vscode/
+.idea/
+/[Aa]ssets/Plugins/Editor/JetBrains*
+.gradle/
+
+# ---- Solução e projetos gerados automaticamente ----
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# ---- Relatório de crash ----
+sysinfo.txt
+
+# ---- Builds ----
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# ---- Addressables / StreamingAssets gerados ----
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
