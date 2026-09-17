@@ -1,0 +1,38 @@
+:root {
+}
+
+.button {
+    justify-content: flex-start;
+    align-self: center;
+    align-content: auto;
+    align-items: stretch;
+    flex-grow: 0;
+    min-width: auto;
+    min-height: auto;
+    max-width: none;
+    width: 50%;
+    height: auto;
+    font-size: 45px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(153, 0, 178);
+    text-shadow: -10px 8px 0 rgb(124, 79, 139);
+    color: rgba(27, 27, 27, 0);
+    background-color: rgba(106, 56, 101, 0);
+    border-top-width: 3px;
+    border-right-width: 6px;
+    border-bottom-width: 12px;
+    border-left-width: 6px;
+    border-top-left-radius: 45px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 45px;
+    border-bottom-left-radius: 0;
+    border-left-color: rgb(193, 112, 207);
+    border-right-color: rgb(193, 112, 207);
+    border-top-color: rgb(193, 112, 207);
+    border-bottom-color: rgb(193, 112, 207);
+    letter-spacing: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 45px;
+    padding-top: 20px;
+}
