@@ -27,12 +27,21 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 45px;
     border-bottom-left-radius: 0;
-    border-left-color: rgb(193, 112, 207);
-    border-right-color: rgb(193, 112, 207);
-    border-top-color: rgb(193, 112, 207);
-    border-bottom-color: rgb(193, 112, 207);
+    border-color: rgb(193, 112, 207);
     letter-spacing: 10px;
     padding-bottom: 20px;
     margin-bottom: 45px;
     padding-top: 20px;
+}
+
+.button:hover {
+    -unity-text-outline-color: rgb(226, 18, 198);
+    text-shadow: -10px 8px 0 rgb(203, 129, 228);
+    color: rgba(143, 50, 187, 0.86);
+    background-color: rgba(67, 25, 92, 0.56);
+    border-color: rgb(227, 75, 247);
+    border-right-width: 8px;
+    border-bottom-width: 18px;
+    margin-bottom: 39px;
+    margin-right: 2px;
 }

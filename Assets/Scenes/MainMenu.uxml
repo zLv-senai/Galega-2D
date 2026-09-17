@@ -4,9 +4,9 @@
         <ui:GroupBox name="containerMenu" style="flex-grow: 1; flex-shrink: 0; min-width: 50%; min-height: 50%; max-height: 70%; max-width: 70%; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 0, 236); color: rgba(255, 255, 255, 0.894); background-color: rgba(41, 28, 53, 0.439); border-left-color: rgba(125, 38, 255, 0.71); border-right-color: rgba(125, 38, 255, 0.71); border-top-color: rgba(125, 38, 255, 0.71); border-bottom-color: rgba(125, 38, 255, 0.71); border-top-width: 12px; border-right-width: 12px; border-bottom-width: 12px; border-left-width: 12px; border-top-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px;">
             <ui:Label text="Menu" name="Title" style="color: rgb(193, 112, 207); font-size: 180px; -unity-text-align: middle-center; flex-shrink: 1; -unity-font-style: bold; flex-direction: column; -unity-text-outline-width: 8px; -unity-text-outline-color: rgb(153, 0, 178); letter-spacing: 8px; text-shadow: -18px 10px 0 rgb(197, 126, 221); -unity-text-auto-size: best-fit 100px 180px; padding-top: 25px; padding-bottom: 25px; padding-left: 10px; padding-right: 10px; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0;"/>
             <ui:GroupBox name="containerButons" style="padding-left: 0; padding-bottom: 0; margin-top: 40px; margin-bottom: 40px; margin-left: 20px; margin-right: 20px; padding-top: 0; align-self: auto; justify-content: center; align-items: center; align-content: flex-start; flex-direction: column; height: auto; flex-grow: 1;">
-                <ui:Button text="Button" name="Play_btt" class="button" style="border-bottom-right-radius: 45px;"/>
-                <ui:Button text="Button" name="Reset_btt" class="button"/>
-                <ui:Button text="Button" name="Quit_btt" class="button"/>
+                <ui:Button text="Play" name="Play_btt" class="button" style="border-bottom-right-radius: 45px;"/>
+                <ui:Button text="Settings" name="Reset_btt" class="button"/>
+                <ui:Button text="Exit" name="Quit_btt" class="button"/>
             </ui:GroupBox>
         </ui:GroupBox>
     </ui:VisualElement>
