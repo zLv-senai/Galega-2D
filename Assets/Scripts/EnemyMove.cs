@@ -12,7 +12,7 @@ public class EnemyMove : MonoBehaviour
      
     }
  private void SeguirJogador()
- //Definindo a posição do inimigo para a posição do alvo
+    //Definindo a posição do inimigo para a posição do alvo, velocidade de movimento. 
     { transform.position = Vector2.MoveTowards(transform.position, target.position, 2 * Time.deltaTime/4);
     }
     // Update is called once per frame
