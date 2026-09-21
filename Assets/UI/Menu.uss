@@ -17,8 +17,8 @@
     -unity-text-outline-width: 2px;
     -unity-text-outline-color: rgb(153, 0, 178);
     text-shadow: -10px 8px 0 rgb(124, 79, 139);
-    color: rgba(27, 27, 27, 0);
-    background-color: rgba(106, 56, 101, 0);
+    color: rgba(0, 0, 0, 0);
+    background-color: rgba(118, 98, 117, 0.965);
     border-top-width: 3px;
     border-right-width: 6px;
     border-bottom-width: 12px;
@@ -27,12 +27,18 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 45px;
     border-bottom-left-radius: 0;
-    border-left-color: rgb(193, 112, 207);
-    border-right-color: rgb(193, 112, 207);
-    border-top-color: rgb(193, 112, 207);
-    border-bottom-color: rgb(193, 112, 207);
+    border-color: rgb(193, 112, 207);
     letter-spacing: 10px;
     padding-bottom: 20px;
     margin-bottom: 45px;
     padding-top: 20px;
+    background-image: url("project://database/Assets/Welcome/2d-template.png?fileID=3684732902739343859&guid=474ce57d7c1704418af05d72d996ae5e&type=3#2d-template_0");
+    background-size: auto auto;
+    backdrop-filter: none;
+}
+
+.button:hover {
+    -unity-text-outline-color: rgb(189, 0, 148);
+    text-shadow: -10px 8px 0 rgb(163, 80, 145);
+    border-color: rgb(238, 117, 222);
 }
