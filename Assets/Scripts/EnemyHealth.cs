@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
     // Publicando a variável vida para que possa ser ajustada no Inspector do Unity
     public int vida =2;   
@@ -9,7 +9,8 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int dano)
     {
                   
-          vida -= dano; 
+          vida -= dano;
+          Debug.Log(vida);
 
         if (vida < 1 )  
         {
