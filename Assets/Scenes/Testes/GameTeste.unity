@@ -340,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 171373086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 464976675}
   - component: {fileID: 464976677}
   - component: {fileID: 464976678}
-  - component: {fileID: 464976679}
+  - component: {fileID: 464976680}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Inimigo
@@ -436,9 +436,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.77, y: 3.92, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 472881764}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &464976677
@@ -453,7 +454,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
+  target: {fileID: 1193155100}
+  vida: 2
+  fireHate: 1
+  gameManager: {fileID: 1411670900}
+  tiroPrefab: {fileID: 8464918384112236837, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
 --- !u!58 &464976678
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -490,7 +495,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.009535948, y: 0.00000009934107}
   m_Radius: 0.5858222
---- !u!114 &464976679
+--- !u!114 &464976680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -499,10 +504,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 464976674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c420ba0c6cba794f9764b4ec34c6873, type: 3}
+  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  vida: 2
+  m_EditorClassIdentifier: Assembly-CSharp::LookAt
+  target: {fileID: 1193155098}
+--- !u!1 &472881763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 472881764}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &472881764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472881763}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 464976676}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &645228433
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +643,7 @@ GameObject:
   - component: {fileID: 1028523379}
   - component: {fileID: 1028523381}
   - component: {fileID: 1028523382}
-  - component: {fileID: 1028523383}
+  - component: {fileID: 1028523384}
   m_Layer: 0
   m_Name: Enemy (2)
   m_TagString: Inimigo
@@ -685,9 +721,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.72, y: 3.92, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1547741169}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1028523381
@@ -702,7 +739,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
+  target: {fileID: 1193155100}
+  vida: 2
+  fireHate: 1
+  gameManager: {fileID: 1411670900}
+  tiroPrefab: {fileID: 8464918384112236837, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
 --- !u!58 &1028523382
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -739,7 +780,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.009535551, y: 0}
   m_Radius: 0.58582103
---- !u!114 &1028523383
+--- !u!114 &1028523384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -748,10 +789,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1028523378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c420ba0c6cba794f9764b4ec34c6873, type: 3}
+  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  vida: 2
+  m_EditorClassIdentifier: Assembly-CSharp::LookAt
+  target: {fileID: 1193155098}
 --- !u!1 &1193155098
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +805,7 @@ GameObject:
   - component: {fileID: 1193155099}
   - component: {fileID: 1193155101}
   - component: {fileID: 1193155102}
+  - component: {fileID: 1193155103}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -840,7 +882,7 @@ Transform:
   m_GameObject: {fileID: 1193155098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -4.4, z: 0}
+  m_LocalPosition: {x: -0.17810637, y: -4.2238164, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -906,8 +948,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   vida: 100
+  level: 1
+  velocidade: 5
   tiroPrefab: {fileID: 8464918384112236837, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
+  gameManager: {fileID: 1411670900}
   gun: {fileID: 171373087}
+--- !u!114 &1193155103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193155098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAt
+  target: {fileID: 0}
 --- !u!1 &1305100437
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,7 +978,7 @@ GameObject:
   - component: {fileID: 1305100438}
   - component: {fileID: 1305100440}
   - component: {fileID: 1305100441}
-  - component: {fileID: 1305100442}
+  - component: {fileID: 1305100443}
   m_Layer: 0
   m_Name: Enemy (3)
   m_TagString: Inimigo
@@ -998,9 +1056,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.7, y: 3.92, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1602298441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1305100440
@@ -1015,7 +1074,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
+  target: {fileID: 1193155100}
+  vida: 2
+  fireHate: 1
+  gameManager: {fileID: 1411670900}
+  tiroPrefab: {fileID: 8464918384112236837, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
 --- !u!58 &1305100441
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1052,7 +1115,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.00000009934107, y: 0}
   m_Radius: 0.5762857
---- !u!114 &1305100442
+--- !u!114 &1305100443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1061,10 +1124,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1305100437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c420ba0c6cba794f9764b4ec34c6873, type: 3}
+  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  vida: 2
+  m_EditorClassIdentifier: Assembly-CSharp::LookAt
+  target: {fileID: 1193155098}
 --- !u!1 &1411670896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,7 +1292,7 @@ GameObject:
   - component: {fileID: 1481586543}
   - component: {fileID: 1481586546}
   - component: {fileID: 1481586545}
-  - component: {fileID: 1481586547}
+  - component: {fileID: 1481586548}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Inimigo
@@ -1307,9 +1370,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.66, y: 3.92, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1780763615}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1481586545
@@ -1324,7 +1388,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
+  target: {fileID: 1193155100}
+  vida: 2
+  fireHate: 1
+  gameManager: {fileID: 1411670900}
+  tiroPrefab: {fileID: 8464918384112236837, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
 --- !u!58 &1481586546
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1361,7 +1429,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.009535948, y: 0}
   m_Radius: 0.56675035
---- !u!114 &1481586547
+--- !u!114 &1481586548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1370,10 +1438,72 @@ MonoBehaviour:
   m_GameObject: {fileID: 1481586542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c420ba0c6cba794f9764b4ec34c6873, type: 3}
+  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  vida: 2
+  m_EditorClassIdentifier: Assembly-CSharp::LookAt
+  target: {fileID: 1193155098}
+--- !u!1 &1547741168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1547741169}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1547741169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547741168}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1028523380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1602298440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1602298441}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1602298441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602298440}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1305100439}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1674845663
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,7 +1515,7 @@ GameObject:
   - component: {fileID: 1674845665}
   - component: {fileID: 1674845664}
   - component: {fileID: 1674845667}
-  - component: {fileID: 1674845666}
+  - component: {fileID: 1674845669}
   - component: {fileID: 1674845668}
   m_Layer: 0
   m_Name: Enemy (4)
@@ -1464,24 +1594,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.19, y: 3.92, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1901971052}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1674845666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1674845663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c420ba0c6cba794f9764b4ec34c6873, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  vida: 2
 --- !u!114 &1674845667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1494,7 +1612,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
+  target: {fileID: 1193155100}
+  vida: 2
+  fireHate: 1
+  gameManager: {fileID: 1411670900}
+  tiroPrefab: {fileID: 8464918384112236837, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
 --- !u!58 &1674845668
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1531,6 +1653,81 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.00000034769374, y: 0}
   m_Radius: 0.55721444
+--- !u!114 &1674845669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674845663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAt
+  target: {fileID: 1193155098}
+--- !u!1 &1780763614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780763615}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1780763615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780763614}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1481586544}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1901971051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1901971052}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1901971052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901971051}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1674845665}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -114,12 +114,12 @@ TextureImporter:
       name: Player_Neon_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 643
-        width: 1508
-        height: 381
+        x: 65
+        y: 648
+        width: 240
+        height: 355
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -136,12 +136,12 @@ TextureImporter:
       name: Player_Neon_1
       rect:
         serializedVersion: 2
-        x: 62
-        y: 292
-        width: 1388
-        height: 352
+        x: 305
+        y: 648
+        width: 240
+        height: 355
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -158,12 +158,12 @@ TextureImporter:
       name: Player_Neon_2
       rect:
         serializedVersion: 2
-        x: 70
-        y: 384
-        width: 6
-        height: 9
+        x: 545
+        y: 648
+        width: 240
+        height: 355
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -180,12 +180,12 @@ TextureImporter:
       name: Player_Neon_3
       rect:
         serializedVersion: 2
-        x: 77
-        y: 1
-        width: 1364
-        height: 293
+        x: 785
+        y: 648
+        width: 240
+        height: 355
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -198,11 +198,187 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Player_Neon_4
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 648
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11ebdc26317e0f6429464e2e0532a019
+      internalID: -265034428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_5
+      rect:
+        serializedVersion: 2
+        x: 1265
+        y: 648
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a259466de38ce7b4aa86ffd1a94a0bff
+      internalID: 1221124244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_6
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 293
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba260167ad4abb046b88620f781bb1f5
+      internalID: 2120869276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_7
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 293
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51aee4cc3c7ceb347983c04d3933f695
+      internalID: 1059311242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_8
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 293
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dcd66e6e90226748a76f00dde7e2bdd
+      internalID: 2017579252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_9
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 293
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d3f8718f5efd734c9d377b3807ad145
+      internalID: 2066747088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_10
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 293
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e38b18f90a5a96c4db91f92dcd8764ab
+      internalID: 9811851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Neon_11
+      rect:
+        serializedVersion: 2
+        x: 1265
+        y: 293
+        width: 240
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 352a871fa7e92674e846ee55ac62f7f0
+      internalID: 940652145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6dca3207ee53c55478c5739cb17b747e
     internalID: 0
     vertices: []
     indices: 
@@ -210,12 +386,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":3.0},"gridSpriteSize":{"x":240.0,"y":355.0},"gridSpriteOffset":{"x":65.0,"y":21.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Player_Neon_0: 2623482944415039281
       Player_Neon_1: -5162237193372021286
+      Player_Neon_10: 9811851
+      Player_Neon_11: 940652145
       Player_Neon_2: -2830761682230195032
       Player_Neon_3: -6822874811989932449
+      Player_Neon_4: -265034428
+      Player_Neon_5: 1221124244
+      Player_Neon_6: 2120869276
+      Player_Neon_7: 1059311242
+      Player_Neon_8: 2017579252
+      Player_Neon_9: 2066747088
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
