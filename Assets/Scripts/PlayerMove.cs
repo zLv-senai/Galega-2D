@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour, IDamageable
         {
             if(Mouse.current.leftButton.wasPressedThisFrame)
             {
-            Instantiate(tiroPrefab, gun.position, Quaternion.Euler(0, 0, 180));
+            Instantiate(tiroPrefab, gun.position, gun.rotation);
             }
         }
     }
