@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,9 +9,9 @@ public class PlayerMove : MonoBehaviour, IDamageable
     public int level = 1;
     private int xp = 0;
     public float velocidade = 5.0f;
-    public GameObject tiroPrefab;
     public GameManager gameManager;
     [SerializeField] private Transform gun;
+    public GameObject tiroPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Update is called once per frame
@@ -31,13 +32,20 @@ public class PlayerMove : MonoBehaviour, IDamageable
 
     private void Shoot()
     {
-        if(tiroPrefab != null && gun != null)
-        {
             if(Mouse.current.leftButton.wasPressedThisFrame)
             {
-            Instantiate(tiroPrefab, gun.position, Quaternion.Euler(0, 0, 180));
+                Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+
+                Vector2 direction = ((Vector2)mouseWorld - (Vector2)transform.up).normalized;
+
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+                GameObject tiro = Instantiate(tiroPrefab, gun.position, Quaternion.Euler(0f, 0f, angle + (-90f)));
+
+                Rigidbody2D rb = tiro.GetComponent<Rigidbody2D>();
+                rb.linearVelocity = direction * velocidade;
             }
-        }
+        
     }
 
     public void GanharXp (int xpGanho)

@@ -40,7 +40,7 @@ public class LookAt : MonoBehaviour
     {
         if (target == null)
         {
-        posTarget = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());     
+        posTarget = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         } else
         {
             posTarget = target.transform.position;
@@ -81,5 +81,7 @@ public class LookAt : MonoBehaviour
         // transform = representa a "posição/rotação/escala" do nosso próprio objeto (a nave).
         // .rotation = a propriedade de ROTAÇÃO do objeto.
         // Aqui aplicamos de fato a rotação calculada, fazendo a nave girar e apontar pro mouse.
+
+        Debug.DrawLine(transform.position, posTarget, Color.red);
     }
 }

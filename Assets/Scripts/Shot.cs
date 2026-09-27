@@ -11,12 +11,6 @@ public class Shot : MonoBehaviour
     // Quanto de vida o tiro tira do inimigo.
     public int dano = 1;
 
-    void Update()
-    {
-        // Move o tiro para cima a cada frame.
-        transform.Translate(Vector2.up * velocidade * Time.deltaTime);
-    }
-
     // A Unity chama este método sozinha quando o collider do tiro
     // encosta em outro collider.
     void OnTriggerEnter2D(Collider2D outro)
