@@ -51,7 +51,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
     {
         if(tiroPrefab != null && gun != null)
         {
-            Instantiate(tiroPrefab, gun.position, Quaternion.Euler(0, 0, -180));
+            Instantiate(tiroPrefab, gun.position, gun.rotation);
             yield return new WaitForSeconds(fireHate);
             canShoot = true;
         }
