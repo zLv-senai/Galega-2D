@@ -22,12 +22,12 @@ public class Shot : MonoBehaviour
     void OnTriggerEnter2D(Collider2D outro)
     {
         // Procura o script de vida no objeto atingido.
-        EnemyHealth inimigo = outro.GetComponent<EnemyHealth>();
+        IDamageable alvo = outro.GetComponent<IDamageable>();
 
         // Se o objeto atingido não tem EnemyHealth, GetComponent devolve null.
-        if (inimigo != null)
+        if (alvo != null)
         {
-            inimigo.TakeDamage(dano);
+            alvo.TakeDamage(dano);
             Destroy(gameObject);
         }
         else if (outro.CompareTag("Parede"))

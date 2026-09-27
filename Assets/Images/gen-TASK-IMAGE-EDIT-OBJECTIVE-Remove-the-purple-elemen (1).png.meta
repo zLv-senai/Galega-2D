@@ -1,0 +1,795 @@
+fileFormatVersion: 2
+guid: 56f21f43231434a44870cc9afe7671ee
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5780479728413660561
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_0
+  - first:
+      213: 6291810715506243035
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_1
+  - first:
+      213: -7343485003475766132
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_2
+  - first:
+      213: 2834890086664986921
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_3
+  - first:
+      213: -5035409430905390730
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_4
+  - first:
+      213: -7302059865430106420
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_5
+  - first:
+      213: 3765462278320130467
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_6
+  - first:
+      213: 5234992478019309869
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_7
+  - first:
+      213: -1856507727053083912
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_8
+  - first:
+      213: 7401643390939252869
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_9
+  - first:
+      213: -6513833902512166660
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_10
+  - first:
+      213: -6880369678150924850
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_11
+  - first:
+      213: 5453284188696857050
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_12
+  - first:
+      213: -8278595766707969620
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_13
+  - first:
+      213: -6765797467779214303
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_14
+  - first:
+      213: 9146763777076987438
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_15
+  - first:
+      213: 5398393481492952611
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_16
+  - first:
+      213: 131948098127824240
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_17
+  - first:
+      213: 4448862666458231188
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_18
+  - first:
+      213: -3086340384828103565
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_19
+  - first:
+      213: 3666569958284292156
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_20
+  - first:
+      213: 3307087014339305139
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_21
+  - first:
+      213: -6153694050680585444
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_22
+  - first:
+      213: -3566127087691537639
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_23
+  - first:
+      213: -6153100019311415199
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_24
+  - first:
+      213: 7739109034015224484
+    second: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 898
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 195517bcfa3683050800000000000000
+      internalID: 5780479728413660561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_1
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 898
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd5feb3a280015750800000000000000
+      internalID: 6291810715506243035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_2
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 898
+        width: 298
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c843b6afb43b61a90800000000000000
+      internalID: -7343485003475766132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 898
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92161f0938d875720800000000000000
+      internalID: 2834890086664986921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_4
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 898
+        width: 146
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6797b342dc1ae1ab0800000000000000
+      internalID: -5035409430905390730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 674
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cced6688d3fd9aa90800000000000000
+      internalID: -7302059865430106420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_6
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 674
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a9876aedfb914430800000000000000
+      internalID: 3765462278320130467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_7
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 674
+        width: 298
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d21de2e2ced66a840800000000000000
+      internalID: 5234992478019309869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_8
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 674
+        width: 151
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8faab36fe0c5c36e0800000000000000
+      internalID: -1856507727053083912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_9
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 674
+        width: 147
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5884d0fc27be7b660800000000000000
+      internalID: 7401643390939252869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 450
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf8add2d3963a95a0800000000000000
+      internalID: -6513833902512166660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_11
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 451
+        width: 150
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec502724b340480a0800000000000000
+      internalID: -6880369678150924850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_12
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 450
+        width: 298
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad9c78ea315fdab40800000000000000
+      internalID: 5453284188696857050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_13
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 451
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca1a15613058c1d80800000000000000
+      internalID: -8278595766707969620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_14
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 451
+        width: 147
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12458cebc0f0b12a0800000000000000
+      internalID: -6765797467779214303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 226
+        width: 150
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2685119135dfee70800000000000000
+      internalID: 9146763777076987438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_16
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 226
+        width: 148
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 326fb2ef442faea40800000000000000
+      internalID: 5398393481492952611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_17
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 226
+        width: 299
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07582bd9816c4d100800000000000000
+      internalID: 131948098127824240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_18
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 226
+        width: 151
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4917db826098dbd30800000000000000
+      internalID: 4448862666458231188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_19
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 226
+        width: 147
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 374e06aa5cd1b25d0800000000000000
+      internalID: -3086340384828103565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 149
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3077a363f542e230800000000000000
+      internalID: 3666569958284292156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_21
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 2
+        width: 149
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3be500b2e1225ed20800000000000000
+      internalID: 3307087014339305139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_22
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 2
+        width: 149
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c13cfb45ddfa99aa0800000000000000
+      internalID: -6153694050680585444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_23
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 2
+        width: 149
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9136f32de42928ec0800000000000000
+      internalID: -3566127087691537639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_24
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 2
+        width: 150
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1607e79022ccb9aa0800000000000000
+      internalID: -6153100019311415199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_25
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 2
+        width: 146
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a27e72b9a6d66b60800000000000000
+      internalID: 7739109034015224484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_0: 5780479728413660561
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_1: 6291810715506243035
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_10: -6513833902512166660
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_11: -6880369678150924850
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_12: 5453284188696857050
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_13: -8278595766707969620
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_14: -6765797467779214303
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_15: 9146763777076987438
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_16: 5398393481492952611
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_17: 131948098127824240
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_18: 4448862666458231188
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_19: -3086340384828103565
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_2: -7343485003475766132
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_20: 3666569958284292156
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_21: 3307087014339305139
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_22: -6153694050680585444
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_23: -3566127087691537639
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_24: -6153100019311415199
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_25: 7739109034015224484
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_3: 2834890086664986921
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_4: -5035409430905390730
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_5: -7302059865430106420
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_6: 3765462278320130467
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_7: 5234992478019309869
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_8: -1856507727053083912
+      gen-TASK-IMAGE-EDIT-OBJECTIVE-Remove-the-purple-elemen (1)_9: 7401643390939252869
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
