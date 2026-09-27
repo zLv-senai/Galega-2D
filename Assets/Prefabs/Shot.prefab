@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shot
   velocidade: 8
   dano: 1
+  tagAlvo: Inimigo
 --- !u!114 &5797807319787627713
 MonoBehaviour:
   m_ObjectHideFlags: 0
