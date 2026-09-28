@@ -1,6 +1,6 @@
 ---
 name: subir-para-casa
-description: Sobe o trabalho da sessão para o GitHub para o Lucas continuar em outro PC (casa/Senai). Atualiza Docs/PLANO-LUCAS.md com o que foi feito, o código apagado, o passo a passo no Unity e o plano, depois faz commit e push da branch de trabalho. Use quando o Lucas pedir "sobe para eu mexer em casa", "subir para o git para continuar em casa", "salvar para o outro PC" ou algo parecido. NÃO use para subir para a main nem para abrir PR para a main.
+description: Sobe o trabalho da sessão para o GitHub para o Lucas continuar em outro PC (trabalho, casa ou Senai). Atualiza Docs/PLANO-LUCAS.md com o que foi feito, o código apagado, o passo a passo no Unity e o plano, depois faz commit e push da branch de trabalho. Use quando o Lucas pedir "sobe para eu mexer em casa", "subir para o git para continuar em casa", "salvar para o outro PC" ou algo parecido. NÃO use para subir para a main nem para abrir PR para a main.
 ---
 
 # Subir para casa
@@ -17,6 +17,11 @@ Responda sempre em português do Brasil.
   - numa branch limpa para o PR, ou num commit final de remoção, rode `git rm -r --cached Docs/PLANO-LUCAS.md .claude/skills/subir-para-casa`;
   - confira com `git diff main --stat` que eles não aparecem no PR.
   - Guarde uma cópia do `.md` fora do repositório antes, se ainda for útil.
+
+## PC do Senai = entrega para o professor
+
+O PC do Senai é onde fica a versão que o professor avalia. Ali o projeto precisa estar **limpo**, sem `Docs/PLANO-LUCAS.md` nem esta skill.
+- Se o Lucas estiver preparando a entrega, lembre dessa regra e confirme com ele qual branch ou versão vai para o Senai.
 
 ## O que entra no commit
 
@@ -41,7 +46,7 @@ Responda sempre em português do Brasil.
    - `git diff main --stat` e `git diff main -U0 -- Assets/Scripts`, para achar o que foi **apagado**: são as linhas com `-`.
 
 2. **Atualizar `Docs/PLANO-LUCAS.md`.** Crie o arquivo se não existir, seguindo as seções abaixo. **Edite as seções; não duplique conteúdo.**
-   - Atualize a linha `_Última atualização: <data> (<PC>)_`. Pergunte ao Lucas o PC se não souber.
+   - Atualize a linha `_Última atualização: <data> (<PC>)_`. Os PCs são **trabalho**, **casa** e **Senai**. Pergunte ao Lucas se não souber em qual ele está.
    - **4. O que já foi feito:** adicione o que a sessão fez, com os arquivos criados e alterados.
    - **⚠️ Código apagado:** para cada remoção, escreva uma explicação curta e, **logo abaixo, o bloco ```csharp com o código original**, tirado de `git diff`/`git show main:<arquivo>`.
    - **5. Como testar no Unity:** o passo a passo concreto para o Inspector (componentes, prefabs, tags, layers) do que foi feito.
@@ -56,7 +61,7 @@ Responda sempre em português do Brasil.
    - um resumo curto das mudanças no `PLANO-LUCAS.md`.
 
 4. **Commit** (no Windows PowerShell as aspas quebram `-m`, então **sempre use arquivo**):
-   - Escreva a mensagem num arquivo temporário **fora do repositório e com caminho curto**, como `$env:TEMP\galega-commit-msg.txt`. A pasta de scratch da sessão tem um caminho longo demais e o git falha com "Filename too long". Use o formato conventional commits em português (`feat:`, `fix:`, `docs:`…), com um corpo em tópicos. Apague o arquivo depois do commit.
+   - Escreva a mensagem num arquivo temporário **fora do repositório e com caminho curto**, como `$env:TEMP\galega-commit-msg.txt`. A pasta de scratch da sessão tem um caminho longo demais e o git falha com "Filename too long". Use o formato conventional commits em português (`feat:`, `fix:`, `docs:`…), com um corpo em tópicos. Apague o arquivo depois do commit. Crie esse arquivo com a ferramenta Write ou com `[IO.File]::WriteAllText($m, $texto)`, e **não** com `Set-Content -Encoding utf8`: no PowerShell 5.1 esse comando coloca um BOM invisível no início da mensagem.
    - `git add -- <arquivos listados>`
    - `git commit -F <arquivo-da-mensagem>`
    - Confira com `git log --oneline -1` que o commit foi criado.

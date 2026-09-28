@@ -8,7 +8,15 @@ Serve para continuar o trabalho em outro PC (ou numa nova sessão do Claude) sem
 > ⚠️ **Este arquivo e a skill `.claude/skills/subir-para-casa/` NÃO podem ir para a `main`.**
 > Antes de abrir o PR ou mesclar na `main`, remova os dois da branch (ver seção 3).
 
-_Última atualização: 2026-09-28 (PC do Senai)._
+_Última atualização: 2026-09-28 (PC do trabalho)._
+
+O Lucas trabalha em **3 PCs**:
+
+| PC | Uso |
+|---|---|
+| **Trabalho** | Desenvolvimento |
+| **Casa** | Desenvolvimento |
+| **Senai** | Onde fica a versão que o **professor avalia**. Deve ter a versão final e limpa, **sem** este `.md` nem a skill. |
 
 ---
 
@@ -268,4 +276,4 @@ Numa sessão nova do Claude Code, abra a pasta do projeto e peça:
 
 | Data | PC | O que foi feito |
 |---|---|---|
-| 2026-09-28 | Senai | Análise do repositório, correções de bugs, etapas 1 (Stats) e 2 (XP/gemas), criação deste documento |
+| 2026-09-28 | Trabalho | Análise do repositório, correções de bugs, etapas 1 (Stats) e 2 (XP/gemas), criação deste documento e da skill `subir-para-casa`, registro dos 3 PCs (trabalho, casa, Senai). **Etapas 1 e 2 ainda não foram testadas no Unity.** Próximo passo: testar (seção 5) e depois fazer a etapa 3. |
