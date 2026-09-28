@@ -13,17 +13,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Farois.001
-    second: {fileID: 2100000, guid: 4f258755593b14f44825b20b90508b4f, type: 2}
+    second: {fileID: 2100000, guid: 86af939b88da5ae439bc928720e32e99, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Luzes.001
-    second: {fileID: 2100000, guid: 43e14cd7a434ab14ba477b358243739f, type: 2}
+    second: {fileID: 2100000, guid: f2ef78c0371e8994c902649e020bba4d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Propulsor.001
-    second: {fileID: 2100000, guid: c4db900bab708b947ab9f9cf9c5a9028, type: 2}
+    second: {fileID: 2100000, guid: 5f07b41b51d87bd41b048ad8de7aba8e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

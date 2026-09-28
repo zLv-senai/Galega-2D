@@ -20,7 +20,7 @@ public class Shot : MonoBehaviour
     {
         // Move o tiro para a frente a cada frame. A "frente" é o eixo X local
         // (a seta vermelha no editor), então o tiro segue a rotação com que nasceu.
-        transform.Translate(Vector2.right * velocidade * Time.deltaTime);
+        transform.Translate(Vector2.up * velocidade * Time.deltaTime);
     }
 
     // A Unity chama este método sozinha quando o collider do tiro

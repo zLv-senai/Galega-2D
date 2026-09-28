@@ -1,6 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine;
+using Unity;
 
 public class EnemyMove : MonoBehaviour, IDamageable
 {
@@ -16,7 +15,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        gun = transform.Find("Gun").gameObject.transform;
+        gun = transform.FindChild("Gun").gameObject.transform;
     }
 
 
