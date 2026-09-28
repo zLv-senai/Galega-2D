@@ -56,7 +56,7 @@ Responda sempre em português do Brasil.
    - um resumo curto das mudanças no `PLANO-LUCAS.md`.
 
 4. **Commit** (no Windows PowerShell as aspas quebram `-m`, então **sempre use arquivo**):
-   - Escreva a mensagem num arquivo temporário **fora do repositório** (pasta de scratch), no formato conventional commits em português (`feat:`, `fix:`, `docs:`…), com um corpo em tópicos.
+   - Escreva a mensagem num arquivo temporário **fora do repositório e com caminho curto**, como `$env:TEMP\galega-commit-msg.txt`. A pasta de scratch da sessão tem um caminho longo demais e o git falha com "Filename too long". Use o formato conventional commits em português (`feat:`, `fix:`, `docs:`…), com um corpo em tópicos. Apague o arquivo depois do commit.
    - `git add -- <arquivos listados>`
    - `git commit -F <arquivo-da-mensagem>`
    - Confira com `git log --oneline -1` que o commit foi criado.
