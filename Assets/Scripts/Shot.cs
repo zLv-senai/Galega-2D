@@ -5,6 +5,9 @@ using UnityEngine;
 // alvo que tocar e some. Se bater numa parede, para ali.
 public class Shot : MonoBehaviour
 {
+    // Tag usada para identificar paredes/obstáculos que param o tiro.
+    private const string TagParede = "Parede";
+
     // Velocidade em unidades por segundo. Público para ajustar no Inspector.
     public float velocidade = 10f;
 
@@ -15,6 +18,19 @@ public class Shot : MonoBehaviour
     // "Player" no tiro dos inimigos. Qualquer objeto com outra tag é ignorado,
     // então o tiro nunca acerta quem disparou.
     public string tagAlvo = "Inimigo";
+
+    void Awake()
+    {
+        // Colisão via trigger 2D exige Rigidbody2D em pelo menos um dos lados.
+        // Se o prefab já não tiver um, adiciona um cinemático (sem física),
+        // sem mexer em nenhum Rigidbody2D que já exista.
+        if (GetComponent<Rigidbody2D>() == null)
+        {
+            Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.gravityScale = 0f;
+        }
+    }
 
     void Update()
     {
@@ -31,7 +47,7 @@ public class Shot : MonoBehaviour
         {
             AcertarAlvo(outro);
         }
-        else if (outro.CompareTag("Parede"))
+        else if (outro.CompareTag(TagParede))
         {
             BaterNaParede();
         }
