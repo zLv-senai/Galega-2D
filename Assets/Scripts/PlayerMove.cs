@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +9,7 @@ public class PlayerMove : MonoBehaviour, IDamageable
     public float velocidade = 5.0f;
     public GameObject tiroPrefab;
     public GameManager gameManager;
-    [SerializeField] private Transform gun;
+    public Transform gun;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Update is called once per frame
@@ -18,7 +17,10 @@ public class PlayerMove : MonoBehaviour, IDamageable
     {
         if(gameManager.gameState == GameManager.GameState.OnPlay)
         {
+            if(Mouse.current.leftButton.wasPressedThisFrame)
+            {
             Shoot();
+            }
             Movimento();   
         }
     }
@@ -32,11 +34,9 @@ public class PlayerMove : MonoBehaviour, IDamageable
     private void Shoot()
     {
         if(tiroPrefab != null && gun != null)
-        {
-            if(Mouse.current.leftButton.wasPressedThisFrame)
-            {
-            Instantiate(tiroPrefab, gun.position, gun.rotation);
-            }
+        {           
+            GameObject tiro = Instantiate(tiroPrefab, gun.position, gun.rotation);
+            tiro.GetComponent<Shot>().tagGameObject = "Player";
         }
     }
 

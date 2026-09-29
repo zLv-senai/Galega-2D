@@ -4,18 +4,35 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour, IDamageable
 {
     //Declarando variável para armazenar a posição do alvo
-    public Transform target;
+    private Transform target;
      // Publicando a variável vida para que possa ser ajustada no Inspector do Unity
     public int vida =2;
     public float fireHate  = 1.0f;
-    public GameManager gameManager;
-    public GameObject tiroPrefab;
-    private Transform gun;
+    private GameManager gameManager;
+    private GameObject tiroPrefab;
+    private GameObject gun;
     private bool canShoot = true;
 
-    private void Start()
+    private void Awake()
     {
-        gun = transform.Find("Gun").gameObject.transform;
+        if(gun == null)
+        {
+        gun = transform.Find("Enemy/Gun").gameObject;            
+        }
+        if(target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        if(gameManager == null)
+        {
+            gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        }
+
+        if(tiroPrefab == null)
+        {
+            tiroPrefab = Resources.Load<GameObject>("Tiro");
+        }
+
     }
 
 
@@ -25,6 +42,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
         if(gameManager.gameState == GameManager.GameState.OnPlay)
         {
             SeguirJogador();
+            Vector2 direcao = target.position - gun.transform.position;
+            gun.transform.up = direcao;
             if (canShoot)
             {
             canShoot = false;
@@ -46,14 +65,17 @@ public class EnemyMove : MonoBehaviour, IDamageable
         }
     }
 
-       IEnumerator Shoot()
+        IEnumerator Shoot()
     {
         if(tiroPrefab != null && gun != null)
         {
-            Instantiate(tiroPrefab, gun.position, gun.rotation);
-            yield return new WaitForSeconds(fireHate);
-            canShoot = true;
+            Transform gunTr = gun.transform;
+            
+            GameObject tiro = Instantiate(tiroPrefab, gunTr.position, gunTr.rotation);
+            tiro.GetComponent<Shot>().tagGameObject = "Inimigo";    
         }
+        yield return new WaitForSeconds(fireHate);
+            canShoot = true;
     }
 
      private void SeguirJogador()
