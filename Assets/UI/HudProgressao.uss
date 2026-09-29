@@ -1,0 +1,79 @@
+/* HUD de progressão. Texto branco e barra ciano para ler bem sobre o fundo escuro do espaço. */
+
+.hud-raiz {
+    flex-grow: 1;
+}
+
+/* Canto superior esquerdo */
+.painel-status {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 300px;
+    padding: 10px 14px;
+    background-color: rgba(8, 10, 28, 0.6);
+    border-width: 2px;
+    border-color: rgba(0, 229, 255, 0.55);
+    border-radius: 10px;
+}
+
+.hud-texto {
+    margin: 0;
+    padding: 0;
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+.hud-level {
+    font-size: 30px;
+    margin-bottom: 6px;
+}
+
+/* Barra de XP: o fundo tem tamanho fixo e o preenchimento muda de largura (em %) pelo código */
+.xp-fundo {
+    height: 14px;
+    margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-width: 1px;
+    border-color: rgba(0, 229, 255, 0.7);
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.xp-preenchimento {
+    width: 0%;
+    height: 100%;
+    background-color: rgb(0, 229, 255);
+}
+
+.hud-escudo {
+    margin-top: 2px;
+    color: rgb(120, 240, 255);
+}
+
+/* Centro-alto: aviso de level up (escondido por padrão) */
+.levelup-painel {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 12%;
+    align-items: center;
+}
+
+.levelup-titulo {
+    color: rgb(255, 221, 87);
+    font-size: 84px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(120, 60, 0);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+}
+
+.levelup-nivel {
+    font-size: 40px;
+    -unity-text-align: middle-center;
+}

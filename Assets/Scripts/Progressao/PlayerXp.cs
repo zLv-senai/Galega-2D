@@ -17,6 +17,9 @@ public class PlayerXp : MonoBehaviour
 
     private PlayerStats stats;
 
+    // Resto fracionário do XP que ainda não virou 1 ponto inteiro (ex.: GanhoXp +10% com gema de valor 1).
+    private float xpFracao = 0f;
+
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
@@ -25,7 +28,8 @@ public class PlayerXp : MonoBehaviour
     // Versão pura/estática da fórmula: não depende de instância, dá pra usar em qualquer lugar.
     public static int XpNecessario(int level, int xpBase, int incremento)
     {
-        return xpBase + incremento * (level - 1);
+        // Mathf.Max(1, ...): nunca devolve 0 ou negativo, senão o while do GanharXp não terminaria.
+        return Mathf.Max(1, xpBase + incremento * (level - 1));
     }
 
     // Versão de instância: usa os campos deste PlayerXp.
@@ -37,8 +41,19 @@ public class PlayerXp : MonoBehaviour
     public void GanharXp(int quantidade)
     {
         // PlayerStats: GanhoXp multiplica o XP recebido, se o player tiver PlayerStats.
+        // O PlayerStats pode ter sido criado depois do nosso Awake (rede de segurança do PlayerMove).
+        if (stats == null)
+        {
+            stats = GetComponent<PlayerStats>();
+        }
+
         float multiplicador = stats != null ? stats.GanhoXp : 1f;
-        int xpGanho = Mathf.RoundToInt(quantidade * multiplicador);
+
+        // Acumula o XP em float e guarda o resto: com gema de valor 1, +10% de XP
+        // rende 1 ponto extra a cada 10 gemas, em vez de arredondar para 0 (ou 2) a cada gema.
+        xpFracao += Mathf.Max(0f, quantidade * multiplicador);
+        int xpGanho = Mathf.FloorToInt(xpFracao);
+        xpFracao -= xpGanho;
 
         xpAtual += xpGanho;
 

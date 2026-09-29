@@ -1,0 +1,22 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="HudProgressao.uss" />
+    <ui:VisualElement name="HudRaiz" class="hud-raiz" picking-mode="Ignore">
+
+        <!-- Canto superior esquerdo: level, barra de XP, vida e escudo -->
+        <ui:VisualElement name="PainelStatus" class="painel-status" picking-mode="Ignore">
+            <ui:Label name="LevelLabel" text="Level 1" class="hud-texto hud-level" picking-mode="Ignore" />
+            <ui:VisualElement name="XpFundo" class="xp-fundo" picking-mode="Ignore">
+                <ui:VisualElement name="XpPreenchimento" class="xp-preenchimento" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:Label name="VidaLabel" text="Vida 100/100" class="hud-texto" picking-mode="Ignore" />
+            <ui:Label name="EscudoLabel" text="Escudo x0" class="hud-texto hud-escudo" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+        <!-- Centro-alto: aviso de level up (escondido por padrão; o HudProgressao.cs mostra por 1,5 s) -->
+        <ui:VisualElement name="LevelUpPainel" class="levelup-painel" picking-mode="Ignore">
+            <ui:Label name="LevelUpTitulo" text="LEVEL UP!" class="levelup-titulo" picking-mode="Ignore" />
+            <ui:Label name="LevelUpNivel" text="Level 2" class="hud-texto levelup-nivel" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

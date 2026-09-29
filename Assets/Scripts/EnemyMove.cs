@@ -12,6 +12,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
     public GameObject tiroPrefab;
     [SerializeField] private Transform gun;
     private bool canShoot = true;
+    // Contato: distância em que o inimigo para de andar, colado na nave em vez de ficar em cima dela.
+    [SerializeField] float distanciaParada = 0.6f;
 
     // Evento estático: quem quiser saber quando QUALQUER inimigo morre assina aqui (ex.: GeradorDeGemas).
     public static event System.Action<EnemyMove> AoMorrer;
@@ -80,8 +82,15 @@ public class EnemyMove : MonoBehaviour, IDamageable
 
         if (vida < 1 )
         {
-            AoMorrer?.Invoke(this);
-            Destroy(gameObject);
+            // try/finally: o Destroy acontece mesmo se um assinante de AoMorrer lançar exceção.
+            try
+            {
+                AoMorrer?.Invoke(this);
+            }
+            finally
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -104,6 +113,12 @@ public class EnemyMove : MonoBehaviour, IDamageable
     {
         // Se o alvo (player) morreu/sumiu, não há para onde seguir.
         if (target == null)
+        {
+            return;
+        }
+
+        // Contato: já está colado no alvo, então não se move mais.
+        if (Vector2.Distance(transform.position, target.position) <= distanciaParada)
         {
             return;
         }

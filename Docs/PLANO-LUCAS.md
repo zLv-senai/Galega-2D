@@ -8,15 +8,30 @@ Serve para continuar o trabalho em outro PC (ou numa nova sessão do Claude) sem
 > ⚠️ **Este arquivo e a skill `.claude/skills/subir-para-casa/` NÃO podem ir para a `main`.**
 > Antes de abrir o PR ou mesclar na `main`, remova os dois da branch (ver seção 3).
 
-_Última atualização: 2026-09-29 (casa)._
+_Última atualização: 2026-09-29 (trabalho)._
 
-## 👉 Onde paramos (29/09, vindo do PC de casa)
+## 👉 Onde paramos (29/09, vindo do PC do trabalho)
 
-1. **Teste das etapas 1 e 2 montado, mas ainda sem resultado de Play confirmado.** Use a cena `Assets/Scenes/Testes/ProgressionTest.unity`: ela já tem tudo da seção 5 (componentes no Player, `Sistemas` + `GeradorDeGemas`, prefab `GemsXp`, layer `Coletavel`). O `menuPanel` do `GameManager` dela já está `None`, então o jogo começa direto em `OnPlay`.
-2. **Rodar o checklist da seção 5, passos 7 e 8** (tiro segurando o mouse, gema caindo e voando até o player, `Level up!` depois de 5 gemas, ContextMenus do `PlayerStats`).
-3. **Revisão de código feita** (seção 4, "Revisão de código da branch"). Nada foi corrigido ainda: o Lucas decide quais achados entram antes da etapa 3. Os mais importantes: `PlayerXp` arredondando o XP por gema, `Restart()` fora das Build Settings, e a `GameTeste` do Wagner com `PlayerMove` sem `PlayerStats`.
-4. **Depois disso, a etapa 3** (cards de level up + tela de Game Over).
-5. **Branch do Wagner em conflito:** a `Gameplay-Teste` tem 2 commits de 27/09 (base antiga, sem o PR #9) que apagam o `Update` do `Shot.cs` e movem o tiro por `rb.linearVelocity` no `PlayerMove`. Isso conflita com esta branch em `PlayerMove.cs` e `Shot.cs`. O grupo precisa escolher uma abordagem antes de mesclar qualquer uma das duas.
+1. ✅ **Etapas 1 e 2 testadas e funcionando** na `ProgressionTest`: tiro segurando o botão, gema caindo e voando até o player, `Level up!` (testado duplicando inimigos, porque ainda não há spawner), `+1 Projetil`, `+50% Velocidade` e escudo.
+2. 🆕 **Implementado no trabalho, AINDA NÃO TESTADO NO UNITY:**
+   - escudo por **cargas**;
+   - inimigo dando **dano + empurrão** ao encostar;
+   - **HUD** com level, barra de XP, vida, escudo e aviso "LEVEL UP!";
+   - correções da revisão.
+
+   Ver seção 4, "Sessão 29/09 (trabalho)".
+3. 👉 **Próximo passo:** montar na `ProgressionTest` o passo a passo da **seção 5b** (componentes `Empurravel`, `VisualEscudo`, `DanoPorContato` e o objeto `HudProgressao`) e testar.
+4. **Depois disso, a etapa 3:** cards de level up + tela de Game Over.
+5. **Branches do Wagner em conflito com esta:**
+   - A `Gameplay-Teste` tem 2 commits de 27/09 (base antiga, sem o PR #9). Eles apagam o `Update` do `Shot.cs` e movem o tiro por `rb.linearVelocity` no `PlayerMove`.
+   - A `Gameplay-Mecanicas` tem 4 commits de 27–28/09 com tiro, colisões, vida, movimentação e menu. Ela mexe em `PlayerMove.cs`, `EnemyMove.cs`, `Shot.cs`, `SampleScene.unity` e `TagManager.asset`.
+   - As duas conflitam com esta branch nesses arquivos. O Lucas e o Wagner precisam combinar como juntar antes de qualquer merge na `main`.
+
+**Quem é quem no git** (pelo e-mail, e não pelo nome):
+- **Lucas:** `zLv-senai`, `zLv010x` e `lucas.veloso`.
+- **Wagner:** `PC-Casa`, `Wagner_Senai` e BlackCrown (wagnercorp17@…). ⚠️ "PC-Casa" é o PC do **Wagner**.
+- **Samuel:** `SamuelAugust0`.
+- **Eduardo:** `Dudu - PC Senai`.
 
 O Lucas trabalha em **3 PCs**:
 
@@ -198,7 +213,7 @@ Feita no Unity pelo Lucas, seguindo a seção 5. **Nenhum script foi alterado ne
 - **O que acontece:** na `GameTeste` e na `ProgressionTest`, o campo `menuPanel` do `GameManager` (na Main Camera) aponta para o objeto `HUD`, que está **desativado**. O `Start()` novo diz "tem `menuPanel` → começa em `Menu`". O `timeScale` vai a 0 e nada aparece na tela; não existe botão Play. A nave não anda nem atira; só o `LookAt` funciona (não depende do estado).
 - **O campo `gameState` do Inspector é ignorado no início.** Mostrar `OnPlay` ali não adianta.
 - **Decisão do Lucas (28/09):** manter o código como está (a versão final começa no menu). Para testar, deixar `menuPanel = None` **na cena de teste**. Na `ProgressionTest` isso já foi feito e salvo (29/09, 09:11).
-- A `GameTeste` do Wagner tem o mesmo problema: avisar ele antes do merge na `main`.
+- A `GameTeste` (cena do Wagner) tem o mesmo problema: avisar ele antes do merge na `main`.
 
 ### Revisão de código da branch (casa, 29/09, agent Sonnet)
 Sem erro de compilação encontrado por leitura. Achados principais:
@@ -213,6 +228,86 @@ Sem erro de compilação encontrado por leitura. Achados principais:
 - **MÉDIO — `SincronizarVida.cs:42-43`:** soma diferenças arredondadas de float; a vida atual se afasta do máximo com modificadores fracionários. Guardar o `VidaMax` inteiro anterior.
 - **MÉDIO — `Coletor.cs:31`:** `OverlapCircleAll` aloca todo frame; gemas se movem sem `Rigidbody2D`.
 - **BAIXO:** `Mouse.current`/`Keyboard.current` sem checar null; `LookAt` não checa o estado (a nave gira na pausa/cards); `GeradorDeGemas` sobrescreve o `valor` do prefab; `PlayerMove.GanharXp` sobrou sem efeito; `EnemyMove.canShoot` pode travar em pool futuro.
+
+### Sessão 29/09 (trabalho): escudo, contato, HUD e correções
+**Decisões do Lucas:**
+- **Escudo:** só **cargas**, sem tempo. Cada carga bloqueia 1 golpe. Power-ups e cards vão dar cargas.
+- **Inimigo encostando:** **dano + empurrão**.
+- **Aviso de level up:** um **HUD agora**, e os cards depois, na etapa 3.
+- **Revisão:** corrigir os achados ALTO junto.
+
+**Arquivos novos:**
+- `Stats/VisualEscudo.cs`: liga e desliga o filho `visual` do Player conforme há cargas.
+- `Combate/Empurravel.cs`: fica no Player. `Empurrar(direção, força)` move o transform e desacelera (`forcaMax 12`, `desaceleracao 30`).
+- `Combate/DanoPorContato.cs`: fica no inimigo. Com a distância ≤ `raioContato 0.7`, dá `dano 10` a cada `intervalo 0.5s` e empurra com `forcaEmpurrao 8`. Empurra mesmo quando o escudo bloqueia. Não bate se o inimigo já morreu. Avisa no Console se o Player não tiver `Empurravel`.
+- `Progressao/HudProgressao.cs`, `UI/HudProgressao.uxml` e `UI/HudProgressao.uss`: mostram `Level X`, a barra de XP, `Vida X/Y`, `Escudo xN` (escondido com 0) e "LEVEL UP!" por 1,5s. Seguem o padrão `PanelRenderer` do `MenuManager`. Os elementos se chamam `LevelLabel`, `XpPreenchimento`, `VidaLabel`, `EscudoLabel`, `LevelUpPainel` e `LevelUpNivel`.
+
+**Arquivos alterados:**
+- **`PlayerStats`:**
+  - Novos `CargasEscudo`, `AdicionarCargasEscudo(n)` e o evento `AoMudarCargasEscudo`.
+  - Quando o stat Escudo sobe por modificador, a diferença vira cargas.
+  - `TemEscudo` = cargas > 0.
+  - "Teste Escudo" dá +1 carga.
+  - Novo `OnValidate`, que limpa o cache.
+- **`PlayerXp`:**
+  - Acumula a fração do XP (`xpFracao`), então +10% de XP funciona com gema de valor 1.
+  - `XpNecessario` tem piso de 1.
+  - Busca o `PlayerStats` de novo se ele estiver nulo.
+- **`GameManager.Restart()`:** no Editor, recarrega cenas que estão fora das Build Settings pelo caminho da cena (`LoadSceneInPlayMode`).
+- **`PlayerMove.Awake`:** cria o `PlayerStats` se ele faltar (comentário `// PlayerStats:`).
+- **`EnemyMove`:**
+  - Campo `distanciaParada 0.6`: o inimigo para colado na nave (comentário `// Contato:`).
+  - `TakeDamage` com `try/finally`.
+
+⚠️ **Mudança grande:** o stat **Escudo agora significa cargas**. O power-up "Escudo" da etapa 4 passa a ser "+1 carga", e não "6s de escudo".
+
+**⚠️ Código trocado nesta sessão:**
+
+A imunidade total do escudo antigo:
+```csharp
+public bool TemEscudo => Obter(StatTipo.Escudo) > 0f;
+...
+public int FiltrarDanoRecebido(int dano)
+{
+    return TemEscudo ? 0 : dano;
+}
+```
+
+O "Teste Escudo", que antes dava um modificador:
+```csharp
+AdicionarModificadores(new[]
+{
+    new ModificadorDeStat { stat = StatTipo.Escudo, tipo = TipoModificador.Somar, valor = 1f }
+}, this);
+```
+
+O arredondamento de XP por gema no `PlayerXp`:
+```csharp
+int xpGanho = Mathf.RoundToInt(quantidade * multiplicador);
+```
+
+O `XpNecessario`, que não tinha piso:
+```csharp
+return xpBase + incremento * (level - 1);
+```
+
+O `else` do `GameManager.Restart()`:
+```csharp
+else
+{
+    SceneManager.LoadScene(cenaAtiva.name);
+}
+```
+
+No `EnemyMove.TakeDamage`, estas duas linhas agora ficam dentro de um `try/finally`:
+```csharp
+AoMorrer?.Invoke(this);
+Destroy(gameObject);
+```
+
+**Revisão (Sonnet):** aprovada. Riscos que ficaram:
+- O `Empurravel` move o transform sem física, então pode atravessar paredes, se um dia existirem.
+- O HUD aparece também no Menu e no Game Over. Esconder isso fica para a etapa 3.
 
 ## 5. Como testar as etapas 1 e 2 no Unity
 
@@ -232,6 +327,37 @@ Sem erro de compilação encontrado por leitura. Achados principais:
    - a gema voa até o player;
    - depois de 5 gemas o Console mostra `Level up!`.
 8. Clique com o botão direito no `PlayerStats` para testar os ContextMenus: `+1 Projetil`, `+50% Velocidade`, `Escudo` e `Limpar Testes`.
+
+## 5b. Como montar e testar escudo, contato e HUD (cena `ProgressionTest`)
+
+Espere o Unity recompilar antes de começar.
+
+**Player:**
+1. Add Component `Empurravel` e `VisualEscudo`.
+2. Crie um filho vazio `EscudoVisual`:
+   - `Sprite Renderer` com `Assets/Images/Oval-Fill.svg` (ou o Circle do Unity);
+   - cor ciano com alfa ~0.35;
+   - Scale `1.5, 1.5, 1`;
+   - Order in Layer acima da nave;
+   - sem collider.
+3. Arraste o `EscudoVisual` para o campo `Visual` do `VisualEscudo`.
+
+**Inimigos:**
+
+4. Add Component `DanoPorContato` em todos. O campo `Alvo` pode ficar vazio.
+
+**HUD:**
+
+5. Crie um objeto vazio `HudProgressao`. **Não use o objeto `HUD` antigo**, que é o `menuPanel` desativado.
+   - Add Component `PanelRenderer`, com Panel Settings `Assets/UI Toolkit/PanelSettings` e Source Asset `Assets/UI/HudProgressao.uxml`.
+   - Add Component `HudProgressao`. O campo `Painel` recebe o `PanelRenderer` do mesmo objeto; os campos do Player podem ficar vazios.
+   - Se o estilo não aparecer, arraste o `HudProgressao.uss` na aba StyleSheets do UI Builder.
+
+**No Play:**
+- **HUD:** aparece `Level 1`, a barra de XP e `Vida 100/100`. Com 5 gemas aparece "LEVEL UP!" e o HUD passa a mostrar `Level 2`.
+- **Escudo:** clique com o botão direito no `PlayerStats` e escolha "Teste Escudo". Aparecem o círculo e `Escudo x1`.
+  - Inimigo encosta: o player é empurrado, a vida não cai e o escudo some.
+  - Sem escudo: o player é empurrado e perde 10 de vida a cada 0,5s.
 
 ## 6. Próximos passos (plano)
 
@@ -273,7 +399,7 @@ Sem erro de compilação encontrado por leitura. Achados principais:
 | Power-up | Modificador | Duração |
 |---|---|---|
 | Tiro triplo | Projeteis Somar +2 | 10s |
-| Escudo | Escudo Somar +1 | 6s |
+| Escudo | Escudo Somar +1 = **+1 carga** (decisão de 29/09: escudo por cargas, sem tempo) | — |
 | Velocidade | Velocidade Percentual +0.5 | 10s |
 | Tiro rápido | TirosPorSegundo Percentual +1.0 | 8s |
 | Ímã de XP | RaioColeta Somar +30 | 2s |
@@ -313,4 +439,5 @@ Numa sessão nova do Claude Code, abra a pasta do projeto e peça:
 | Data | PC | O que foi feito |
 |---|---|---|
 | 2026-09-28 | Trabalho | Análise do repositório, correções de bugs, etapas 1 (Stats) e 2 (XP/gemas), criação deste documento e da skill `subir-para-casa`, registro dos 3 PCs (trabalho, casa, Senai). **Etapas 1 e 2 ainda não foram testadas no Unity.** Próximo passo: testar (seção 5) e depois fazer a etapa 3. |
+| 2026-09-29 | Trabalho | Etapas 1 e 2 testadas no Unity ✅. Implementados o escudo por cargas, o dano + empurrão por contato, o HUD de progressão e as correções ALTO/MÉDIO da revisão; tudo compila (0 erros) e a revisão aprovou. **Ainda falta montar e testar no Unity (seção 5b).** Autores do git conferidos por e-mail ("PC-Casa" = Wagner). |
 | 2026-09-28/29 | Casa | Montagem do teste da seção 5 (cena `ProgressionTest`, prefab `GemsXp`, layer `Coletavel`). Descoberto o travamento no Menu por causa do `menuPanel` (decisão: manter o código, limpar o campo na cena de teste). Revisão de código da branch (agent Sonnet), registrada na seção 4. `menuPanel` da `ProgressionTest` limpo e salvo. **Etapas 1 e 2 ainda sem resultado de Play confirmado.** Próximo passo: rodar o teste da seção 5 na `ProgressionTest`, decidir quais achados da revisão corrigir, e depois a etapa 3. |

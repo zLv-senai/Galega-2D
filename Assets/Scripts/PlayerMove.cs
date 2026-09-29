@@ -23,6 +23,12 @@ public class PlayerMove : MonoBehaviour, IDamageable
     {
         // PlayerStats: pega o componente e começa com a vida cheia conforme o VidaMax atual.
         stats = GetComponent<PlayerStats>();
+        if (stats == null)
+        {
+            // PlayerStats: rede de segurança para cenas salvas sem o componente (ex.: GameTeste).
+            stats = gameObject.AddComponent<PlayerStats>();
+        }
+
         vida = stats.VidaMax;
     }
 

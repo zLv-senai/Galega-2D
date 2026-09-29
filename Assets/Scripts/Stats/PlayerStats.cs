@@ -19,11 +19,28 @@ public class PlayerStats : MonoBehaviour
     // Dispara quando um stat muda de valor: (stat, valor antigo, valor novo).
     public event System.Action<StatTipo, float, float> AoMudarStat;
 
+    // Dispara quando o número de cargas do escudo muda: (cargas atuais).
+    public event System.Action<int> AoMudarCargasEscudo;
+
+    // Escudo por cargas: cada carga bloqueia 1 golpe inteiro. Começa com o valor base do stat Escudo.
+    public int CargasEscudo { get; private set; }
+
     // Cada entrada guarda o modificador e quem o aplicou (a "fonte"), para poder remover depois.
     private readonly List<(ModificadorDeStat modificador, Object fonte)> modificadores = new List<(ModificadorDeStat, Object)>();
 
     // Cache do valor final de cada stat, recalculado só quando os modificadores mudam.
     private readonly Dictionary<StatTipo, float> cache = new Dictionary<StatTipo, float>();
+
+    private void Awake()
+    {
+        CargasEscudo = Mathf.Max(0, Mathf.RoundToInt(escudoBase));
+    }
+
+    // Mudou um valor base no Inspector (ex.: durante o Play): limpa o cache para recalcular.
+    private void OnValidate()
+    {
+        cache.Clear();
+    }
 
     // Valor final do stat pedido (base + modificadores), usando/atualizando o cache.
     public float Obter(StatTipo stat)
@@ -63,7 +80,7 @@ public class PlayerStats : MonoBehaviour
 
     public int VidaMax => Mathf.Max(1, Mathf.RoundToInt(Obter(StatTipo.VidaMax)));
 
-    public bool TemEscudo => Obter(StatTipo.Escudo) > 0f;
+    public bool TemEscudo => CargasEscudo > 0;
 
     // Adiciona modificadores vindos de "fonte" (o upgrade/objeto responsável) e avisa
     // quem estiver ouvindo AoMudarStat sobre os stats que realmente mudaram.
@@ -114,11 +131,30 @@ public class PlayerStats : MonoBehaviour
         NotificarMudancas(statsAfetados, valoresAntigos);
     }
 
-    // Aplica o escudo: se TemEscudo, zera o dano recebido. Quem chamar deve checar o retorno
-    // (0 = não tomou dano) antes de aplicar em vida/morte.
+    // Soma cargas ao escudo (power-ups, cards, teste). Valores <= 0 são ignorados.
+    public void AdicionarCargasEscudo(int n)
+    {
+        if (n <= 0)
+        {
+            return;
+        }
+
+        CargasEscudo += n;
+        AoMudarCargasEscudo?.Invoke(CargasEscudo);
+    }
+
+    // Aplica o escudo: se tiver carga, gasta 1 e zera o dano recebido. Quem chamar deve checar
+    // o retorno (0 = não tomou dano) antes de aplicar em vida/morte.
     public int FiltrarDanoRecebido(int dano)
     {
-        return TemEscudo ? 0 : dano;
+        if (dano <= 0 || CargasEscudo <= 0)
+        {
+            return dano;
+        }
+
+        CargasEscudo--;
+        AoMudarCargasEscudo?.Invoke(CargasEscudo);
+        return 0;
     }
 
     private float ValorBase(StatTipo stat)
@@ -172,6 +208,13 @@ public class PlayerStats : MonoBehaviour
 
             if (!Mathf.Approximately(antigo, novo))
             {
+                // Escudo por cargas: quando o stat Escudo AUMENTA, a diferença vira cargas.
+                // Se diminuir (ex.: power-up expirou), as cargas que sobraram continuam.
+                if (stat == StatTipo.Escudo)
+                {
+                    AdicionarCargasEscudo(Mathf.RoundToInt(novo) - Mathf.RoundToInt(antigo));
+                }
+
                 AoMudarStat?.Invoke(stat, antigo, novo);
             }
         }
@@ -198,10 +241,8 @@ public class PlayerStats : MonoBehaviour
     [ContextMenu("Teste Escudo")]
     private void TesteEscudo()
     {
-        AdicionarModificadores(new[]
-        {
-            new ModificadorDeStat { stat = StatTipo.Escudo, tipo = TipoModificador.Somar, valor = 1f }
-        }, this);
+        // +1 carga direta (sem modificador): o "Limpar Testes" não remove cargas.
+        AdicionarCargasEscudo(1);
     }
 
     [ContextMenu("Teste Limpar Testes")]

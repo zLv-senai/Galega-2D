@@ -100,10 +100,16 @@ public class GameManager : MonoBehaviour
         if (cenaAtiva.buildIndex >= 0)
         {
             SceneManager.LoadScene(cenaAtiva.buildIndex);
+            return;
         }
-        else
-        {
-            SceneManager.LoadScene(cenaAtiva.name);
-        }
+
+#if UNITY_EDITOR
+        // Cena fora das Build Settings (ex.: cenas de teste): o LoadScene comum falha,
+        // então no Editor carrega pelo caminho do arquivo da cena.
+        UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(
+            cenaAtiva.path, new LoadSceneParameters(LoadSceneMode.Single));
+#else
+        SceneManager.LoadScene(cenaAtiva.name);
+#endif
     }
 }
