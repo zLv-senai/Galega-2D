@@ -105,13 +105,13 @@ TextureImporter:
       name: Shoot_0
       rect:
         serializedVersion: 2
-        x: 335
-        y: 47
-        width: 86
-        height: 674
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 327, z: 0, w: 0}
+        x: 334
+        y: 56
+        width: 83
+        height: 662
+      alignment: 9
+      pivot: {x: 0.5199636, y: 0.48910192}
+      border: {x: 17, y: 320, z: 10, w: 5}
       customData: 
       outline: []
       physicsShape: []
@@ -135,7 +135,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Shoot_0: -8809470994601461542
   mipmapLimitGroupName: 

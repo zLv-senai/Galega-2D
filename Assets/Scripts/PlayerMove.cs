@@ -86,12 +86,26 @@ public class PlayerMove : MonoBehaviour, IDamageable
         // de tiro dos stats, e dispara o leque de projéteis via PadraoDeTiro.
         if(tiroPrefab != null && gun != null)
         {
-            if(Mouse.current.leftButton.isPressed && Time.time >= proximoTiro)
+            if(Mouse.current != null && Mouse.current.leftButton.isPressed && Time.time >= proximoTiro)
             {
-                PadraoDeTiro.Disparar(tiroPrefab, gun, stats);
+                PadraoDeTiro.Disparar(tiroPrefab, gun, stats, DirecaoDaMira());
                 proximoTiro = Time.time + stats.IntervaloDeTiro;
             }
         }
+    }
+
+    // Da arma até o mouse, no mundo. O tiro sai nessa direção, qualquer que seja a rotação da Gun
+    // no prefab (a nave antiga e o modelo 3D novo têm a arma girada de jeitos diferentes).
+    private Vector2 DirecaoDaMira()
+    {
+        Camera cam = Camera.main;
+        if (cam == null || Mouse.current == null)
+        {
+            return Vector2.zero;
+        }
+
+        Vector2 mouse = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        return mouse - (Vector2)gun.position;
     }
 
     // PlayerStats: level/XP agora são responsabilidade do PlayerXp. Método mantido por compatibilidade.

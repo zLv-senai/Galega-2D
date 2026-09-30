@@ -55,3 +55,7 @@ sysinfo.txt
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# ---- Backups automáticos da Unity (recuperação de cena) ----
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta
