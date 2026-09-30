@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-// HUD de progressão: level, barra de XP, vida, escudo, o aviso "LEVEL UP!" e o aviso do power-up pego.
+// HUD de progressão: level, barra de XP, vida, escudo, o aviso "LEVEL UP!", o aviso do power-up pego
+// e a lista dos power-ups ativos com o tempo que falta (à direita do painel de level).
 // Usa o PanelRenderer no mesmo padrão do MenuManager: o Unity pode recriar a UI
 // (reload), então os elementos são buscados de novo em OnUIReload.
 public class HudProgressao : MonoBehaviour
@@ -25,6 +27,12 @@ public class HudProgressao : MonoBehaviour
     private VisualElement levelUpPainel;
     private Label levelUpNivel;
     private Label powerUpAviso;
+    private VisualElement powerUpsAtivos;
+
+    // Uma linha na lista por power-up ativo, e os segundos escritos nela (para só mexer no texto quando mudar).
+    private readonly Dictionary<PowerUpData, Label> linhasPowerUp = new Dictionary<PowerUpData, Label>();
+    private readonly Dictionary<PowerUpData, int> segundosEscritos = new Dictionary<PowerUpData, int>();
+    private readonly List<PowerUpData> linhasParaRemover = new List<PowerUpData>();
 
     // Raiz do HUD inteiro e se ele deve aparecer no estado atual do jogo (some no Menu e no Game Over).
     private VisualElement hudRaiz;
@@ -163,6 +171,67 @@ public class HudProgressao : MonoBehaviour
             esconderPowerUpEm = -1f;
             Mostrar(powerUpAviso, false);
         }
+
+        AtualizarPowerUpsAtivos();
+    }
+
+    // Cria/remove as linhas conforme os power-ups ativos e escreve o tempo que falta (arredondado para cima).
+    private void AtualizarPowerUpsAtivos()
+    {
+        if (powerUpsAtivos == null)
+        {
+            return;
+        }
+
+        IReadOnlyDictionary<PowerUpData, float> ativos = playerPowerUps != null ? playerPowerUps.ExpiraEm : null;
+
+        linhasParaRemover.Clear();
+        foreach (PowerUpData dados in linhasPowerUp.Keys)
+        {
+            if (ativos == null || !ativos.ContainsKey(dados))
+            {
+                linhasParaRemover.Add(dados);
+            }
+        }
+
+        foreach (PowerUpData dados in linhasParaRemover)
+        {
+            linhasPowerUp[dados].RemoveFromHierarchy();
+            linhasPowerUp.Remove(dados);
+            segundosEscritos.Remove(dados);
+        }
+
+        if (ativos != null)
+        {
+            foreach (PowerUpData dados in ativos.Keys)
+            {
+                if (dados == null)
+                {
+                    continue;
+                }
+
+                if (!linhasPowerUp.TryGetValue(dados, out Label linha))
+                {
+                    linha = new Label();
+                    linha.AddToClassList("hud-texto");
+                    linha.AddToClassList("powerup-linha");
+                    linha.pickingMode = PickingMode.Ignore;
+                    linha.style.color = dados.cor;
+                    powerUpsAtivos.Add(linha);
+                    linhasPowerUp[dados] = linha;
+                }
+
+                int segundos = Mathf.CeilToInt(playerPowerUps.TempoRestante(dados));
+                if (!segundosEscritos.TryGetValue(dados, out int escritos) || escritos != segundos)
+                {
+                    string nome = string.IsNullOrEmpty(dados.nome) ? dados.name : dados.nome;
+                    linha.text = nome + "  " + segundos + "s";
+                    segundosEscritos[dados] = segundos;
+                }
+            }
+        }
+
+        Mostrar(powerUpsAtivos, linhasPowerUp.Count > 0);
     }
 
     private void OnUIReload(
@@ -181,9 +250,15 @@ public class HudProgressao : MonoBehaviour
         levelUpPainel = root.Q<VisualElement>("LevelUpPainel");
         levelUpNivel = root.Q<Label>("LevelUpNivel");
         powerUpAviso = root.Q<Label>("PowerUpAviso");
+        powerUpsAtivos = root.Q<VisualElement>("PowerUpsAtivos");
+
+        // As linhas antigas eram da árvore que foi recriada: começa a lista do zero.
+        linhasPowerUp.Clear();
+        segundosEscritos.Clear();
 
         if (levelLabel == null || xpPreenchimento == null || vidaLabel == null
-            || escudoLabel == null || levelUpPainel == null || levelUpNivel == null || powerUpAviso == null)
+            || escudoLabel == null || levelUpPainel == null || levelUpNivel == null || powerUpAviso == null
+            || powerUpsAtivos == null)
         {
             Debug.LogWarning("HudProgressao: algum elemento não foi encontrado. Confira se o PanelRenderer usa o HudProgressao.uxml.");
         }

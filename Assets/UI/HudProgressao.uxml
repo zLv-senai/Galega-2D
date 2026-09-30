@@ -12,6 +12,9 @@
             <ui:Label name="EscudoLabel" text="Escudo x0" class="hud-texto hud-escudo" picking-mode="Ignore" />
         </ui:VisualElement>
 
+        <!-- À direita do painel de level: power-ups ativos e o tempo que falta (linhas criadas pelo HudProgressao.cs) -->
+        <ui:VisualElement name="PowerUpsAtivos" class="powerups-ativos" picking-mode="Ignore" />
+
         <!-- Centro-alto: aviso de level up (escondido por padrão; o HudProgressao.cs mostra por 1,5 s) -->
         <ui:VisualElement name="LevelUpPainel" class="levelup-painel" picking-mode="Ignore">
             <ui:Label name="LevelUpTitulo" text="LEVEL UP!" class="levelup-titulo" picking-mode="Ignore" />

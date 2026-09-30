@@ -49,6 +49,10 @@ Debug.LogWarning("LevelUpManager: nenhum card disponível (BancoDeCards vazio ou
 
 **Decisão do Lucas (30/09): drop de power-up pelo inimigo, sem baús no mapa.** Inimigo morto = 100% XP (`GeradorDeGemas`) + 20% power-up (`PowerUps/DropAoMorrer.cs`, novo, no `Sistemas`: Chance Power Up 0.2, Pickup Prefab = `PowerUpPickup`, Tabela = `Data/TabelaDePowerUps`). O `Bau.cs` fica e será **reaproveitado para as minas** (etapa 5); tirar os baús da cena.
 
+**Power-ups ativos no HUD (nuvem, 30/09):** painel `PowerUpsAtivos` à direita do painel de level, uma linha por power-up com tempo ("Tiro Triplo  7s", na cor dele), criada/removida pelo `HudProgressao.AtualizarPowerUpsAtivos()`. Nada apagado; não precisa montar nada.
+
+**Empurrão (30/09):** na cena `ProgressionTest` os inimigos estavam com `Empurravel` (que é do Player) e **nenhum** tinha `DanoPorContato`. Corrigir: nos inimigos, trocar `Empurravel` por `DanoPorContato`; o Player mantém o `Empurravel`.
+
 **Achados menores da revisão (não corrigidos):** o pickup é consumido mesmo se o Player não tiver `PlayerPowerUps`; a `distanciaParada` do inimigo (0.6) e o contato por collider dependem do tamanho dos colliders; o `DanoPorContato` só lê o collider da raiz; o sorteio sobe de raridade quando não há nada abaixo; o `PlayerMove` ainda tem `Debug.Log(vida)`.
 
 ## Onde paramos (29/09, vindo do PC do trabalho)

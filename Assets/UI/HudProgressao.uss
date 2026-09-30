@@ -53,6 +53,23 @@
     color: rgb(120, 240, 255);
 }
 
+/* À direita do painel de level (16 + 300 + 2x14 de padding + 2x2 de borda + 12 de espaço = 360) */
+.powerups-ativos {
+    display: none;
+    position: absolute;
+    left: 360px;
+    top: 16px;
+    padding: 10px 14px;
+    background-color: rgba(8, 10, 28, 0.6);
+    border-width: 2px;
+    border-color: rgba(0, 229, 255, 0.55);
+    border-radius: 10px;
+}
+
+.powerup-linha {
+    margin-bottom: 2px;
+}
+
 /* Centro-alto: aviso de level up (escondido por padrão) */
 .levelup-painel {
     display: none;
