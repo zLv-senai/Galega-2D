@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: tagAlvo
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4531509719328455012, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
+      propertyPath: acertaDestrutiveis
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6249827407823078696, guid: ddcd190037549b74b96a65e6a33a6f40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
