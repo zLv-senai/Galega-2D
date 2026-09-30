@@ -73,6 +73,23 @@
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
 }
 
+/* Centro-baixo: aviso do power-up pego (escondido por padrão; a cor vem do PowerUpData) */
+.powerup-aviso {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18%;
+    margin: 0;
+    color: rgb(255, 255, 255);
+    font-size: 44px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+}
+
 .levelup-nivel {
     font-size: 40px;
     -unity-text-align: middle-center;

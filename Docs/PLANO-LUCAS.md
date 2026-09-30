@@ -43,6 +43,10 @@ _Última atualização: 2026-09-30 (casa)._
 Debug.LogWarning("LevelUpManager: nenhum card disponível (BancoDeCards vazio ou todos no limite de escolhas).");
 ```
 
+**Aviso de power-up (nuvem, 30/09):** o `HudProgressao` mostra "+ Nome" por 1,5s na cor do power-up (label `PowerUpAviso` no `.uxml`/`.uss`, assina `PlayerPowerUps.AoAtivar`). O `PlayerPowerUps.Ativar` ganhou um `Debug.Log`. Nada apagado. Não precisa montar nada novo, só ter o objeto `HudProgressao` na cena.
+
+**Montagem (30/09, casa):** `LevelUpUI`, `GameOverUI` e os prefabs `PowerUpPickup`/`Bau` montados; baú quebrando e power-ups caindo ✅. O baú precisa da **tag** `Destrutivel` (o `Shot` confere a tag, não a layer) e da layer `Default`.
+
 **Achados menores da revisão (não corrigidos):** o pickup é consumido mesmo se o Player não tiver `PlayerPowerUps`; a `distanciaParada` do inimigo (0.6) e o contato por collider dependem do tamanho dos colliders; o `DanoPorContato` só lê o collider da raiz; o sorteio sobe de raridade quando não há nada abaixo; o `PlayerMove` ainda tem `Debug.Log(vida)`.
 
 ## Onde paramos (29/09, vindo do PC do trabalho)

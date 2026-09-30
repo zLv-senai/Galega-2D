@@ -18,5 +18,8 @@
             <ui:Label name="LevelUpNivel" text="Level 2" class="hud-texto levelup-nivel" picking-mode="Ignore" />
         </ui:VisualElement>
 
+        <!-- Centro-baixo: nome do power-up pego (escondido por padrão; o HudProgressao.cs mostra por 1,5 s) -->
+        <ui:Label name="PowerUpAviso" text="+ Power-up" class="powerup-aviso" picking-mode="Ignore" />
+
     </ui:VisualElement>
 </ui:UXML>
