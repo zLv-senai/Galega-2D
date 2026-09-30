@@ -47,6 +47,8 @@ Debug.LogWarning("LevelUpManager: nenhum card disponível (BancoDeCards vazio ou
 
 **Montagem (30/09, casa):** `LevelUpUI`, `GameOverUI` e os prefabs `PowerUpPickup`/`Bau` montados; baú quebrando e power-ups caindo ✅. O baú precisa da **tag** `Destrutivel` (o `Shot` confere a tag, não a layer) e da layer `Default`.
 
+**Decisão do Lucas (30/09): drop de power-up pelo inimigo, sem baús no mapa.** Inimigo morto = 100% XP (`GeradorDeGemas`) + 20% power-up (`PowerUps/DropAoMorrer.cs`, novo, no `Sistemas`: Chance Power Up 0.2, Pickup Prefab = `PowerUpPickup`, Tabela = `Data/TabelaDePowerUps`). O `Bau.cs` fica e será **reaproveitado para as minas** (etapa 5); tirar os baús da cena.
+
 **Achados menores da revisão (não corrigidos):** o pickup é consumido mesmo se o Player não tiver `PlayerPowerUps`; a `distanciaParada` do inimigo (0.6) e o contato por collider dependem do tamanho dos colliders; o `DanoPorContato` só lê o collider da raiz; o sorteio sobe de raridade quando não há nada abaixo; o `PlayerMove` ainda tem `Debug.Log(vida)`.
 
 ## Onde paramos (29/09, vindo do PC do trabalho)
