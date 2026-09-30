@@ -30,6 +30,7 @@ public class LevelUpManager : MonoBehaviour
     private bool mostrando;
     private CardData[] ofertaAtual;
     private float aceitaCliqueEm;
+    private bool avisouBancoVazio;
 
     // Guarda em quem já assinou, para não assinar duas vezes nem desassinar o objeto errado.
     private PlayerXp xpAssinado;
@@ -108,10 +109,28 @@ public class LevelUpManager : MonoBehaviour
             return;
         }
 
+        // Banco não configurado é erro de montagem: guarda os levels pendentes (não perde nada)
+        // e avisa uma vez só, para o Update não encher o Console tentando de novo todo frame.
+        if (!BancoTemCards())
+        {
+            if (!avisouBancoVazio)
+            {
+                Debug.LogError("LevelUpManager: o campo Banco está vazio ou o BancoDeCards não tem cards. " +
+                    "Arraste o asset Assets/Data/BancoDeCards (não o script) no campo Banco. " +
+                    "Os levels ficam guardados e os cards aparecem quando o banco for preenchido.", this);
+                avisouBancoVazio = true;
+            }
+
+            return;
+        }
+
+        avisouBancoVazio = false;
+
         ofertaAtual = SorteadorDeCards.Sortear(banco, escolhas);
         if (ofertaAtual.Length == 0)
         {
-            Debug.LogWarning("LevelUpManager: nenhum card disponível (BancoDeCards vazio ou todos no limite de escolhas).");
+            // Aqui o banco tem cards, mas todos já chegaram no maxEscolhas: não há o que oferecer.
+            Debug.Log("LevelUpManager: todos os cards já chegaram no limite de escolhas; level up sem cards.");
             pendentes = 0;
             ofertaAtual = null;
             if (mostrando)
@@ -130,6 +149,24 @@ public class LevelUpManager : MonoBehaviour
 
         aceitaCliqueEm = Time.unscaledTime + TempoAntesDeAceitarClique;
         AoOferecerCards?.Invoke(ofertaAtual, pendentes);
+    }
+
+    private bool BancoTemCards()
+    {
+        if (banco == null || banco.cards == null)
+        {
+            return false;
+        }
+
+        foreach (CardData card in banco.cards)
+        {
+            if (card != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // Chamado pela UI quando o jogador clica num card.

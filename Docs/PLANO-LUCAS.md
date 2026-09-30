@@ -31,9 +31,19 @@ _Última atualização: 2026-09-30 (casa)._
 - ⏳ `ShotEnemy`: desmarcar **Acerta Destrutiveis** (override na variante).
 - Depois: checklist de Play (Forçar Level Up no `LevelUpManager`, quebrar caixa, power-ups renovando o tempo, escudo, contato, Game Over + "Jogar de novo").
 
-**Decisão pendente do Lucas:** "Jogar de novo" recarrega a cena, e numa cena com `menuPanel` **volta ao menu principal**. Manter assim ou recomeçar direto na partida (ex.: `static bool pularMenu` ligado no `Restart()`)?
+**Decisão do Lucas (30/09, nuvem):** "Jogar de novo" **continua voltando ao menu principal** numa cena com `menuPanel`. Nada muda no código.
 
-**Achados menores da revisão (não corrigidos):** o pickup é consumido mesmo se o Player não tiver `PlayerPowerUps`; o `LevelUpManager` perde o level se o `Banco` estiver vazio (o aviso é confuso); a `distanciaParada` do inimigo (0.6) e o contato por collider dependem do tamanho dos colliders; o `DanoPorContato` só lê o collider da raiz; o sorteio sobe de raridade quando não há nada abaixo; o `PlayerMove` ainda tem `Debug.Log(vida)`.
+**Corrigido na nuvem (30/09) — `LevelUpManager` com Banco vazio:** agora separa dois casos.
+- `Banco` nulo ou sem cards (erro de montagem): **guarda os levels pendentes**, dá `LogError` **uma vez** dizendo para arrastar o asset `Assets/Data/BancoDeCards`. Quando o banco for preenchido, os cards aparecem.
+- Banco com cards, mas todos no `maxEscolhas`: descarta os pendentes como antes, com `Debug.Log` (não é erro).
+- Novo campo `avisouBancoVazio` e método `BancoTemCards()`.
+
+⚠️ Código trocado (a mensagem antiga, que misturava os dois casos):
+```csharp
+Debug.LogWarning("LevelUpManager: nenhum card disponível (BancoDeCards vazio ou todos no limite de escolhas).");
+```
+
+**Achados menores da revisão (não corrigidos):** o pickup é consumido mesmo se o Player não tiver `PlayerPowerUps`; a `distanciaParada` do inimigo (0.6) e o contato por collider dependem do tamanho dos colliders; o `DanoPorContato` só lê o collider da raiz; o sorteio sobe de raridade quando não há nada abaixo; o `PlayerMove` ainda tem `Debug.Log(vida)`.
 
 ## Onde paramos (29/09, vindo do PC do trabalho)
 
