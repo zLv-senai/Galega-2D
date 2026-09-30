@@ -11,7 +11,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
     private GameManager gameManager;
     private GameObject tiroPrefab;
     private GameObject gun;
-    private bool canShoot = true;
+    private bool canShoot = false;
 
     private void Awake()
     {

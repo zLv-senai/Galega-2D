@@ -48,12 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
   vida: 2
   fireHate: 1
-  gameManager: {fileID: 0}
-  tiroPrefab: {fileID: 7438003335854391405, guid: d40b2a584e04c774ea08b114e372413b, type: 3}
-  gun: {fileID: 1860903912063482846}
 --- !u!114 &1246445646681862241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookAt
-  target: {fileID: 0}
+  target: {fileID: 4936260201874732870, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
 --- !u!58 &249539911860987445
 CircleCollider2D:
   m_ObjectHideFlags: 0
