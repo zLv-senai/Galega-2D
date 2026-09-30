@@ -8,6 +8,10 @@ public class Shot : MonoBehaviour
     // Tag usada para identificar paredes/obstáculos que param o tiro.
     private const string TagParede = "Parede";
 
+    // Tag dos objetos que o tiro do jogador pode quebrar (baús, minas). A tag precisa
+    // existir em Project Settings > Tags and Layers, senão o CompareTag dá erro.
+    private const string TagDestrutivel = "Destrutivel";
+
     // Velocidade em unidades por segundo. Público para ajustar no Inspector.
     public float velocidade = 10f;
 
@@ -18,6 +22,10 @@ public class Shot : MonoBehaviour
     // "Player" no tiro dos inimigos. Qualquer objeto com outra tag é ignorado,
     // então o tiro nunca acerta quem disparou.
     public string tagAlvo = "Inimigo";
+
+    // Se este tiro acerta objetos com a tag "Destrutivel". Ligado no tiro do jogador;
+    // o tiro dos inimigos (ShotEnemy) deve desligar isto para não quebrar baús.
+    [SerializeField] private bool acertaDestrutiveis = true;
 
     void Awake()
     {
@@ -45,6 +53,11 @@ public class Shot : MonoBehaviour
     {
         if (outro.CompareTag(tagAlvo))
         {
+            AcertarAlvo(outro);
+        }
+        else if (acertaDestrutiveis && outro.CompareTag(TagDestrutivel))
+        {
+            // Mesma regra do alvo: dá dano se tiver IDamageable e o tiro some.
             AcertarAlvo(outro);
         }
         else if (outro.CompareTag(TagParede))

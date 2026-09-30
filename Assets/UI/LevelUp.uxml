@@ -1,0 +1,30 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="LevelUp.uss" />
+    <!-- Tela cheia escurecida; escondida por padrão (o LevelUpUI.cs mostra com style.display) -->
+    <ui:VisualElement name="LevelUpRaiz" class="lv-raiz">
+        <ui:Label name="LevelUpTitulo" text="LEVEL UP — escolha um card" class="lv-titulo" />
+        <ui:Label name="LevelUpRestantes" text="" class="lv-restantes" />
+
+        <!-- 3 cards. Cada botão tem ícone, raridade, nome e descrição (preenchidos pelo código) -->
+        <ui:VisualElement name="LevelUpCards" class="lv-cards">
+            <ui:Button name="Card0" class="lv-card">
+                <ui:VisualElement name="CardIcone" class="lv-card-icone" picking-mode="Ignore" />
+                <ui:Label name="CardRaridade" text="Comum" class="lv-card-raridade" picking-mode="Ignore" />
+                <ui:Label name="CardNome" text="Nome do card" class="lv-card-nome" picking-mode="Ignore" />
+                <ui:Label name="CardDescricao" text="Descrição do card" class="lv-card-descricao" picking-mode="Ignore" />
+            </ui:Button>
+            <ui:Button name="Card1" class="lv-card">
+                <ui:VisualElement name="CardIcone" class="lv-card-icone" picking-mode="Ignore" />
+                <ui:Label name="CardRaridade" text="Comum" class="lv-card-raridade" picking-mode="Ignore" />
+                <ui:Label name="CardNome" text="Nome do card" class="lv-card-nome" picking-mode="Ignore" />
+                <ui:Label name="CardDescricao" text="Descrição do card" class="lv-card-descricao" picking-mode="Ignore" />
+            </ui:Button>
+            <ui:Button name="Card2" class="lv-card">
+                <ui:VisualElement name="CardIcone" class="lv-card-icone" picking-mode="Ignore" />
+                <ui:Label name="CardRaridade" text="Comum" class="lv-card-raridade" picking-mode="Ignore" />
+                <ui:Label name="CardNome" text="Nome do card" class="lv-card-nome" picking-mode="Ignore" />
+                <ui:Label name="CardDescricao" text="Descrição do card" class="lv-card-descricao" picking-mode="Ignore" />
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

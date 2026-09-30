@@ -21,6 +21,10 @@ public class HudProgressao : MonoBehaviour
     private VisualElement levelUpPainel;
     private Label levelUpNivel;
 
+    // Raiz do HUD inteiro e se ele deve aparecer no estado atual do jogo (some no Menu e no Game Over).
+    private VisualElement hudRaiz;
+    private bool hudVisivel = true;
+
     // Time.unscaledTime em que o aviso some (-1 = não está aparecendo). Unscaled: funciona mesmo pausado.
     private float esconderLevelUpEm = -1f;
 
@@ -58,11 +62,26 @@ public class HudProgressao : MonoBehaviour
     private void OnEnable()
     {
         Assinar();
+
+        // Evento estático: precisa cancelar no OnDisable.
+        GameManager.AoMudarEstado += TratarMudancaDeEstado;
+        if (GameManager.Instance != null)
+        {
+            TratarMudancaDeEstado(GameManager.Instance.gameState);
+        }
     }
 
     private void OnDisable()
     {
         Desassinar();
+        GameManager.AoMudarEstado -= TratarMudancaDeEstado;
+    }
+
+    // HUD visível em OnPlay, Pause e LevelUp; escondido no Menu e no Game Over.
+    private void TratarMudancaDeEstado(GameManager.GameState estado)
+    {
+        hudVisivel = estado != GameManager.GameState.Menu && estado != GameManager.GameState.GameOver;
+        Mostrar(hudRaiz, hudVisivel);
     }
 
     private void Start()
@@ -127,6 +146,9 @@ public class HudProgressao : MonoBehaviour
         int version
     )
     {
+        hudRaiz = root.Q<VisualElement>("HudRaiz");
+        Mostrar(hudRaiz, hudVisivel);
+
         levelLabel = root.Q<Label>("LevelLabel");
         xpPreenchimento = root.Q<VisualElement>("XpPreenchimento");
         vidaLabel = root.Q<Label>("VidaLabel");

@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 114104963}
   - component: {fileID: 114104962}
   - component: {fileID: 114104961}
+  - component: {fileID: 114104966}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Inimigo
@@ -387,6 +388,20 @@ Transform:
   - {fileID: 2031876177}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114104966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114104960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
 --- !u!1 &127975542
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,6 +538,7 @@ GameObject:
   - component: {fileID: 360558638}
   - component: {fileID: 360558637}
   - component: {fileID: 360558636}
+  - component: {fileID: 360558641}
   m_Layer: 0
   m_Name: Enemy (2)
   m_TagString: Inimigo
@@ -674,6 +690,20 @@ Transform:
   - {fileID: 469357572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &360558641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360558635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
 --- !u!1 &469357571
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,6 +1001,9 @@ GameObject:
   - component: {fileID: 1193155106}
   - component: {fileID: 1193155105}
   - component: {fileID: 1193155104}
+  - component: {fileID: 1193155108}
+  - component: {fileID: 1193155109}
+  - component: {fileID: 1193155110}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1194,6 +1227,57 @@ MonoBehaviour:
   raioColetaBase: 1.5
   ganhoXpBase: 1
   escudoBase: 0
+--- !u!114 &1193155108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193155098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
+--- !u!114 &1193155109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193155098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15338fe4ff9ad7748a27bde60f7d078c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DanoPorContato
+  dano: 10
+  margemContato: 0.05
+  raioContato: 0.7
+  intervalo: 0.5
+  forcaEmpurrao: 8
+  alvo: {fileID: 0}
+--- !u!114 &1193155110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193155098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
+  target: {fileID: 0}
+  vida: 2
+  fireHate: 1
+  gameManager: {fileID: 0}
+  tiroPrefab: {fileID: 0}
+  gun: {fileID: 0}
+  distanciaParada: 0.6
 --- !u!1 &1411670896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,6 +1443,7 @@ GameObject:
   - component: {fileID: 1481586546}
   - component: {fileID: 1481586545}
   - component: {fileID: 1481586548}
+  - component: {fileID: 1481586549}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Inimigo
@@ -1510,6 +1595,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookAt
   target: {fileID: 1193155098}
+--- !u!114 &1481586549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481586542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
 --- !u!1 &1780763614
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,6 +1653,8 @@ GameObject:
   - component: {fileID: 1831585692}
   - component: {fileID: 1831585691}
   - component: {fileID: 1831585690}
+  - component: {fileID: 1831585696}
+  - component: {fileID: 1831585695}
   m_Layer: 0
   m_Name: Enemy (5)
   m_TagString: Inimigo
@@ -1705,6 +1806,34 @@ Transform:
   - {fileID: 1912116966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1831585695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831585689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
+--- !u!114 &1831585696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831585689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
 --- !u!1 &1888330904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,6 +1847,7 @@ GameObject:
   - component: {fileID: 1888330907}
   - component: {fileID: 1888330906}
   - component: {fileID: 1888330905}
+  - component: {fileID: 1888330910}
   m_Layer: 0
   m_Name: Enemy (3)
   m_TagString: Inimigo
@@ -1869,6 +1999,20 @@ Transform:
   - {fileID: 1165446099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1888330910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888330904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
 --- !u!1 &1912116965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,6 +2088,7 @@ GameObject:
   - component: {fileID: 2056608257}
   - component: {fileID: 2056608256}
   - component: {fileID: 2056608255}
+  - component: {fileID: 2056608260}
   m_Layer: 0
   m_Name: Enemy (4)
   m_TagString: Inimigo
@@ -2095,6 +2240,20 @@ Transform:
   - {fileID: 1126806636}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2056608260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056608254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97d6d5fe09f28428a511b1a866dbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Empurravel
+  forcaMax: 12
+  desaceleracao: 30
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

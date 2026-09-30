@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35b32e73341aad4f9b25d50a28bbaf7, type: 3}
+  m_Name: TabelaDePowerUps
+  m_EditorClassIdentifier: Assembly-CSharp::TabelaDePowerUps
+  powerUps:
+  - {fileID: 11400000, guid: b44c28b6beb9d54409044448895c6f01, type: 2}
+  - {fileID: 11400000, guid: a93872b9cf9da4648999c781c34d3d8a, type: 2}
+  - {fileID: 11400000, guid: 45da29fc61451fb4080f2048b03708ff, type: 2}
+  - {fileID: 11400000, guid: d361b3d8510138b49b6e15b01624025d, type: 2}
+  - {fileID: 11400000, guid: a4f1f83226ba6f1498a6bf6395b8379f, type: 2}

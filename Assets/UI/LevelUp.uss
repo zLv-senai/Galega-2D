@@ -1,0 +1,145 @@
+/* Tela de escolha de cards do level up. As classes .raridade-* (no fim) colorem cada card. */
+
+/* Tela cheia escurecida. Fica escondida até o código mostrar (style.display = flex). */
+.lv-raiz {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(4, 6, 20, 0.82);
+}
+
+.lv-titulo {
+    margin: 0 0 8px 0;
+    color: rgb(255, 221, 87);
+    font-size: 64px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(120, 60, 0);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* "Escolhas restantes: N" (só aparece quando subiu mais de um level de uma vez) */
+.lv-restantes {
+    margin: 0 0 28px 0;
+    min-height: 28px;
+    color: rgb(200, 210, 255);
+    font-size: 24px;
+    -unity-text-align: middle-center;
+}
+
+.lv-cards {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+}
+
+/* Cada card é um botão. O seletor ".lv-cards .lv-card" é mais forte que o estilo padrão do botão (inclusive no :hover). */
+.lv-cards .lv-card {
+    width: 300px;
+    min-height: 400px;
+    margin: 0 18px;
+    padding: 22px 18px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: rgb(20, 24, 52);
+    border-width: 5px;
+    border-radius: 16px;
+    border-color: rgb(160, 160, 170);
+    color: rgb(255, 255, 255);
+    -unity-text-align: upper-center;
+    transition-property: scale, background-color;
+    transition-duration: 0.12s;
+}
+
+.lv-cards .lv-card:hover {
+    scale: 1.06 1.06;
+    background-color: rgb(34, 40, 82);
+}
+
+.lv-cards .lv-card:active {
+    scale: 0.98 0.98;
+    background-color: rgb(46, 54, 104);
+}
+
+.lv-card-icone {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 12px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.lv-card-raridade {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: 3px;
+}
+
+.lv-card-nome {
+    margin: 0 0 14px 0;
+    color: rgb(255, 255, 255);
+    font-size: 32px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+.lv-card-descricao {
+    margin: 0;
+    color: rgb(215, 220, 240);
+    font-size: 22px;
+    -unity-text-align: upper-center;
+    white-space: normal;
+}
+
+/* ===== Cores por raridade (borda do card e texto da raridade) ===== */
+
+.lv-cards .lv-card.raridade-comum,
+.lv-cards .lv-card.raridade-comum:hover,
+.lv-cards .lv-card.raridade-comum:active {
+    border-color: rgb(160, 160, 170);
+}
+.raridade-comum .lv-card-raridade { color: rgb(190, 190, 200); }
+
+.lv-cards .lv-card.raridade-incomum,
+.lv-cards .lv-card.raridade-incomum:hover,
+.lv-cards .lv-card.raridade-incomum:active {
+    border-color: rgb(76, 217, 100);
+}
+.raridade-incomum .lv-card-raridade { color: rgb(76, 217, 100); }
+
+.lv-cards .lv-card.raridade-raro,
+.lv-cards .lv-card.raridade-raro:hover,
+.lv-cards .lv-card.raridade-raro:active {
+    border-color: rgb(64, 156, 255);
+}
+.raridade-raro .lv-card-raridade { color: rgb(64, 156, 255); }
+
+.lv-cards .lv-card.raridade-epico,
+.lv-cards .lv-card.raridade-epico:hover,
+.lv-cards .lv-card.raridade-epico:active {
+    border-color: rgb(170, 90, 255);
+}
+.raridade-epico .lv-card-raridade { color: rgb(170, 90, 255); }
+
+.lv-cards .lv-card.raridade-lendario,
+.lv-cards .lv-card.raridade-lendario:hover,
+.lv-cards .lv-card.raridade-lendario:active {
+    border-color: rgb(255, 170, 30);
+}
+.raridade-lendario .lv-card-raridade { color: rgb(255, 190, 60); }
+
+.lv-cards .lv-card.raridade-mitico,
+.lv-cards .lv-card.raridade-mitico:hover,
+.lv-cards .lv-card.raridade-mitico:active {
+    border-color: rgb(255, 60, 110);
+}
+.raridade-mitico .lv-card-raridade { color: rgb(255, 90, 140); }

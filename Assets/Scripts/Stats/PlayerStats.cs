@@ -14,7 +14,8 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float projeteisBase = 1f;
     [SerializeField] private float raioColetaBase = 1.5f;
     [SerializeField] private float ganhoXpBase = 1f;
-    [SerializeField] private float escudoBase = 0f;
+    // Escudo: número MÁXIMO de cargas que o escudo recarrega (ver RecarregarEscudo).
+    [SerializeField] private float escudoBase = 1f;
 
     // Dispara quando um stat muda de valor: (stat, valor antigo, valor novo).
     public event System.Action<StatTipo, float, float> AoMudarStat;
@@ -22,7 +23,8 @@ public class PlayerStats : MonoBehaviour
     // Dispara quando o número de cargas do escudo muda: (cargas atuais).
     public event System.Action<int> AoMudarCargasEscudo;
 
-    // Escudo por cargas: cada carga bloqueia 1 golpe inteiro. Começa com o valor base do stat Escudo.
+    // Escudo por cargas: cada carga bloqueia 1 golpe inteiro. Começa com 0 cargas:
+    // as cargas só vêm de RecarregarEscudo (power-up de escudo), até o máximo do stat Escudo.
     public int CargasEscudo { get; private set; }
 
     // Cada entrada guarda o modificador e quem o aplicou (a "fonte"), para poder remover depois.
@@ -30,11 +32,6 @@ public class PlayerStats : MonoBehaviour
 
     // Cache do valor final de cada stat, recalculado só quando os modificadores mudam.
     private readonly Dictionary<StatTipo, float> cache = new Dictionary<StatTipo, float>();
-
-    private void Awake()
-    {
-        CargasEscudo = Mathf.Max(0, Mathf.RoundToInt(escudoBase));
-    }
 
     // Mudou um valor base no Inspector (ex.: durante o Play): limpa o cache para recalcular.
     private void OnValidate()
@@ -81,6 +78,9 @@ public class PlayerStats : MonoBehaviour
     public int VidaMax => Mathf.Max(1, Mathf.RoundToInt(Obter(StatTipo.VidaMax)));
 
     public bool TemEscudo => CargasEscudo > 0;
+
+    // Máximo de cargas que o escudo recarrega: é o valor final do stat Escudo (inteiro, mínimo 0).
+    public int MaxCargasEscudo => Mathf.Max(0, Mathf.RoundToInt(Obter(StatTipo.Escudo)));
 
     // Adiciona modificadores vindos de "fonte" (o upgrade/objeto responsável) e avisa
     // quem estiver ouvindo AoMudarStat sobre os stats que realmente mudaram.
@@ -131,7 +131,16 @@ public class PlayerStats : MonoBehaviour
         NotificarMudancas(statsAfetados, valoresAntigos);
     }
 
-    // Soma cargas ao escudo (power-ups, cards, teste). Valores <= 0 são ignorados.
+    // Enche o escudo até o máximo (MaxCargasEscudo). Usado pelo power-up de escudo.
+    // Subir o stat Escudo (card) NÃO dá carga na hora: só aumenta o máximo da próxima recarga.
+    public void RecarregarEscudo()
+    {
+        CargasEscudo = MaxCargasEscudo;
+        AoMudarCargasEscudo?.Invoke(CargasEscudo);
+    }
+
+    // Soma cargas ao escudo. Valores <= 0 são ignorados. Nada novo usa isto: o caminho
+    // normal é RecarregarEscudo; fica disponível para usos avulsos.
     public void AdicionarCargasEscudo(int n)
     {
         if (n <= 0)
@@ -208,13 +217,6 @@ public class PlayerStats : MonoBehaviour
 
             if (!Mathf.Approximately(antigo, novo))
             {
-                // Escudo por cargas: quando o stat Escudo AUMENTA, a diferença vira cargas.
-                // Se diminuir (ex.: power-up expirou), as cargas que sobraram continuam.
-                if (stat == StatTipo.Escudo)
-                {
-                    AdicionarCargasEscudo(Mathf.RoundToInt(novo) - Mathf.RoundToInt(antigo));
-                }
-
                 AoMudarStat?.Invoke(stat, antigo, novo);
             }
         }
@@ -241,8 +243,8 @@ public class PlayerStats : MonoBehaviour
     [ContextMenu("Teste Escudo")]
     private void TesteEscudo()
     {
-        // +1 carga direta (sem modificador): o "Limpar Testes" não remove cargas.
-        AdicionarCargasEscudo(1);
+        // Enche o escudo até o máximo, igual ao power-up de escudo.
+        RecarregarEscudo();
     }
 
     [ContextMenu("Teste Limpar Testes")]

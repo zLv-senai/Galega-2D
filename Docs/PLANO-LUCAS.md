@@ -8,9 +8,34 @@ Serve para continuar o trabalho em outro PC (ou numa nova sessão do Claude) sem
 > ⚠️ **Este arquivo e a skill `.claude/skills/subir-para-casa/` NÃO podem ir para a `main`.**
 > Antes de abrir o PR ou mesclar na `main`, remova os dois da branch (ver seção 3).
 
-_Última atualização: 2026-09-29 (trabalho)._
+_Última atualização: 2026-09-30 (casa)._
 
-## 👉 Onde paramos (29/09, vindo do PC do trabalho)
+## 👉 Onde paramos (30/09, casa → sessão em nuvem)
+
+**Etapas 3 e 4 implementadas (código), compilando sem erro, AINDA NÃO TESTADAS EM PLAY.** Revisadas por um agent Sonnet: sem bug grave; os achados ALTO eram passos de montagem.
+- **Etapa 3:** `Assets/Scripts/Cards/` (`Raridade`, `CardData`, `BancoDeCards`, `SorteadorDeCards`, `LevelUpManager`, `LevelUpUI`), `Progressao/GameOverUI.cs`, `UI/LevelUp.uxml/.uss`, `UI/GameOver.uxml/.uss`. `GameManager`: estado `LevelUp` no fim do enum e o evento estático `AoMudarEstado`. O `HudProgressao` esconde no Menu e no GameOver.
+- **Etapa 4:** `Assets/Scripts/PowerUps/` (`PowerUpData`, `TabelaDePowerUps`, `PowerUpPickup`, `Bau`, `PlayerPowerUps`). `Shot.cs` ganhou `acertaDestrutiveis` (tag `Destrutivel`; a ordem é alvo → destrutível → parede).
+- **Escudo (decisão do Lucas):** o stat `Escudo` = **máximo de cargas** (base 1). O jogador começa com 0. O power-up da caixa **recarrega até o máximo**. O card "Escudo Reserva" só sobe o máximo (no máximo 2x). `PlayerStats.RecarregarEscudo()`.
+- **Dados:** o menu `Galega > Criar cards e power-ups padrão` (`Assets/Editor/CriarDadosPadrao.cs`) já foi rodado e criou `Assets/Data/` (15 cards, `BancoDeCards`, 5 power-ups, `TabelaDePowerUps`). Os valores dos power-ups são **provisórios** ("vamos rebalancear").
+- **`DanoPorContato` corrigido:** agora usa contato real entre colliders (`Collider2D.Distance`) e `[RequireComponent(EnemyMove)]`. Se estiver no próprio Player, ele se desliga e dá erro no Console. **Causa do bug de "dano em raio":** o componente tinha sido posto no Player, que se achava pela tag e batia em si mesmo.
+
+**Montagem na `ProgressionTest` — o que já está feito e o que falta (precisa do Unity):**
+- ✅ Tag `Destrutivel` criada. ✅ Dados criados. ✅ `DanoPorContato` removido do Player.
+- ⚠️ **Remover o `EnemyMove` do Player.** A Unity adicionou sozinha por causa do `RequireComponent` e ele ficou salvo na cena.
+- ⏳ `PlayerStats` do Player: **Escudo Base = 1** (a cena guardou 0).
+- ⏳ Player: Add Component `PlayerPowerUps`.
+- ⏳ `Sistemas`: `LevelUpManager`, com o campo **Banco** = `Assets/Data/BancoDeCards` (o **asset**, não o script).
+- ⏳ Objetos `LevelUpUI` e `GameOverUI`, cada um com `PanelRenderer` (Panel Settings `UI Toolkit/PanelSettings`, Source Asset `UI/LevelUp.uxml` ou `UI/GameOver.uxml`) e o componente de mesmo nome.
+- ⏳ Prefab `PowerUpPickup`: Circle, layer `Coletavel`, `CircleCollider2D` trigger, `PowerUpPickup`.
+- ⏳ Prefab `Bau`: Square, `BoxCollider2D`, tag `Destrutivel`, `Bau` (Tabela = `Data/TabelaDePowerUps`, Pickup Prefab = `PowerUpPickup`). Colocar 2 ou 3 na cena.
+- ⏳ `ShotEnemy`: desmarcar **Acerta Destrutiveis** (override na variante).
+- Depois: checklist de Play (Forçar Level Up no `LevelUpManager`, quebrar caixa, power-ups renovando o tempo, escudo, contato, Game Over + "Jogar de novo").
+
+**Decisão pendente do Lucas:** "Jogar de novo" recarrega a cena, e numa cena com `menuPanel` **volta ao menu principal**. Manter assim ou recomeçar direto na partida (ex.: `static bool pularMenu` ligado no `Restart()`)?
+
+**Achados menores da revisão (não corrigidos):** o pickup é consumido mesmo se o Player não tiver `PlayerPowerUps`; o `LevelUpManager` perde o level se o `Banco` estiver vazio (o aviso é confuso); a `distanciaParada` do inimigo (0.6) e o contato por collider dependem do tamanho dos colliders; o `DanoPorContato` só lê o collider da raiz; o sorteio sobe de raridade quando não há nada abaixo; o `PlayerMove` ainda tem `Debug.Log(vida)`.
+
+## Onde paramos (29/09, vindo do PC do trabalho)
 
 1. ✅ **Etapas 1 e 2 testadas e funcionando** na `ProgressionTest`: tiro segurando o botão, gema caindo e voando até o player, `Level up!` (testado duplicando inimigos, porque ainda não há spawner), `+1 Projetil`, `+50% Velocidade` e escudo.
 2. 🆕 **Implementado no trabalho, AINDA NÃO TESTADO NO UNITY:**

@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="GameOver.uss" />
+    <!-- Tela cheia escurecida; escondida por padrão (o GameOverUI.cs mostra quando o estado vira GameOver) -->
+    <ui:VisualElement name="GameOverRaiz" class="go-raiz">
+        <ui:Label name="GameOverTitulo" text="GAME OVER" class="go-titulo" />
+        <ui:Label name="GameOverLevel" text="Level alcançado: 1" class="go-level" />
+        <ui:Button name="JogarDeNovo" text="Jogar de novo" class="go-botao" />
+    </ui:VisualElement>
+</ui:UXML>

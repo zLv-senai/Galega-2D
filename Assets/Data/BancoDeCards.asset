@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 024318542768d154d8d894db30527782, type: 3}
+  m_Name: BancoDeCards
+  m_EditorClassIdentifier: Assembly-CSharp::BancoDeCards
+  cards:
+  - {fileID: 11400000, guid: 301f20133333be649b07be6ed23cb148, type: 2}
+  - {fileID: 11400000, guid: dc03c453bbd049a438dcc30b8ec7630e, type: 2}
+  - {fileID: 11400000, guid: d40963eda95360f458435a74a94f8ef8, type: 2}
+  - {fileID: 11400000, guid: af43272f9119d90479e1f37e0de6c901, type: 2}
+  - {fileID: 11400000, guid: 71914404b9d394a44993b94ee61fde87, type: 2}
+  - {fileID: 11400000, guid: 0cfd5f5bcbd853949a5b9ef127c0f186, type: 2}
+  - {fileID: 11400000, guid: 5a4ddb53fb396d64787e9449b65510d8, type: 2}
+  - {fileID: 11400000, guid: 18fdf8722b43d16499c3613bdcd59ebd, type: 2}
+  - {fileID: 11400000, guid: 0768384bad1893844af570487b0eb2e4, type: 2}
+  - {fileID: 11400000, guid: 5300182b4ca81c94b878deb976355211, type: 2}
+  - {fileID: 11400000, guid: 9a449f97835a0e244a752c5b4b57a00d, type: 2}
+  - {fileID: 11400000, guid: 74da6b7ed1e9f65428998ef19e759840, type: 2}
+  - {fileID: 11400000, guid: 81a9e08a752568e4f9ab4b76c99fc9b2, type: 2}
+  - {fileID: 11400000, guid: be55c3103d3a13b40948aea538251c14, type: 2}
+  - {fileID: 11400000, guid: e16d7899126590e4c9c0046dd228cd30, type: 2}

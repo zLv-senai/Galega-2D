@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
     // quando não tiverem a referência arrastada no Inspector.
     public static GameManager Instance { get; private set; }
 
+    // Dispara depois de SetGameState aplicar o estado novo. Quem assinar (UI de Game Over,
+    // HUD, etc.) deve cancelar a assinatura no OnDisable, porque o evento é estático.
+    public static event System.Action<GameState> AoMudarEstado;
+
     public PanelRenderer menuPanel;
     public enum GameState
     {
@@ -15,6 +19,8 @@ public class GameManager : MonoBehaviour
         OnPlay,
         GameOver,
         Pause,
+        // Novo valor sempre no FIM do enum: o estado é salvo como número nas cenas.
+        LevelUp,
 
     }
 
@@ -76,9 +82,12 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f;
             break;
             case GameState.Pause:
+            case GameState.LevelUp:
             Time.timeScale = 0f;
             break;
         }
+
+        AoMudarEstado?.Invoke(gameState);
     }
 
     private void MenuState(bool state)
