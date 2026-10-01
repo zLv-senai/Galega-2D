@@ -26,12 +26,14 @@ public class HudProgressao : MonoBehaviour
     private const float FracaoAcesoPiscar = 0.6f;
     private const float OpacidadeApagado = 0.2f;
 
+    // Painel da UI e referências do Player; as que ficarem vazias são buscadas pelo script (Awake/Start).
     [SerializeField] private PanelRenderer painel;
     [SerializeField] private PlayerXp playerXp;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private PlayerPowerUps playerPowerUps;
 
+    // Elementos do HudProgressao.uxml, buscados pelo nome em OnUIReload.
     private Label levelLabel;
     private VisualElement xpPreenchimento;
     private Label vidaLabel;
@@ -87,6 +89,7 @@ public class HudProgressao : MonoBehaviour
     private int ultimaVida = int.MinValue;
     private int ultimaVidaMax = int.MinValue;
 
+    // Acha o PanelRenderer e o Player e registra o callback que pega os elementos a cada reload da UI.
     private void Awake()
     {
         if (painel == null)
@@ -106,6 +109,7 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Remove o callback de reload registrado no Awake.
     private void OnDestroy()
     {
         if (painel != null)
@@ -114,6 +118,7 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Liga o HUD aos eventos do Player e do estado do jogo e já aplica o estado atual.
     private void OnEnable()
     {
         Assinar();
@@ -126,6 +131,7 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Cancela o que foi assinado no OnEnable.
     private void OnDisable()
     {
         Desassinar();
@@ -142,6 +148,7 @@ public class HudProgressao : MonoBehaviour
         Mostrar(hudRaiz, hudVisivel);
     }
 
+    // Busca de novo o que faltou, acha o boss e as waves (opcionais) e desenha o HUD pela primeira vez.
     private void Start()
     {
         // Aqui os Awake do Player já rodaram (ex.: PlayerMove pode ter criado o PlayerStats
@@ -165,6 +172,7 @@ public class HudProgressao : MonoBehaviour
     private PlayerStats statsAssinado;
     private PlayerPowerUps powerUpsAssinado;
 
+    // Liga o HUD aos eventos do Player: XP e level, cargas do escudo e power-up ativado.
     private void Assinar()
     {
         if (playerXp != null && xpAssinado == null)
@@ -187,6 +195,7 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Desfaz as assinaturas feitas em Assinar.
     private void Desassinar()
     {
         if (xpAssinado != null)
@@ -209,6 +218,8 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Todo frame: lê vida, boss e waves (polling), esconde os avisos quando o tempo acaba e
+    // atualiza a lista de power-ups ativos.
     private void Update()
     {
         AtualizarVida();
@@ -289,6 +300,8 @@ public class HudProgressao : MonoBehaviour
         Mostrar(powerUpsAtivos, linhasPowerUp.Count > 0);
     }
 
+    // Chamado quando a UI é criada/recriada: busca os elementos pelo nome, zera os 'últimos
+    // valores' escritos e reescreve o HUD inteiro.
     private void OnUIReload(
         PanelRenderer panel,
         VisualElement root,
@@ -398,6 +411,7 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Reescreve XP, escudo e vida com os valores atuais do Player.
     private void AtualizarTudo()
     {
         if (playerXp != null)
@@ -570,6 +584,7 @@ public class HudProgressao : MonoBehaviour
         }
     }
 
+    // Escreve 'BOSS n/total' e a largura da barra de vida do boss.
     private void AtualizarBarraDoBoss(BossController boss)
     {
         int numero = controladorBoss.NumeroDoBoss;
@@ -602,6 +617,7 @@ public class HudProgressao : MonoBehaviour
         Mostrar(escudoLabel, cargas > 0);
     }
 
+    // Mostra o painel de level up com o novo level e agenda a hora em que ele some.
     private void MostrarLevelUp(int novoLevel)
     {
         if (levelUpNivel != null)
@@ -628,6 +644,7 @@ public class HudProgressao : MonoBehaviour
         esconderPowerUpEm = Time.unscaledTime + DuracaoPowerUp;
     }
 
+    // Mostra ou esconde um elemento da UI (display Flex/None); ignora elemento nulo.
     private static void Mostrar(VisualElement elemento, bool mostrar)
     {
         if (elemento != null)

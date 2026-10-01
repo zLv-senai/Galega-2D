@@ -6,9 +6,11 @@ using UnityEngine.UIElements;
 // do MenuManager/HudProgressao (RegisterUIReloadCallback) e esconde/mostra com style.display.
 public class GameOverUI : MonoBehaviour
 {
+    // Painel da UI da tela de Game Over e o PlayerXp, de onde sai o level alcançado.
     [SerializeField] private PanelRenderer painel;
     [SerializeField] private PlayerXp playerXp;
 
+    // Elementos do GameOver.uxml, buscados pelo nome em OnUIReload.
     private VisualElement raiz;
     private Label levelLabel;
     private Button jogarDeNovo;
@@ -22,6 +24,7 @@ public class GameOverUI : MonoBehaviour
     // Se a tela deve aparecer no estado atual do jogo (reaplicado quando a UI recarrega).
     private bool visivel;
 
+    // Acha o PanelRenderer e o PlayerXp e registra o callback que monta a UI a cada reload.
     private void Awake()
     {
         if (painel == null)
@@ -41,6 +44,7 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
+    // Remove o callback de reload registrado no Awake.
     private void OnDestroy()
     {
         if (painel != null)
@@ -49,6 +53,7 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
+    // Passa a ouvir a mudança de estado do jogo e o registro no ranking.
     private void OnEnable()
     {
         // Evento estático: precisa cancelar no OnDisable.
@@ -56,12 +61,14 @@ public class GameOverUI : MonoBehaviour
         Leaderboard.AoRegistrar += TratarRankingRegistrado;
     }
 
+    // Cancela o que foi assinado no OnEnable.
     private void OnDisable()
     {
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
         Leaderboard.AoRegistrar -= TratarRankingRegistrado;
     }
 
+    // Guarda o PlayerXp e acha o GerenciadorDeWaves (opcional) para mostrar a wave e o recorde.
     private void Start()
     {
         // O Player já existe e está ativo aqui. Guardamos a referência agora porque, no Game Over,
@@ -72,6 +79,7 @@ public class GameOverUI : MonoBehaviour
         waves = FindAnyObjectByType<GerenciadorDeWaves>();
     }
 
+    // Se o PlayerXp não foi arrastado no Inspector, pega o do Player.
     private void BuscarPlayerXp()
     {
         if (playerXp != null)
@@ -86,6 +94,8 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
+    // Chamado quando a UI é criada/recriada: busca os elementos pelo nome, liga o botão e
+    // desenha a tela.
     private void OnUIReload(
         PanelRenderer panel,
         VisualElement root,
@@ -111,6 +121,7 @@ public class GameOverUI : MonoBehaviour
         Renderizar();
     }
 
+    // A tela só fica visível quando o estado do jogo é GameOver.
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
         visivel = estado == GameManager.GameState.GameOver;
@@ -127,6 +138,7 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
+    // Escreve o level (e a wave) e mostra ou esconde a tela inteira conforme 'visivel'.
     private void Renderizar()
     {
         if (raiz == null)
@@ -189,6 +201,7 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
+    // Clique em 'Jogar de novo': pede ao GameManager para reiniciar a partida.
     private void OnJogarDeNovoClicked(ClickEvent evt)
     {
         if (GameManager.Instance == null)

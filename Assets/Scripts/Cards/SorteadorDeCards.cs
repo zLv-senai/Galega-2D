@@ -5,6 +5,7 @@ using UnityEngine;
 // passa o banco e quantas vezes cada card já foi escolhido.
 public static class SorteadorDeCards
 {
+    // Quantos cards aparecem por escolha; a tela cria um botão para cada vaga.
     public const int CardsPorOferta = 3;
 
     // Sorteia até "CardsPorOferta" cards DISTINTOS. Se houver menos cards elegíveis
@@ -60,6 +61,7 @@ public static class SorteadorDeCards
         return null;
     }
 
+    // Sorteia uma raridade usando os pesos: as comuns saem muito mais que as míticas.
     private static Raridade SortearRaridade()
     {
         int sorteio = Random.Range(0, InfoDeRaridade.PesoTotal());

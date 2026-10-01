@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 [DefaultExecutionOrder(1000)]
 public class SetaDoBoss : MonoBehaviour
 {
+    // Nome do elemento da seta dentro do HudProgressao.uxml.
     private const string NomeElemento = "SetaBoss";
 
     // Pulso de tamanho da seta (1 ciclo = PeriodoPulso segundos; vai de 1 até 1 + AmplitudePulso).
@@ -28,6 +29,8 @@ public class SetaDoBoss : MonoBehaviour
     [SerializeField] private Color corSeta = new Color(1f, 0.27f, 0.2f, 1f);
     [SerializeField] private Color corContorno = new Color(0.35f, 0f, 0f, 1f);
 
+    // Elemento da seta no HUD, câmera principal e Renderer do boss (para medir a caixa dele),
+    // se o estado do jogo permite mostrar a seta e se ela está visível agora.
     private VisualElement seta;
     private Camera cam;
     private BossController bossDoRenderer;
@@ -35,6 +38,7 @@ public class SetaDoBoss : MonoBehaviour
     private bool estadoPermite = true;
     private bool visivel = true; // true para o primeiro Mostrar(false) realmente escrever o estilo
 
+    // Acha o PanelRenderer do mesmo objeto e pede para ser avisado quando a UI do HUD for recriada.
     private void Awake()
     {
         if (painel == null)
@@ -52,6 +56,7 @@ public class SetaDoBoss : MonoBehaviour
         }
     }
 
+    // Cancela o aviso de recarga da UI.
     private void OnDestroy()
     {
         if (painel != null)
@@ -60,6 +65,7 @@ public class SetaDoBoss : MonoBehaviour
         }
     }
 
+    // Passa a ouvir o estado do jogo e já aplica o estado atual, se o GameManager existir.
     private void OnEnable()
     {
         // Evento estático: precisa cancelar no OnDisable.
@@ -70,12 +76,14 @@ public class SetaDoBoss : MonoBehaviour
         }
     }
 
+    // Para de ouvir o estado do jogo e esconde a seta.
     private void OnDisable()
     {
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
         Mostrar(false);
     }
 
+    // Acha o ControladorDeBoss da cena (se não foi arrastado) e guarda a câmera principal.
     private void Start()
     {
         if (controladorBoss == null)
@@ -92,6 +100,7 @@ public class SetaDoBoss : MonoBehaviour
         estadoPermite = estado == GameManager.GameState.OnPlay || estado == GameManager.GameState.Pause;
     }
 
+    // Quando o HUD é (re)criado: acha o elemento da seta, define o tamanho, liga o desenho e deixa a seta escondida.
     private void OnUIReload(PanelRenderer panel, VisualElement root, int version)
     {
         if (seta != null)
@@ -117,6 +126,7 @@ public class SetaDoBoss : MonoBehaviour
         Mostrar(false);
     }
 
+    // Todo frame: mostra a seta na borda da tela se há boss vivo fora da câmera; senão, esconde.
     private void LateUpdate()
     {
         BossController boss = controladorBoss != null ? controladorBoss.BossAtual : null;

@@ -6,15 +6,18 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMove))]
 public class SincronizarVida : MonoBehaviour
 {
+    // Componentes do mesmo Player: os stats (de onde vem o VidaMax) e o PlayerMove (onde fica a vida atual).
     private PlayerStats stats;
     private PlayerMove playerMove;
 
+    // Pega o PlayerStats e o PlayerMove do próprio Player.
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
         playerMove = GetComponent<PlayerMove>();
     }
 
+    // Começa a ouvir as mudanças de stat do PlayerStats.
     private void OnEnable()
     {
         if (stats != null)
@@ -23,6 +26,7 @@ public class SincronizarVida : MonoBehaviour
         }
     }
 
+    // Para de ouvir as mudanças de stat (evita chamada em objeto desligado).
     private void OnDisable()
     {
         if (stats != null)
@@ -31,6 +35,7 @@ public class SincronizarVida : MonoBehaviour
         }
     }
 
+    // Quando o VidaMax muda, soma a diferença (novo - antigo) na vida atual do PlayerMove; outros stats são ignorados.
     private void TratarMudancaDeStat(StatTipo stat, float antigo, float novo)
     {
         if (stat != StatTipo.VidaMax || playerMove == null)

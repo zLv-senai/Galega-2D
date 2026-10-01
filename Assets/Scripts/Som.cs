@@ -1,12 +1,16 @@
 using UnityEngine;
 
+// Toca o clipe 'Sons' quando o jogador aperta Espaço (com o jogo rodando), no volume do slider Efeitos.
+// Código não usado: nenhuma cena ou prefab tem este script.
 public class Som : MonoBehaviour
 {
+    // AudioSource que toca o som e o clipe tocado ao apertar Espaço.
     public AudioSource audioSource;
     public AudioClip Sons;
 
     // Update is called once per frame
 
+    // Com o jogo rodando, cada Espaço apertado toca o clipe 'Sons'.
     void Update()
     {
         // Integração: o projeto usa só o Input System novo; Input.GetKeyDown daria erro.
@@ -18,6 +22,7 @@ public class Som : MonoBehaviour
             PlaySound(Sons);
         }
     }
+    // Toca o clipe uma vez, no volume do slider 'Efeitos' do menu Settings.
     public void PlaySound(AudioClip som)
     
     {

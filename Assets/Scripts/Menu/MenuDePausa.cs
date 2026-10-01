@@ -12,8 +12,10 @@ public class MenuDePausa : MonoBehaviour
     // evita sair da partida sem querer por causa de clique rápido do tiro.
     private const float TempoAntesDeAceitarClique = 0.3f;
 
+    // O PanelRenderer com o Pausa.uxml (se faltar, pega do mesmo objeto).
     [SerializeField] private PanelRenderer painel;
 
+    // Elementos do Pausa.uxml: o painel inteiro, a tela principal da pausa, o Settings e as barras de volume.
     private VisualElement raiz;
     private VisualElement painelPrincipal;
     private VisualElement painelSettings;
@@ -21,9 +23,11 @@ public class MenuDePausa : MonoBehaviour
 
     // Se o menu deve aparecer no estado atual do jogo (reaplicado quando a UI recarrega).
     private bool visivel;
+    // Até quando Menu e Exit ignoram clique, e a versão da UI já ligada (evita registrar os cliques duas vezes).
     private float aceitaCliqueEm;
     private int versaoUi = -1;
 
+    // Acha o PanelRenderer e registra o OnUIReload, que monta o menu quando a UI carrega.
     private void Awake()
     {
         if (painel == null)
@@ -41,6 +45,7 @@ public class MenuDePausa : MonoBehaviour
         }
     }
 
+    // Cancela o registro do callback de reload da UI.
     private void OnDestroy()
     {
         if (painel != null)
@@ -49,6 +54,7 @@ public class MenuDePausa : MonoBehaviour
         }
     }
 
+    // Ao ativar, passa a ouvir as mudanças de estado do jogo e já aplica o estado atual (se o jogo já estiver pausado).
     private void OnEnable()
     {
         // Evento estático: precisa cancelar no OnDisable.
@@ -59,6 +65,7 @@ public class MenuDePausa : MonoBehaviour
         }
     }
 
+    // Ao desativar, para de ouvir as mudanças de estado.
     private void OnDisable()
     {
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
@@ -88,12 +95,15 @@ public class MenuDePausa : MonoBehaviour
         }
     }
 
+    // True no frame em que ESC ou P foi apertado (precisa de teclado conectado).
     private static bool TeclaDePausaApertada()
     {
         Keyboard teclado = Keyboard.current;
         return teclado != null && (teclado.escapeKey.wasPressedThisFrame || teclado.pKey.wasPressedThisFrame);
     }
 
+    // Roda quando a UI é criada ou recriada: busca os painéis, liga os botões (Continuar, Settings, Menu e Exit)
+    // e desenha.
     private void OnUIReload(
         PanelRenderer panel,
         VisualElement root,
@@ -143,6 +153,8 @@ public class MenuDePausa : MonoBehaviour
         alvo.RegisterCallback(aoClicar);
     }
 
+    // Mostra o menu só no estado Pause; ao pausar, começa a contar o tempo em que os cliques de Menu e Exit
+    // são ignorados.
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
         visivel = estado == GameManager.GameState.Pause;
@@ -170,6 +182,7 @@ public class MenuDePausa : MonoBehaviour
         raiz.style.display = visivel ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
+    // Mostra só o painel pedido (principal ou Settings) e esconde o outro.
     private void MostrarPainel(VisualElement alvo)
     {
         painelPrincipal.style.display = alvo == painelPrincipal ? DisplayStyle.Flex : DisplayStyle.None;
@@ -188,12 +201,14 @@ public class MenuDePausa : MonoBehaviour
         }
     }
 
+    // Abre o painel de volumes já com os valores atuais nas barras.
     private void OnSettingsClicked(ClickEvent settingsEvt)
     {
         volumes?.Mostrar();
         MostrarPainel(painelSettings);
     }
 
+    // Grava os volumes e volta para a tela principal da pausa.
     private void OnVoltarSettingsClicked(ClickEvent voltarEvt)
     {
         ConfiguracaoDeAudio.Salvar();
@@ -221,6 +236,7 @@ public class MenuDePausa : MonoBehaviour
         GameManager.Instance.Restart();
     }
 
+    // Grava os volumes e fecha o jogo (no Editor, para o Play Mode); ignora cliques logo depois de pausar.
     private void OnExitClicked(ClickEvent exitEvt)
     {
         if (Time.unscaledTime < aceitaCliqueEm)

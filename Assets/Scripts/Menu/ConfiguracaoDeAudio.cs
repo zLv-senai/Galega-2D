@@ -8,6 +8,7 @@ using UnityEngine;
 // AoMudar é ESTÁTICO: quem assinar precisa cancelar no OnDisable.
 public static class ConfiguracaoDeAudio
 {
+    // Chaves do PlayerPrefs de cada volume e o valor padrão (1 = volume máximo).
     private const string ChaveGeral = "Galega_VolGeral";
     private const string ChaveMusica = "Galega_VolMusica";
     private const string ChaveEfeitos = "Galega_VolEfeitos";
@@ -16,11 +17,14 @@ public static class ConfiguracaoDeAudio
     // Disparado sempre que um dos três volumes muda.
     public static event Action AoMudar;
 
+    // Cópia em memória dos volumes, lida do PlayerPrefs só na primeira vez.
     private static bool carregado;
     private static float geral = VolumePadrao;
     private static float musica = VolumePadrao;
     private static float efeitos = VolumePadrao;
 
+    // Volumes de 0 a 1 (Geral, Musica, Efeitos): ler carrega os salvos; escrever limita a 0-1, guarda
+    // no PlayerPrefs e avisa o AoMudar.
     public static float Geral
     {
         get { Carregar(); return geral; }
@@ -60,6 +64,7 @@ public static class ConfiguracaoDeAudio
         PlayerPrefs.Save();
     }
 
+    // Lê os três volumes do PlayerPrefs na primeira chamada, limitando cada um a 0-1.
     private static void Carregar()
     {
         if (carregado)
@@ -73,6 +78,7 @@ public static class ConfiguracaoDeAudio
         efeitos = Mathf.Clamp01(PlayerPrefs.GetFloat(ChaveEfeitos, VolumePadrao));
     }
 
+    // Troca um volume (se mudou de verdade): guarda no PlayerPrefs, reaplica o Geral e dispara o AoMudar.
     private static void Atualizar(ref float campo, string chave, float valor)
     {
         Carregar();

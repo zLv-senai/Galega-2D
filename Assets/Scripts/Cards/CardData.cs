@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Card", menuName = "Galega/Card")]
 public class CardData : ScriptableObject
 {
+    // Informações mostradas na tela de escolha (nome, texto e ícone); a raridade também define a chance de sair no sorteio.
     public string nome;
 
     [TextArea] public string descricao;

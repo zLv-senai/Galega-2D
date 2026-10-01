@@ -8,6 +8,7 @@ public class Bau : MonoBehaviour, IDamageable
     // Tempo em que o sprite fica vermelho depois de um tiro.
     private const float DuracaoPisca = 0.1f;
 
+    // Vida do baú, a tabela de onde sai o power-up e o prefab do item que cai.
     [SerializeField] private int vida = 3;
     [SerializeField] private TabelaDePowerUps tabela;
     [SerializeField] private PowerUpPickup pickupPrefab;
@@ -16,9 +17,11 @@ public class Bau : MonoBehaviour, IDamageable
     // Impede soltar dois power-ups se vários tiros chegarem no mesmo frame.
     private bool quebrado;
 
+    // Cor normal do sprite e o pisca em andamento (reiniciado se vier outro tiro).
     private Color corOriginal = Color.white;
     private Coroutine piscando;
 
+    // Acha o SpriteRenderer (se não foi arrastado) e guarda a cor original.
     private void Awake()
     {
         if (sprite == null)
@@ -32,6 +35,7 @@ public class Bau : MonoBehaviour, IDamageable
         }
     }
 
+    // Leva o dano de um tiro: ao zerar a vida solta o power-up e some; senão pisca de vermelho.
     public void TakeDamage(int dano)
     {
         if (quebrado)
@@ -75,6 +79,7 @@ public class Bau : MonoBehaviour, IDamageable
         piscando = null;
     }
 
+    // Sorteia um power-up da tabela e cria o item no lugar do baú (só avisa no console se faltar algo).
     private void SoltarPowerUp()
     {
         if (tabela == null || pickupPrefab == null)

@@ -14,6 +14,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
 
      // Publicando a variável vida para que possa ser ajustada no Inspector do Unity
     public int vida =2;
+    // Segundos de espera entre um tiro e o próximo.
     public float fireHate  = 1.0f;
 
     // Opcionais: se ficarem vazios, o tiro vem do Resources e a arma é procurada nos filhos.
@@ -55,6 +56,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Time.time a partir do qual pode atirar depois de entrar na tela (-1 = está fora da tela).
     private float liberaTiroEm = -1f;
 
+    // Câmera principal, usada para saber se o inimigo está na tela ou ficou longe.
     private Camera cam;
 
     // Evento estático: quem quiser saber quando QUALQUER inimigo morre assina aqui (ex.: GeradorDeGemas).
@@ -63,6 +65,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Som: avisado quando qualquer inimigo atira (ex.: GerenciadorDeSom).
     public static event System.Action<EnemyMove> AoAtirar;
 
+    // Pega a câmera e o GameManager, acha a arma (Gun) e o prefab do tiro se não vieram do Inspector
+    // e procura o player.
     private void Start()
     {
         cam = Camera.main;
@@ -98,6 +102,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
         BuscarAlvo();
     }
 
+    // Se ainda não há alvo, procura o player da cena.
     private void BuscarAlvo()
     {
         if (target != null)
@@ -113,6 +118,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
     }
 
     // Update is called once per frame
+    // Com o jogo em andamento: segue o player, recicla o inimigo que ficou longe, mira a arma
+    // e atira (só dentro da tela).
     private void Update()
     {
         GameManager gm = ObterGameManager();
@@ -272,6 +279,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
         }
     }
 
+    // Atira um tiro na direção do player (se há alvo, prefab e arma) e depois espera fireHate para poder atirar de novo.
        IEnumerator Shoot()
     {
         // Só atira se tiver alvo, prefab e ponto de disparo. canShoot sempre

@@ -7,6 +7,7 @@ using UnityEngine;
 [Serializable]
 public class EntradaDeRanking
 {
+    // Nome do jogador e a wave que ele alcançou na partida.
     public string nome;
     public int wave;
     public long dataTicks;   // DateTime.Now.Ticks de quando a partida terminou
@@ -23,6 +24,7 @@ public class EntradaDeRanking
 // Ordem: wave maior primeiro; em empate, a partida mais antiga primeiro.
 public static class Leaderboard
 {
+    // Tamanho do ranking e a chave do PlayerPrefs onde o JSON fica salvo.
     public const int MaxEntradas = 5;
 
     private const string ChaveRanking = "Galega_Leaderboard";
@@ -79,6 +81,7 @@ public static class Leaderboard
         return posicao;
     }
 
+    // Deixa a lista em ordem de ranking: wave maior primeiro; empate pela partida mais antiga.
     private static void Ordenar(List<EntradaDeRanking> lista)
     {
         lista.Sort((a, b) =>
@@ -88,6 +91,8 @@ public static class Leaderboard
         });
     }
 
+    // Lê o JSON do PlayerPrefs e devolve as entradas válidas, ordenadas e cortadas no top 5
+    // (vazio se não há nada salvo ou se o dado está corrompido).
     private static List<EntradaDeRanking> Carregar()
     {
         string json = PlayerPrefs.GetString(ChaveRanking, "");
@@ -129,6 +134,7 @@ public static class Leaderboard
         return validas;
     }
 
+    // Grava a lista como JSON no PlayerPrefs e já escreve em disco.
     private static void Salvar(List<EntradaDeRanking> lista)
     {
         DadosSalvos dados = new DadosSalvos { entradas = lista };

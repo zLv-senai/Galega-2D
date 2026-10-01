@@ -66,6 +66,8 @@ public class Shot : MonoBehaviour
 
     // A Unity chama este método sozinha quando o collider do tiro
     // encosta em outro collider.
+    // Ignora quem atirou e os destrutíveis (se o tiro não os quebra). Em quem leva dano (IDamageable) aplica o dano;
+    // em parede, o tiro some.
     void OnTriggerEnter2D(Collider2D outro)
     {
         // Quem atirou (e os aliados com a mesma tag) nunca é acertado.

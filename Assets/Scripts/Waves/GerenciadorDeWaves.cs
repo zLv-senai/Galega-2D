@@ -24,18 +24,22 @@ public class GerenciadorDeWaves : MonoBehaviour
     // Dano usado nos testes para matar de uma vez.
     private const int DanoDeTeste = 999999;
 
+    // Etapas de uma wave: espera o jogo começar, anúncio, combate, oferta de cards e fim (vitória da Campanha).
     private enum Fase { AguardandoInicio, Anuncio, Combate, Oferta, Concluido }
 
+    // Spawner de inimigos, controlador dos bosses e gerenciador dos cards de level up.
     [Header("Referências (vazio = procura na cena)")]
     [SerializeField] private EnemySpawn spawn;
     [SerializeField] private ControladorDeBoss controladorBoss;
     [SerializeField] private LevelUpManager levelUpManager;
 
+    // Tamanho da Campanha, de quantas em quantas waves vem boss e quanto dura o anúncio.
     [Header("Waves")]
     [SerializeField] private int wavesDaCampanha = 15;
     [SerializeField] private int wavesPorBoss = 5;           // a cada quantas waves vem um boss
     [SerializeField] private float duracaoAnuncio = 2f;      // segundos do aviso "WAVE N"
 
+    // Quantos inimigos nascem por wave, em que ritmo, o limite de vivos ao mesmo tempo e o bônus de vida por wave.
     [Header("Inimigos")]
     [SerializeField] private int inimigosNaPrimeiraWave = 6;
     [SerializeField] private int inimigosAMaisPorWave = 3;   // total da wave N = primeira + isto x (N-1)
@@ -54,6 +58,8 @@ public class GerenciadorDeWaves : MonoBehaviour
     // A wave foi limpa (antes da oferta de cards, ou da vitória na última da Campanha).
     public static event System.Action<int> AoWaveLimpa;
 
+    // Estado da wave em andamento: etapa, modo, se é de boss, contagens e tempos.
+    // "ultimosRestantes" evita avisar o HUD duas vezes com o mesmo número.
     private Fase fase = Fase.AguardandoInicio;
     private ModoDeJogo modo = ModoDeJogo.Campanha;
     private bool ehBoss;
@@ -78,6 +84,7 @@ public class GerenciadorDeWaves : MonoBehaviour
 
     // ---- Leitura para HUD, telas e som ----
 
+    // Número da wave em andamento (0 até o jogo começar).
     public int WaveAtual { get; private set; }
 
     // 15 na Campanha; 0 = Infinito (sem fim).
@@ -89,6 +96,7 @@ public class GerenciadorDeWaves : MonoBehaviour
     // Inimigos que ainda faltam nascer + os vivos (+ o boss, se ainda não morreu).
     public int Restantes => Mathf.Max(0, aSpawnar) + vivos.Count + (bossPendente ? 1 : 0);
 
+    // Para o HUD: se está no anúncio "WAVE N", se a wave é de boss e qual é o modo da partida.
     public bool EmAnuncio => fase == Fase.Anuncio;
     public bool WaveAtualEhBoss => ehBoss;
     public ModoDeJogo Modo => modo;
@@ -96,6 +104,7 @@ public class GerenciadorDeWaves : MonoBehaviour
     // Maior wave alcançada no Infinito (0 = nenhuma ainda).
     public static int Recorde => PlayerPrefs.GetInt(ChaveRecorde, 0);
 
+    // De quantas em quantas waves vem boss (nunca menor que 1, para não dividir por zero).
     private int WavesPorBoss => Mathf.Max(1, wavesPorBoss);
 
     private void Awake()
@@ -104,6 +113,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         modo = ConfiguracaoDePartida.Modo;
     }
 
+    // Passa a ouvir a morte de inimigos, a derrota do boss e as mudanças de estado do jogo.
     private void OnEnable()
     {
         EnemyMove.AoMorrer += TratarInimigoMorreu;
@@ -111,6 +121,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         GameManager.AoMudarEstado += TratarMudancaDeEstado;
     }
 
+    // Cancela essas assinaturas (os eventos são estáticos e sobrevivem ao objeto).
     private void OnDisable()
     {
         EnemyMove.AoMorrer -= TratarInimigoMorreu;
@@ -130,12 +141,14 @@ public class GerenciadorDeWaves : MonoBehaviour
         Leaderboard.Registrar(ConfiguracaoDePartida.NomeJogador, WaveAtual);
     }
 
+    // Acha os objetos da cena e desliga o spawn contínuo e a barra de ameaça antigos.
     private void Start()
     {
         ResolverReferencias();
         DesligarSistemasAntigos();
     }
 
+    // Anda a máquina de fases da wave (início, anúncio, combate) só com o jogo rodando e avisa quantos inimigos faltam.
     private void Update()
     {
         // Pausa, menu, escolha de cards, game over e vitória: nada anda.
@@ -166,6 +179,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         NotificarRestantes(false);
     }
 
+    // Procura na cena o que não foi arrastado no Inspector; sem EnemySpawn nenhum inimigo nasce, então dá erro no Console.
     private void ResolverReferencias()
     {
         if (spawn == null)
@@ -216,6 +230,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         IniciarWave(1);
     }
 
+    // Prepara a wave N: define se é de boss, o bônus de vida e quantos inimigos nascem (metade, se tem boss), abre o anúncio e avisa o HUD.
     private void IniciarWave(int numero)
     {
         WaveAtual = numero;
@@ -249,6 +264,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         return Mathf.Max(1, inimigosNaPrimeiraWave + inimigosAMaisPorWave * (numero - 1));
     }
 
+    // Fim do anúncio: libera os spawns e, em wave de boss, chama o boss para a tela.
     private void IniciarCombate()
     {
         fase = Fase.Combate;
@@ -262,6 +278,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         }
     }
 
+    // A cada frame do combate: spawna inimigos e conclui a wave quando não sobra nenhum a nascer, vivo ou boss pendente.
     private void AtualizarCombate()
     {
         // Inimigo destruído sem morrer (ex.: fora da tela) não pode travar a wave.
@@ -275,6 +292,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         }
     }
 
+    // Cria um inimigo se o intervalo já passou e há menos que o máximo de vivos; aplica o bônus de vida e passa a contá-lo.
     private void TentarSpawnar()
     {
         if (aSpawnar <= 0 || Time.time < proximoSpawn || vivos.Count >= Mathf.Max(1, maxVivos))
@@ -310,6 +328,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         vivos.Add(inimigo);
     }
 
+    // Tira o inimigo morto da lista de vivos e atualiza o contador de restantes.
     private void TratarInimigoMorreu(EnemyMove inimigo)
     {
         if (vivos.Remove(inimigo))
@@ -330,6 +349,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         NotificarRestantes(false);
     }
 
+    // Wave limpa: avisa o HUD e, na última da Campanha, vence; senão oferece cards e segue para a próxima wave.
     private void ConcluirWave()
     {
         fase = Fase.Oferta;
@@ -358,6 +378,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         levelUpManager.OferecerCartas(IniciarProximaWave, "WAVE " + WaveAtual + " CONCLUÍDA — escolha um card");
     }
 
+    // Chamado quando o jogador escolhe o card: começa a wave seguinte.
     private void IniciarProximaWave()
     {
         // Só vale uma vez por oferta (e não depois de uma vitória ou de um Game Over).
@@ -369,6 +390,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         IniciarWave(WaveAtual + 1);
     }
 
+    // Vitória da Campanha: muda o jogo para o estado Vitoria.
     private void Vencer()
     {
         fase = Fase.Concluido;
@@ -393,6 +415,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    // Avisa o HUD quantos inimigos faltam, só quando o número muda (ou sempre, com "forcar").
     private void NotificarRestantes(bool forcar)
     {
         int restantes = Restantes;
@@ -472,6 +495,7 @@ public class GerenciadorDeWaves : MonoBehaviour
         IniciarWave(proxima);
     }
 
+    // Apaga o recorde salvo do modo Infinito.
     [ContextMenu("Teste: Zerar recorde")]
     private void TesteZerarRecorde()
     {

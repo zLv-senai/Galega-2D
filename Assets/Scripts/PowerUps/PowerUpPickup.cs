@@ -5,6 +5,7 @@ using UnityEngine;
 // O prefab precisa estar na layer Coletavel e ter um collider trigger.
 public class PowerUpPickup : Coletavel
 {
+    // Qual power-up este item dá (definido pelo Configurar ou direto no Inspector).
     [SerializeField] private PowerUpData dados;
 
     private void Start()
@@ -20,6 +21,7 @@ public class PowerUpPickup : Coletavel
         AplicarCor();
     }
 
+    // Pinta o sprite do item com a cor do power-up.
     private void AplicarCor()
     {
         if (dados == null)
@@ -34,6 +36,7 @@ public class PowerUpPickup : Coletavel
         }
     }
 
+    // Ao ser coletado, pede ao PlayerPowerUps do player para ativar este power-up.
     protected override void AoColetar(Coletor c)
     {
         if (dados == null)

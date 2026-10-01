@@ -10,10 +10,12 @@ public sealed class PainelDeVolumes
     // Escala dos sliders de volume (0 a 100); o ConfiguracaoDeAudio usa 0 a 1.
     private const int SliderMaximo = 100;
 
+    // Uma linha (slider + número) para cada volume; fica null se faltar no UXML.
     private readonly LinhaDeVolume geral;
     private readonly LinhaDeVolume musica;
     private readonly LinhaDeVolume efeitos;
 
+    // Liga cada slider do UXML ao volume correspondente do ConfiguracaoDeAudio.
     public PainelDeVolumes(VisualElement root)
     {
         geral = LinhaDeVolume.Criar(root, "Slider_Geral", "Valor_Geral", volume => ConfiguracaoDeAudio.Geral = volume);
@@ -35,6 +37,7 @@ public sealed class PainelDeVolumes
         private readonly SliderInt slider;
         private readonly Label valor;
 
+        // Ao arrastar o slider, atualiza o número ao lado e manda o volume (0 a 1) para o aoMudar recebido.
         private LinhaDeVolume(SliderInt slider, Label valor, Action<float> aoMudar)
         {
             this.slider = slider;

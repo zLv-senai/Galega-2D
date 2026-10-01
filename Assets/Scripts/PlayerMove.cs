@@ -2,13 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Controle do player: anda com WASD, atira com o botão esquerdo do mouse, recebe dano e chama o Game Over ao morrer.
 [RequireComponent(typeof(PlayerStats))] // PlayerStats: player sempre precisa dos stats
 public class PlayerMove : MonoBehaviour, IDamageable
 {
+    // Vida atual (começa cheia pelo VidaMax dos stats, no Awake).
     public int vida = 100;
     public int level = 1; // PlayerStats: level/XP agora vivem em PlayerXp; campo mantido para não quebrar o Inspector.
     private int xp = 0; // PlayerStats: idem, não é mais incrementado por aqui.
     public float velocidade = 5.0f; // PlayerStats: substituído por stats.Velocidade; campo mantido sem uso para não quebrar o Inspector.
+    // Prefab do projétil, GameManager (se faltar, usa o singleton) e a ponta da arma de onde o tiro sai.
     public GameObject tiroPrefab;
     public GameManager gameManager;
     [SerializeField] private Transform gun;
@@ -32,6 +35,7 @@ public class PlayerMove : MonoBehaviour, IDamageable
         vida = stats.VidaMax;
     }
 
+    // A cada frame, com o jogo rodando, o player atira e se move.
     // Update is called once per frame
     void Update()
     {
@@ -43,6 +47,7 @@ public class PlayerMove : MonoBehaviour, IDamageable
         }
     }
 
+    // Recebe dano (depois do filtro do escudo); se a vida zera, chama o Game Over e desativa o player.
     public void TakeDamage(int dano)
     {
         if (morto)

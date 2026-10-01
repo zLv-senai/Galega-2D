@@ -2,6 +2,8 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Cria inimigos (prefab Resources/Enemy) logo fora da tela, num lado aleatório.
+// Quem decide quando criar é o SpawnContinuo ou o GerenciadorDeWaves.
 public class EnemySpawn : MonoBehaviour
 {
     // Lados da tela (o EnemyMove usa para reaparecer do lado oposto ao que ficou).
@@ -10,16 +12,20 @@ public class EnemySpawn : MonoBehaviour
     public const int LadoEsquerda = 2;
     public const int LadoDireita = 3;
 
+    // Câmera principal, GameManager e prefab do inimigo (preenchidos no Awake) e o último ponto de spawn usado.
     private Camera mainCamera;
     private Vector2 spawnPoint;
 
     private GameManager gameManager;
     private GameObject enemy;
 
+    // Distância (em unidades) para fora da borda da tela onde o inimigo nasce.
     [SerializeField] public int margem = 1;
 
+    // Nenhum script lê este campo hoje.
     [SerializeField] public Vector2 direcaoRay = Vector2.up;
 
+    // Acha o GameManager, a câmera principal e carrega o prefab do inimigo em Resources/Enemy.
     void Awake()
     {
         // Integração: a tag "GameManager" não existe neste projeto (FindGameObjectWithTag

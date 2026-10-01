@@ -12,6 +12,7 @@ public class PlayerPowerUps : MonoBehaviour
     // Quando o tempo de um power-up acaba e os modificadores dele são removidos.
     public event System.Action<PowerUpData> AoExpirar;
 
+    // PlayerStats que recebe e perde os modificadores dos power-ups.
     private PlayerStats stats;
 
     // Power-ups ativos e o Time.time em que cada um expira.
@@ -24,6 +25,7 @@ public class PlayerPowerUps : MonoBehaviour
     // Para o tempo que falta, use TempoRestante.
     public IReadOnlyDictionary<PowerUpData, float> ExpiraEm => expiraEm;
 
+    // Guarda o PlayerStats do Player.
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
@@ -40,6 +42,8 @@ public class PlayerPowerUps : MonoBehaviour
         return 0f;
     }
 
+    // Ativa um power-up: recarrega o escudo se o dado pedir e soma os modificadores por 'duracao'
+    // (se já estava ativo, só renova o tempo). No fim dispara o evento AoAtivar.
     public void Ativar(PowerUpData dados)
     {
         if (dados == null)
@@ -73,6 +77,7 @@ public class PlayerPowerUps : MonoBehaviour
         AoAtivar?.Invoke(dados);
     }
 
+    // Com o jogo rodando, remove os power-ups cujo tempo acabou e dispara o evento AoExpirar.
     private void Update()
     {
         // Time.time não anda com timeScale = 0, mas o estado também precisa estar rodando

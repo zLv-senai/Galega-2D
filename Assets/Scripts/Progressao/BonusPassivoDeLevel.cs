@@ -14,10 +14,12 @@ public class BonusPassivoDeLevel : MonoBehaviour
     [SerializeField] private float velocidadePorLevel = 0.02f;        // +2% de velocidade (percentual)
     [SerializeField] private int curaPorLevel = 10;                   // vida curada, sem passar de VidaMax
 
+    // Componentes do próprio Player, pegos no Awake.
     private PlayerXp playerXp;
     private PlayerStats stats;
     private PlayerMove playerMove;
 
+    // Pega do Player os componentes que o bônus usa (XP, stats e movimento).
     private void Awake()
     {
         playerXp = GetComponent<PlayerXp>();
@@ -25,6 +27,7 @@ public class BonusPassivoDeLevel : MonoBehaviour
         playerMove = GetComponent<PlayerMove>();
     }
 
+    // Passa a ouvir o level up do PlayerXp para aplicar o bônus.
     private void OnEnable()
     {
         if (playerXp != null)
@@ -33,6 +36,7 @@ public class BonusPassivoDeLevel : MonoBehaviour
         }
     }
 
+    // Para de ouvir o level up (cancela o que foi assinado no OnEnable).
     private void OnDisable()
     {
         if (playerXp != null)
@@ -41,6 +45,8 @@ public class BonusPassivoDeLevel : MonoBehaviour
         }
     }
 
+    // Chamado a cada level up: soma vida máxima, cadência de tiro e velocidade nos stats
+    // e cura um pouco a vida do player.
     private void AplicarBonus(int novoLevel)
     {
         if (stats == null || playerMove == null)

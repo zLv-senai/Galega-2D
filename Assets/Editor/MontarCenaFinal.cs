@@ -14,9 +14,11 @@ using UnityEngine.UIElements;
 // Pode rodar de novo: não duplica nada.
 public static class MontarCenaFinal
 {
+    // Cena de origem (só é copiada se a CenaFinal ainda não existir) e a cena final que este menu monta.
     private const string CenaBase = "Assets/Scenes/Scene integrada.unity";
     private const string CenaFinal = "Assets/Scenes/CenaFinal.unity";
 
+    // Imagem, nome do objeto, ordem de desenho e fator de parallax do fundo espacial.
     private const string CaminhoFundo = "Assets/Images/FUNDOJOGO.png";
     private const string NomeFundo = "Fundo";
     private const int OrdemFundo = -100;              // desenha atrás de tudo
@@ -34,8 +36,10 @@ public static class MontarCenaFinal
     private const string NomeMenuDePausa = "MenuDePausa";
     private const string CaminhoUxmlPausa = "Assets/UI/Pausa.uxml";
     private const int OrdemMenuDePausa = 30;            // acima do HUD, do LevelUp e das telas de fim
+    // Lugares onde procurar o prefab da gema de XP (vale o primeiro que existir).
     private static readonly string[] CaminhosGema = { "Assets/Prefabs/GemsXp.prefab", "Assets/Resources/GemsXp.prefab" };
 
+    // Cria a CenaFinal a partir da cena base (se não existir), liga os sistemas por código, salva e coloca a cena em 1º no Build.
     [MenuItem("Galega/Montar Cena Final")]
     public static void Montar()
     {
@@ -79,6 +83,7 @@ public static class MontarCenaFinal
         Debug.Log("MontarCenaFinal: pronto! " + CenaFinal + " salva e colocada em 1º nas Build Settings.");
     }
 
+    // Garante o CameraFollow na câmera principal e aponta o campo "player" dele para o Player.
     private static void LigarCameraFollow(Camera camera, Transform player)
     {
         CameraFollow follow = camera.GetComponent<CameraFollow>();
@@ -90,6 +95,7 @@ public static class MontarCenaFinal
         DefinirCampo(follow, "player", player);
     }
 
+    // Garante o EnemySpawn na cena e um SpawnContinuo junto dele, deixando o SpawnContinuo desligado.
     private static void LigarSpawn()
     {
         EnemySpawn spawn = Object.FindAnyObjectByType<EnemySpawn>();
@@ -167,6 +173,7 @@ public static class MontarCenaFinal
         DefinirReferenciaSeAchou(seta, "controladorBoss", Object.FindAnyObjectByType<ControladorDeBoss>());
     }
 
+    // Garante o GerenciadorDeSom e preenche os sons (tiros, explosões, level up, power-up, game over, música, boss e vitória) com arquivos de Assets/Sons.
     private static void LigarSons()
     {
         GerenciadorDeSom som = Object.FindAnyObjectByType<GerenciadorDeSom>();
@@ -220,6 +227,7 @@ public static class MontarCenaFinal
         }
     }
 
+    // Devolve o primeiro prefab de gema achado em CaminhosGema, ou null se nenhum existir.
     private static GameObject CarregarGema()
     {
         foreach (string caminho in CaminhosGema)
@@ -353,6 +361,7 @@ public static class MontarCenaFinal
         DefinirFloat(parallax, "parallax", FatorParallaxFundo);
     }
 
+    // Devolve o primeiro Sprite dentro do arquivo de imagem, ou null se não houver.
     private static Sprite CarregarSprite(string caminho)
     {
         foreach (Object asset in AssetDatabase.LoadAllAssetsAtPath(caminho))
@@ -366,6 +375,7 @@ public static class MontarCenaFinal
         return null;
     }
 
+    // Preenche um campo float [SerializeField] privado, como se fosse digitado no Inspector.
     private static void DefinirFloat(Object alvo, string campo, float valor)
     {
         SerializedObject so = new SerializedObject(alvo);
@@ -380,6 +390,7 @@ public static class MontarCenaFinal
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 
+    // Põe a CenaFinal em 1º lugar nas Build Settings, mantendo as outras cenas depois dela.
     private static void ColocarNoBuild()
     {
         List<EditorBuildSettingsScene> cenas = new List<EditorBuildSettingsScene>
@@ -398,6 +409,7 @@ public static class MontarCenaFinal
         EditorBuildSettings.scenes = cenas.ToArray();
     }
 
+    // Carrega o som do caminho e o põe no campo do alvo; avisa no Console se o arquivo não existir.
     private static void DefinirClip(Object alvo, string campo, string caminho)
     {
         AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(caminho);

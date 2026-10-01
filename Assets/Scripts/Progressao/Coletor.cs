@@ -6,19 +6,25 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerXp))]
 public class Coletor : MonoBehaviour
 {
+    // Layers que a busca considera coletáveis (configurar no Inspector).
     [SerializeField] private LayerMask mascaraColetaveis;
 
+    // Garante que o aviso de máscara não configurada apareça só uma vez.
     private bool avisouMascaraNaoConfigurada = false;
 
+    // Atalhos para os componentes do Player; os coletáveis usam o Xp para dar XP (ex.: GemaDeXp).
     public PlayerXp Xp { get; private set; }
     public PlayerStats Stats { get; private set; }
 
+    // Guarda os componentes PlayerXp e PlayerStats do Player.
     private void Awake()
     {
         Xp = GetComponent<PlayerXp>();
         Stats = GetComponent<PlayerStats>();
     }
 
+    // Todo frame com o jogo rodando: acha os coletáveis dentro do raio de coleta e manda
+    // cada um voar até o player.
     private void Update()
     {
         if (!EstadoDoJogo.Rodando || Stats == null)
@@ -56,6 +62,7 @@ public class Coletor : MonoBehaviour
         return mascaraColetaveis;
     }
 
+    // Só no Editor, com o Player selecionado: desenha um círculo ciano com o raio de coleta.
     private void OnDrawGizmosSelected()
     {
         PlayerStats stats = Stats != null ? Stats : GetComponent<PlayerStats>();

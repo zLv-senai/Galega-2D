@@ -8,6 +8,7 @@ using UnityEngine;
 // (ele andaria e atiraria como inimigo comum), a guarda agora é feita no Start: só vale em EnemyMove ou BossController.
 public class DanoPorContato : MonoBehaviour
 {
+    // Dano que o player leva a cada golpe de contato.
     [SerializeField] private int dano = 10;
     [SerializeField] private float margemContato = 0.05f; // folga entre as bordas dos colliders que ainda conta como encostar
     [SerializeField] private float raioContato = 0.7f;    // reserva: só usado se o inimigo ou o player não tiver collider
@@ -15,6 +16,7 @@ public class DanoPorContato : MonoBehaviour
     [SerializeField] private float forcaEmpurrao = 8f;
     [SerializeField] private Transform alvo;              // se vazio, procura o objeto com a tag Player
 
+    // Instante em que pode bater de novo, dados do player (dano, empurrão e collider) e do próprio inimigo ou boss.
     private float proximoDano;
     private IDamageable alvoDano;
     private Empurravel alvoEmpurravel;
@@ -23,6 +25,8 @@ public class DanoPorContato : MonoBehaviour
     private Collider2D meuCollider;
     private Collider2D colliderAlvo;
 
+    // Confere que o objeto é um inimigo ou o boss (senão se desliga), acha o player e guarda o que precisa dele
+    // (receber dano, empurrão e collider).
     private void Start()
     {
         inimigo = GetComponent<EnemyMove>();
@@ -85,6 +89,8 @@ public class DanoPorContato : MonoBehaviour
         return doInimigoParaOAlvo.sqrMagnitude <= raioContato * raioContato;
     }
 
+    // A cada frame, se o jogo roda, o inimigo ou boss ainda vive e o intervalo passou, confere o contato:
+    // encostando no player, empurra e dá dano.
     private void Update()
     {
         if (!EstadoDoJogo.Rodando || alvo == null || !alvo.gameObject.activeInHierarchy)
@@ -129,6 +135,7 @@ public class DanoPorContato : MonoBehaviour
         }
     }
 
+    // No Editor, com o objeto selecionado, desenha o círculo vermelho do raioContato (reserva quando falta collider).
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

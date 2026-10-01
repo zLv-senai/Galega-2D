@@ -6,6 +6,7 @@ using UnityEngine;
 // em vez de guardar seus próprios valores.
 public class PlayerStats : MonoBehaviour
 {
+    // Valores iniciais de cada stat, editáveis no Inspector (os upgrades entram por cima deles).
     [Header("Stats base")]
     [SerializeField] private float vidaMaxBase = 100f;
     [SerializeField] private float velocidadeBase = 5f;
@@ -50,6 +51,7 @@ public class PlayerStats : MonoBehaviour
         return Recalcular(stat);
     }
 
+    // Atalhos para ler cada stat já com os modificadores; Dano, Projeteis e VidaMax são arredondados para inteiro (mínimo 1).
     public float Velocidade => Obter(StatTipo.Velocidade);
 
     public int Dano => Mathf.Max(1, Mathf.RoundToInt(Obter(StatTipo.Dano)));
@@ -77,6 +79,7 @@ public class PlayerStats : MonoBehaviour
 
     public int VidaMax => Mathf.Max(1, Mathf.RoundToInt(Obter(StatTipo.VidaMax)));
 
+    // True enquanto sobrar pelo menos 1 carga de escudo.
     public bool TemEscudo => CargasEscudo > 0;
 
     // Máximo de cargas que o escudo recarrega: é o valor final do stat Escudo (inteiro, mínimo 0).
@@ -166,6 +169,7 @@ public class PlayerStats : MonoBehaviour
         return 0;
     }
 
+    // Devolve o valor base (do Inspector) do stat pedido, antes dos modificadores.
     private float ValorBase(StatTipo stat)
     {
         switch (stat)
@@ -196,6 +200,7 @@ public class PlayerStats : MonoBehaviour
         return valor;
     }
 
+    // Guarda o valor atual dos stats pedidos, para comparar antes e depois de mexer nos modificadores.
     private Dictionary<StatTipo, float> CapturarValores(IEnumerable<StatTipo> stats)
     {
         Dictionary<StatTipo, float> valores = new Dictionary<StatTipo, float>();
@@ -222,6 +227,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    // Atalhos de teste (menu do componente no Inspector): +1 projétil, +50% de velocidade, encher o escudo e limpar o que os testes aplicaram.
     [ContextMenu("Teste +1 Projetil")]
     private void TesteMaisUmProjetil()
     {

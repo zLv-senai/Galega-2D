@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Gira o objeto no eixo Z para apontar para o 'target' (ou para o mouse, se não houver target).
+// Só gira com o jogo rodando.
 public class LookAt : MonoBehaviour
 // "class" é como um MOLDE/PLANTA que representa o nosso jogador dentro do código.
 // "public" significa que essa classe pode ser vista e usada por outras partes do projeto.
@@ -10,6 +12,7 @@ public class LookAt : MonoBehaviour
 // e ganhar acesso a Start(), Update(), transform, e outras coisas prontas da engine.
 {
 
+    // Alvo para onde olhar (vazio = olha para o mouse) e o ponto do mundo calculado neste frame.
     public GameObject target;
     private Vector3 posTarget;
     void Start()
@@ -39,6 +42,7 @@ public class LookAt : MonoBehaviour
         // repetidamente também, todo frame, fazendo a nave girar em tempo real.
     }
 
+    // Calcula o ângulo até o alvo (ou o mouse) e gira o objeto para apontar para lá.
     void OlharParaTarget()
     // Essa é uma função CRIADA POR NÓS (não existe pronta na Unity).
     // "void" = não retorna valor. "OlharParaMouse" = nome que escolhemos.

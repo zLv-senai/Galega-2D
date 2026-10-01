@@ -10,11 +10,14 @@ public enum ModoDeJogo
 // Escolha do menu. É estática para sobreviver ao GameManager.Restart (que recarrega a cena).
 public static class ConfiguracaoDePartida
 {
+    // Nome usado quando o jogador não digita nada e limite de caracteres do nome.
     public const string NomePadrao = "Piloto";
     public const int MaxCaracteresNome = 10;
 
+    // Chave do PlayerPrefs onde o último nome fica guardado.
     private const string ChaveNomeJogador = "Galega_NomeJogador";
 
+    // Modo escolhido no menu; o GerenciadorDeWaves lê isto quando a partida começa.
     public static ModoDeJogo Modo = ModoDeJogo.Campanha;
 
     // Nome do jogador (até 10 caracteres). Entra no ranking do modo Infinito (Leaderboard).

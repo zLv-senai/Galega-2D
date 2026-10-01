@@ -11,6 +11,8 @@ public class LevelUpManager : MonoBehaviour
     // cards novos: evita escolher sem querer por causa de clique rápido do tiro.
     private const float TempoAntesDeAceitarClique = 0.3f;
 
+    // Banco de cards (arrastado no Inspector) e referências do Player; se XP ou stats faltarem,
+    // o script procura o Player sozinho.
     [SerializeField] private BancoDeCards banco;
     [SerializeField] private PlayerXp playerXp;
     [SerializeField] private PlayerStats playerStats;
@@ -27,6 +29,8 @@ public class LevelUpManager : MonoBehaviour
     // Quantas vezes cada card já foi escolhido (para respeitar maxEscolhas).
     private readonly Dictionary<CardData, int> escolhas = new Dictionary<CardData, int>();
 
+    // Estado da oferta: escolhas que faltam, se a tela está aberta, cards na tela, quando já aceita clique
+    // e quais avisos de erro já foram dados.
     private int pendentes;
     private bool mostrando;
     private CardData[] ofertaAtual;
@@ -41,6 +45,7 @@ public class LevelUpManager : MonoBehaviour
     // Título pedido em OferecerCartas (ex.: "WAVE 3 CONCLUÍDA"). O LevelUpUI lê ao mostrar a oferta.
     public string TituloAtual => tituloAtual;
 
+    // Ao ativar, procura o Player para ter onde aplicar os cards.
     private void OnEnable()
     {
         ResolverReferencias();
@@ -52,6 +57,7 @@ public class LevelUpManager : MonoBehaviour
         ResolverReferencias();
     }
 
+    // A cada frame: se há escolha pendente e o jogo está rodando, abre a próxima oferta de cards.
     private void Update()
     {
         if (pendentes <= 0 || mostrando || !EstadoDoJogo.Rodando)
@@ -165,6 +171,7 @@ public class LevelUpManager : MonoBehaviour
         }
     }
 
+    // True se o banco tem pelo menos um card válido (não vazio).
     private bool BancoTemCards()
     {
         if (banco == null || banco.cards == null)

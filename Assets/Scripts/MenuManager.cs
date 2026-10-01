@@ -7,30 +7,36 @@ using UnityEngine.UIElements;
 // por style.display, sem trocar de cena.
 public class MenuManager : MonoBehaviour
 {
+    // GameManager da cena (arrastado no Inspector); se faltar, usa o GameManager.Instance.
     public GameManager gameManager;
 
     // Cursor do campo de nome: o UI Toolkit não faz ele piscar, então a cor alterna por esta classe (Menu.uss).
     private const string ClasseCursorApagado = "campo-nome--cursor-apagado";
     private const long IntervaloPiscarCursorMs = 530;
 
+    // Painéis do MainMenu.uxml: só um fica visível por vez.
     private VisualElement[] paineis;
     private VisualElement painelPrincipal;   // o "containerMenu" do Wagner
     private VisualElement painelModo;
     private VisualElement painelLeaderboard;
     private VisualElement painelSettings;
 
+    // Campo de nome com o cursor piscando, lista do ranking, barras de volume e a versão da UI já ligada
+    // (evita ligar os cliques duas vezes).
     private TextField campoNome;
     private IVisualElementScheduledItem piscarCursor;
     private VisualElement listaLeaderboard;
     private PainelDeVolumes volumes;
     private int versaoUi = -1;
 
+    // Registra o OnUIReload, que monta o menu quando o PanelRenderer carrega o UXML.
     private void Awake()
     {
         GetComponent<PanelRenderer>().RegisterUIReloadCallback(OnUIReload);
 
     }
 
+    // Roda quando a UI é criada ou recriada: busca os painéis, liga os botões e volta para o menu principal.
     private void OnUIReload(
         PanelRenderer panel,
         VisualElement root,
@@ -129,12 +135,14 @@ public class MenuManager : MonoBehaviour
         campoNome.RegisterValueChangedCallback(textoEvt => ReiniciarPiscarCursor());
     }
 
+    // Deixa o cursor aceso e só volta a piscar depois de um intervalo (não pisca enquanto o jogador digita).
     private void ReiniciarPiscarCursor()
     {
         campoNome.RemoveFromClassList(ClasseCursorApagado);
         piscarCursor.ExecuteLater(IntervaloPiscarCursorMs);
     }
 
+    // Para de piscar quando o campo perde o foco e deixa o cursor aceso.
     private void PararPiscarCursor()
     {
         piscarCursor.Pause();
@@ -164,6 +172,7 @@ public class MenuManager : MonoBehaviour
         MostrarPainel(painelModo);
     }
 
+    // Atualiza a lista do ranking e abre o painel do Leaderboard.
     private void OnLeaderboardClicked(ClickEvent leaderboardEvt)
     {
         RenderizarLeaderboard();
@@ -177,6 +186,7 @@ public class MenuManager : MonoBehaviour
         MostrarPainel(painelSettings);
     }
 
+    // Volta para o menu principal (botões Voltar da escolha de modo e do ranking).
     private void OnVoltarClicked(ClickEvent voltarEvt)
     {
         MostrarPainel(painelPrincipal);
@@ -189,11 +199,13 @@ public class MenuManager : MonoBehaviour
         MostrarPainel(painelPrincipal);
     }
 
+    // Começa uma partida no modo Campanha.
     private void OnCampanhaClicked(ClickEvent campanhaEvt)
     {
         IniciarPartida(ModoDeJogo.Campanha);
     }
 
+    // Começa uma partida no modo Infinito.
     private void OnInfinitoClicked(ClickEvent infinitoEvt)
     {
         IniciarPartida(ModoDeJogo.Infinito);
@@ -249,6 +261,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    // Cria uma linha de texto da lista do ranking, com uma classe USS extra opcional (ex.: destaque do 1º lugar).
     private void AdicionarLinhaDoRanking(string texto, string classeExtra)
     {
         Label linha = new Label(texto);
@@ -264,6 +277,7 @@ public class MenuManager : MonoBehaviour
         listaLeaderboard.Add(linha);
     }
 
+    // Grava os volumes e fecha o jogo (no Editor, para o Play Mode).
     private void OnExitClicked(ClickEvent exitEvt)
     {
         //Criar tela de confirmação do exit no panel renderer.

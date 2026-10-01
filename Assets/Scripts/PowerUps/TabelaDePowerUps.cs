@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TabelaDePowerUps", menuName = "Galega/Tabela de power-ups")]
 public class TabelaDePowerUps : ScriptableObject
 {
+    // Power-ups que podem sair; a chance de cada um depende do peso no próprio PowerUpData.
     public List<PowerUpData> powerUps = new List<PowerUpData>();
 
     // Sorteia um power-up pelo peso. Ignora nulos e peso <= 0; devolve null se não sobrar nenhum.

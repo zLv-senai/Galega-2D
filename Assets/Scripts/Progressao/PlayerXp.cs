@@ -4,6 +4,7 @@ using UnityEngine;
 // movimento/combate com progressão.
 public class PlayerXp : MonoBehaviour
 {
+    // Level atual e XP acumulado nele. O XP para subir é xpBase + incremento * (level - 1).
     public int level = 1;
     public int xpAtual = 0;
     public int xpBase = 5;
@@ -15,11 +16,13 @@ public class PlayerXp : MonoBehaviour
     // (level novo) toda vez que o player sobe de level.
     public event System.Action<int> AoSubirDeLevel;
 
+    // PlayerStats do Player, usado só para o multiplicador de GanhoXp.
     private PlayerStats stats;
 
     // Resto fracionário do XP que ainda não virou 1 ponto inteiro (ex.: GanhoXp +10% com gema de valor 1).
     private float xpFracao = 0f;
 
+    // Guarda o PlayerStats (pode ainda não existir; o GanharXp tenta de novo).
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
@@ -38,6 +41,8 @@ public class PlayerXp : MonoBehaviour
         return XpNecessario(level, xpBase, incremento);
     }
 
+    // Soma XP (com o bônus de GanhoXp), sobe de level quantas vezes precisar e avisa os
+    // ouvintes pelos eventos.
     public void GanharXp(int quantidade)
     {
         // PlayerStats: GanhoXp multiplica o XP recebido, se o player tiver PlayerStats.

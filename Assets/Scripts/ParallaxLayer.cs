@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Camada de fundo com parallax: a cada frame anda uma fração do quanto a câmera andou,
+// dando sensação de profundidade.
 public class ParallaxLayer : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform; // Tem que ser a câmera, para saber quanto ela se moveu desde o último frame.   A câmera é um Transform, então podemos usar a posição dela.
@@ -8,11 +10,13 @@ public class ParallaxLayer : MonoBehaviour
 
     private Vector3 backposition;                                 // Função LateUpdate() é chamada depois de Update(), então a posição da câmera já foi atualizada, e podemos calcular o quanto ela se moveu desde o último frame.
 
+    // Guarda a posição inicial da câmera como referência para o primeiro frame.
     void Start()
     {
          backposition = cameraTransform.position;                  // Guardando a posição da câmera no início do jogo, para calcular o delta no próximo frame.
     }
 
+    // Depois da câmera se mover, desloca esta camada (só X e Y) pela fração 'parallax' do movimento dela.
     void LateUpdate()
     {
         Vector3 delta = cameraTransform.position - backposition;  // Calculando o quanto a câmera se moveu desde o último frame.  delta = posição atual - posição anterior

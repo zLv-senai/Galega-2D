@@ -4,6 +4,8 @@ using System.Collections.Generic;
 // e pelo PlayerStats para calcular o valor final de cada um.
 public enum StatTipo
 {
+    // VidaMax: vida máxima. Velocidade: andar. Dano: dano de cada tiro. TirosPorSegundo: cadência. Projeteis: tiros por disparo.
+    // RaioColeta: alcance do Coletor. GanhoXp: multiplicador do XP recebido. Escudo: máximo de cargas do escudo.
     VidaMax,
     Velocidade,
     Dano,

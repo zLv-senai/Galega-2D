@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PowerUp", menuName = "Galega/Power-up")]
 public class PowerUpData : ScriptableObject
 {
+    // Nome mostrado no HUD ao pegar o power-up. O ícone ainda não é lido por nenhum script.
     public string nome;
 
     public Sprite icone;
