@@ -4,6 +4,12 @@ using UnityEngine.InputSystem;
 
 public class EnemySpawn : MonoBehaviour
 {
+    // Lados da tela (o EnemyMove usa para reaparecer do lado oposto ao que ficou).
+    public const int LadoCima = 0;
+    public const int LadoBaixo = 1;
+    public const int LadoEsquerda = 2;
+    public const int LadoDireita = 3;
+
     private Camera mainCamera;
     private Vector2 spawnPoint;
 
@@ -34,41 +40,36 @@ public class EnemySpawn : MonoBehaviour
     }
 
     // Gera uma posiçao de spawn aleatoria em um dos quatro lados da tela com margem para que o inimigo
-    // não apareca na camera, retorna como Vector2
+    // não apareca na camera, retorna como Vector2 (relativo ao centro da câmera)
     public Vector2 SpawnPosition()
     {
+        return DeslocamentoForaDaTela(mainCamera, UnityEngine.Random.Range(0, 4), margem);
+    }
 
-        float altura = mainCamera.orthographicSize;
-        float largura = altura * mainCamera.aspect;
-
-        int lado = UnityEngine.Random.Range(0, 4);
+    // Deslocamento (relativo ao centro da câmera) de um ponto aleatório logo fora do lado pedido da tela.
+    public static Vector2 DeslocamentoForaDaTela(Camera cam, int lado, float margem)
+    {
+        float altura = cam.orthographicSize;
+        float largura = altura * cam.aspect;
 
         switch (lado)
         {
-            case 0: // cima
-                return new Vector2(
-                UnityEngine.Random.Range(-largura, largura),
-                altura + margem
-                );
-
-            case 1: // baixo
-                return new Vector2(
-                UnityEngine.Random.Range(-largura, largura),
-                -altura - margem
-                );
-
-            case 2: // esquerda
-                return new Vector2(
-                -largura - margem,
-                UnityEngine.Random.Range(-altura, altura)
-                );
-
-            default: // direita
-                return new Vector2(
-                largura + margem,
-                UnityEngine.Random.Range(-altura, altura)
-                );
+            case LadoCima:
+                return new Vector2(UnityEngine.Random.Range(-largura, largura), altura + margem);
+            case LadoBaixo:
+                return new Vector2(UnityEngine.Random.Range(-largura, largura), -altura - margem);
+            case LadoEsquerda:
+                return new Vector2(-largura - margem, UnityEngine.Random.Range(-altura, altura));
+            default: // LadoDireita
+                return new Vector2(largura + margem, UnityEngine.Random.Range(-altura, altura));
         }
+    }
+
+    // Mesmo ponto, já em coordenadas do mundo (a câmera segue o player), com Z = 0.
+    public static Vector3 PontoForaDaTela(Camera cam, int lado, float margem)
+    {
+        Vector2 ponto = (Vector2)cam.transform.position + DeslocamentoForaDaTela(cam, lado, margem);
+        return new Vector3(ponto.x, ponto.y, 0f);
     }
 
     // Integração: agora devolve o inimigo criado (null se não deu para criar), para o GerenciadorDeWaves contá-lo.

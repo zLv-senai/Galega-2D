@@ -50,5 +50,8 @@
         <!-- Centro-baixo: nome do power-up pego (escondido por padrão; o HudProgressao.cs mostra por 1,5 s) -->
         <ui:Label name="PowerUpAviso" text="+ Power-up" class="powerup-aviso" picking-mode="Ignore" />
 
+        <!-- Borda da tela: seta apontando para o boss fora da câmera (escondida por padrão; o SetaDoBoss.cs posiciona, gira e desenha) -->
+        <ui:VisualElement name="SetaBoss" class="seta-boss" picking-mode="Ignore" />
+
     </ui:VisualElement>
 </ui:UXML>
