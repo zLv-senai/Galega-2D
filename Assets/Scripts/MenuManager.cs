@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,8 +9,9 @@ public class MenuManager : MonoBehaviour
 {
     public GameManager gameManager;
 
-    // Escala dos sliders de volume (0 a 100); o ConfiguracaoDeAudio usa 0 a 1.
-    private const int SliderMaximo = 100;
+    // Cursor do campo de nome: o UI Toolkit não faz ele piscar, então a cor alterna por esta classe (Menu.uss).
+    private const string ClasseCursorApagado = "campo-nome--cursor-apagado";
+    private const long IntervaloPiscarCursorMs = 530;
 
     private VisualElement[] paineis;
     private VisualElement painelPrincipal;   // o "containerMenu" do Wagner
@@ -20,10 +20,10 @@ public class MenuManager : MonoBehaviour
     private VisualElement painelSettings;
 
     private TextField campoNome;
+    private IVisualElementScheduledItem piscarCursor;
     private VisualElement listaLeaderboard;
-    private LinhaDeVolume linhaGeral;
-    private LinhaDeVolume linhaMusica;
-    private LinhaDeVolume linhaEfeitos;
+    private PainelDeVolumes volumes;
+    private int versaoUi = -1;
 
     private void Awake()
     {
@@ -37,6 +37,14 @@ public class MenuManager : MonoBehaviour
         int version
     )
     {
+        // Mesma árvore (o callback pode vir de novo com a mesma version): os cliques e o cursor já estão ligados.
+        if (version == versaoUi)
+        {
+            return;
+        }
+
+        versaoUi = version;
+
         painelPrincipal = root.Q<VisualElement>("containerMenu");
         painelModo = root.Q<VisualElement>("PainelModo");
         painelLeaderboard = root.Q<VisualElement>("PainelLeaderboard");
@@ -66,9 +74,7 @@ public class MenuManager : MonoBehaviour
         LigarClique(root, "VoltarLeaderboard_btt", OnVoltarClicked);
 
         // Settings
-        linhaGeral = LinhaDeVolume.Criar(root, "Slider_Geral", "Valor_Geral", volume => ConfiguracaoDeAudio.Geral = volume);
-        linhaMusica = LinhaDeVolume.Criar(root, "Slider_Musica", "Valor_Musica", volume => ConfiguracaoDeAudio.Musica = volume);
-        linhaEfeitos = LinhaDeVolume.Criar(root, "Slider_Efeitos", "Valor_Efeitos", volume => ConfiguracaoDeAudio.Efeitos = volume);
+        volumes = new PainelDeVolumes(root);
         LigarClique(root, "VoltarSettings_btt", OnVoltarSettingsClicked);
 
         // A árvore nova começa no menu principal.
@@ -88,7 +94,8 @@ public class MenuManager : MonoBehaviour
         alvo.RegisterCallback(aoClicar);
     }
 
-    // Campo "Seu nome": máximo de 10 caracteres, começa com o último nome usado ("Piloto" aparece de fundo se vazio).
+    // Campo "Seu nome": máximo de 10 caracteres, começa com o último nome usado. "Piloto" fica só de fundo
+    // (placeholder) e some ao clicar, deixando o cursor piscando para o jogador digitar.
     private void ConfigurarCampoNome(VisualElement root)
     {
         campoNome = root.Q<TextField>("CampoNome");
@@ -100,7 +107,38 @@ public class MenuManager : MonoBehaviour
 
         campoNome.maxLength = ConfiguracaoDePartida.MaxCaracteresNome;
         campoNome.textEdition.placeholder = ConfiguracaoDePartida.NomePadrao;
-        campoNome.SetValueWithoutNotify(ConfiguracaoDePartida.NomeSalvo);
+        campoNome.textEdition.hidePlaceholderOnFocus = true;
+
+        // Partida jogada sem nome salva "Piloto": ele volta como placeholder, não como texto que o jogador teria que apagar.
+        string nomeSalvo = ConfiguracaoDePartida.NomeSalvo;
+        campoNome.SetValueWithoutNotify(nomeSalvo == ConfiguracaoDePartida.NomePadrao ? "" : nomeSalvo);
+
+        ConfigurarCursorPiscando();
+    }
+
+    // Com o campo em foco o cursor pisca; enquanto o jogador digita ele fica aceso.
+    private void ConfigurarCursorPiscando()
+    {
+        piscarCursor = campoNome.schedule
+            .Execute(() => campoNome.ToggleInClassList(ClasseCursorApagado))
+            .Every(IntervaloPiscarCursorMs);
+        piscarCursor.Pause();
+
+        campoNome.RegisterCallback<FocusInEvent>(focoEvt => ReiniciarPiscarCursor());
+        campoNome.RegisterCallback<FocusOutEvent>(focoEvt => PararPiscarCursor());
+        campoNome.RegisterValueChangedCallback(textoEvt => ReiniciarPiscarCursor());
+    }
+
+    private void ReiniciarPiscarCursor()
+    {
+        campoNome.RemoveFromClassList(ClasseCursorApagado);
+        piscarCursor.ExecuteLater(IntervaloPiscarCursorMs);
+    }
+
+    private void PararPiscarCursor()
+    {
+        piscarCursor.Pause();
+        campoNome.RemoveFromClassList(ClasseCursorApagado);
     }
 
     // Mostra só o painel pedido (os outros ficam com display none).
@@ -135,9 +173,7 @@ public class MenuManager : MonoBehaviour
     // Botão "Reset_btt" (texto "Settings"): era um stub, agora abre os volumes.
     private void OnSettingsClicked(ClickEvent settingsEvt)
     {
-        linhaGeral?.Mostrar(ConfiguracaoDeAudio.Geral);
-        linhaMusica?.Mostrar(ConfiguracaoDeAudio.Musica);
-        linhaEfeitos?.Mostrar(ConfiguracaoDeAudio.Efeitos);
+        volumes?.Mostrar();
         MostrarPainel(painelSettings);
     }
 
@@ -166,10 +202,6 @@ public class MenuManager : MonoBehaviour
     // Integração: guarda o nome e o modo escolhidos (o GerenciadorDeWaves lê ao entrar em OnPlay) e começa o jogo.
     private void IniciarPartida(ModoDeJogo modo)
     {
-        // Sem o campo (UXML antigo), o nome vira o padrão "Piloto".
-        ConfiguracaoDePartida.DefinirNome(campoNome != null ? campoNome.value : null);
-        ConfiguracaoDePartida.Modo = modo;
-
         // Nas cenas em que o campo não foi arrastado no Inspector, usa o GameManager da cena.
         GameManager gm = gameManager != null ? gameManager : GameManager.Instance;
         if (gm == null)
@@ -177,6 +209,17 @@ public class MenuManager : MonoBehaviour
             Debug.LogWarning("MenuManager: não há GameManager na cena para iniciar a partida.");
             return;
         }
+
+        // Um menu duplicado/ativado por engano não pode jogar o jogo em OnPlay a partir de LevelUp ou GameOver.
+        if (gm.gameState != GameManager.GameState.Menu)
+        {
+            return;
+        }
+
+        // Nome e modo só são gravados se a partida realmente vai começar.
+        // Sem o campo (UXML antigo), o nome vira o padrão "Piloto".
+        ConfiguracaoDePartida.DefinirNome(campoNome != null ? campoNome.value : null);
+        ConfiguracaoDePartida.Modo = modo;
 
         gm.SetGameState(GameManager.GameState.OnPlay);
     }
@@ -231,46 +274,5 @@ public class MenuManager : MonoBehaviour
         // No Editor o Application.Quit não faz nada: para o Play Mode.
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-    }
-
-    // Um slider (0 a 100) com o número ao lado, ligado a um volume do ConfiguracaoDeAudio.
-    private sealed class LinhaDeVolume
-    {
-        private readonly SliderInt slider;
-        private readonly Label valor;
-
-        private LinhaDeVolume(SliderInt slider, Label valor, Action<float> aoMudar)
-        {
-            this.slider = slider;
-            this.valor = valor;
-
-            slider.RegisterValueChangedCallback(evt =>
-            {
-                valor.text = evt.newValue.ToString();
-                aoMudar(evt.newValue / (float)SliderMaximo);
-            });
-        }
-
-        // null se o slider ou o número não existirem no UXML (avisa no Console).
-        public static LinhaDeVolume Criar(VisualElement root, string nomeSlider, string nomeValor, Action<float> aoMudar)
-        {
-            SliderInt slider = root.Q<SliderInt>(nomeSlider);
-            Label valor = root.Q<Label>(nomeValor);
-            if (slider == null || valor == null)
-            {
-                Debug.LogWarning("MenuManager: '" + nomeSlider + "' ou '" + nomeValor + "' não encontrado. Confira se o PanelRenderer usa o MainMenu.uxml atualizado.");
-                return null;
-            }
-
-            return new LinhaDeVolume(slider, valor, aoMudar);
-        }
-
-        // Mostra o volume atual (0 a 1) sem disparar o evento de mudança.
-        public void Mostrar(float volume)
-        {
-            int inteiro = Mathf.RoundToInt(Mathf.Clamp01(volume) * SliderMaximo);
-            slider.SetValueWithoutNotify(inteiro);
-            valor.text = inteiro.ToString();
-        }
     }
 }
