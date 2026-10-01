@@ -45,6 +45,9 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Evento estático: quem quiser saber quando QUALQUER inimigo morre assina aqui (ex.: GeradorDeGemas).
     public static event System.Action<EnemyMove> AoMorrer;
 
+    // Som: avisado quando qualquer inimigo atira (ex.: GerenciadorDeSom).
+    public static event System.Action<EnemyMove> AoAtirar;
+
     private void Start()
     {
         cam = Camera.main;
@@ -215,6 +218,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
             {
                 shot.Configurar(TagInimigo, false);
             }
+
+            AoAtirar?.Invoke(this);
         }
 
         yield return new WaitForSeconds(fireHate);

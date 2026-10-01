@@ -11,6 +11,9 @@ public static class PadraoDeTiro
     // Tag que marca os tiros do player (o Shot ignora quem tem a mesma tag de quem atirou).
     private const string TagPlayer = "Player";
 
+    // Avisado a cada disparo do player (ex.: GerenciadorDeSom toca o som do tiro).
+    public static event System.Action AoDisparar;
+
     // "direcao" = para onde mirar (ex.: da arma até o mouse). Se vier zero, usa a rotação da arma.
     public static void Disparar(GameObject prefab, Transform gun, PlayerStats stats, Vector2 direcao)
     {
@@ -45,5 +48,7 @@ public static class PadraoDeTiro
                 shot.Configurar(TagPlayer, true);
             }
         }
+
+        AoDisparar?.Invoke();
     }
 }
