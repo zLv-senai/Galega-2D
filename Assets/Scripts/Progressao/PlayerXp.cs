@@ -61,7 +61,6 @@ public class PlayerXp : MonoBehaviour
         {
             xpAtual -= XpNecessario(level);
             level++;
-            Debug.Log("Level up! Novo level: " + level);
             AoSubirDeLevel?.Invoke(level);
         }
 

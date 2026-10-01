@@ -70,7 +70,6 @@ public class PlayerPowerUps : MonoBehaviour
             }
         }
 
-        Debug.Log("Power-up: " + dados.nome + (dados.duracao > 0f ? " (" + dados.duracao + "s)" : ""));
         AoAtivar?.Invoke(dados);
     }
 

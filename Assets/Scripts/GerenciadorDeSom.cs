@@ -185,12 +185,16 @@ public class GerenciadorDeSom : MonoBehaviour
         if (estado == GameManager.GameState.GameOver)
         {
             fonteMusica.Stop();
+            // Corta efeitos em andamento (explosão do boss, wave limpa) para o som de fim tocar limpo.
+            fonteEfeitos.Stop();
             Tocar(gameOver, volumeEfeitos);
         }
         else if (estado == GameManager.GameState.Vitoria)
         {
             // Integração (boss): vitória para a música de fundo e toca o som de vitória.
             fonteMusica.Stop();
+            // Corta efeitos em andamento (explosão do boss, wave limpa) para o som de vitória tocar limpo.
+            fonteEfeitos.Stop();
             Tocar(vitoria, volumeEfeitos);
         }
         else if (estado == GameManager.GameState.OnPlay && musicaDeFundo != null && !fonteMusica.isPlaying)

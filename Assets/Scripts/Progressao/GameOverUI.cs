@@ -197,6 +197,6 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.Restart();
+        GameManager.Instance.JogarDeNovo();
     }
 }

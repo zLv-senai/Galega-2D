@@ -35,8 +35,8 @@ public class PlayerMove : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        GameManager gm = ObterGameManager();
-        if(gm != null && gm.gameState == GameManager.GameState.OnPlay)
+        // Mesmo critério do resto do jogo: OnPlay com GameManager, e sempre ligado em cenas de teste sem ele.
+        if (EstadoDoJogo.Rodando)
         {
             Shoot();
             Movimento();
@@ -58,7 +58,6 @@ public class PlayerMove : MonoBehaviour, IDamageable
         }
 
         vida -= dano;
-        Debug.Log(vida);
 
         if (vida <= 0)
         {
@@ -126,19 +125,26 @@ public class PlayerMove : MonoBehaviour, IDamageable
         // na diagonal não fica mais rápido do que andar reto.
         Vector2 direcao = Vector2.zero;
 
-        if (Keyboard.current.wKey.isPressed)
+        // Sem teclado conectado o Keyboard.current é nulo.
+        Keyboard teclado = Keyboard.current;
+        if (teclado == null)
+        {
+            return;
+        }
+
+        if (teclado.wKey.isPressed)
         {
             direcao.y += 1;
         }
-        if (Keyboard.current.sKey.isPressed)
+        if (teclado.sKey.isPressed)
         {
             direcao.y -= 1;
         }
-        if (Keyboard.current.aKey.isPressed)
+        if (teclado.aKey.isPressed)
         {
             direcao.x -= 1;
         }
-        if (Keyboard.current.dKey.isPressed)
+        if (teclado.dKey.isPressed)
         {
             direcao.x += 1;
         }

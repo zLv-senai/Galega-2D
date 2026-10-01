@@ -28,6 +28,16 @@ public class GameManager : MonoBehaviour
 
     public GameState gameState;
 
+    // "Jogar de novo" pede que a próxima carga da cena pule o menu. Estático para sobreviver ao LoadScene;
+    // é zerado ao entrar em Play porque o projeto roda sem Domain Reload (Enter Play Mode Options).
+    private static bool pularMenuNaProximaCarga;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ZerarEstaticos()
+    {
+        pularMenuNaProximaCarga = false;
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -52,9 +62,12 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Cenas com menu configurado começam nele. Cenas de teste sem menu
+        bool pularMenu = pularMenuNaProximaCarga;
+        pularMenuNaProximaCarga = false;
+
+        // Cenas com menu configurado começam nele (menos depois de "Jogar de novo"). Cenas de teste sem menu
         // atribuído (menuPanel nulo) vão direto para o jogo.
-        if (menuPanel != null)
+        if (menuPanel != null && !pularMenu)
         {
             SetGameState(GameState.Menu);
         }
@@ -123,5 +136,12 @@ public class GameManager : MonoBehaviour
 #else
         SceneManager.LoadScene(cenaAtiva.name);
 #endif
+    }
+
+    // Reinicia no mesmo modo e com o mesmo nome (ConfiguracaoDePartida é estática), sem passar pelo menu.
+    public void JogarDeNovo()
+    {
+        pularMenuNaProximaCarga = true;
+        Restart();
     }
 }

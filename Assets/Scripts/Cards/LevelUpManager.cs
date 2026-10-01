@@ -32,6 +32,7 @@ public class LevelUpManager : MonoBehaviour
     private CardData[] ofertaAtual;
     private float aceitaCliqueEm;
     private bool avisouBancoVazio;
+    private bool avisouCardsEsgotados;
 
     // Integração (waves): o que chamar quando a oferta termina, e o título que a tela mostra (null = título padrão).
     private System.Action aoTerminar;
@@ -128,7 +129,13 @@ public class LevelUpManager : MonoBehaviour
         if (ofertaAtual.Length == 0)
         {
             // Aqui o banco tem cards, mas todos já chegaram no maxEscolhas: não há o que oferecer.
-            Debug.Log("LevelUpManager: todos os cards já chegaram no limite de escolhas; seguindo sem cards.");
+            // Avisa uma vez só: a cada wave limpa cairia aqui de novo.
+            if (!avisouCardsEsgotados)
+            {
+                Debug.Log("LevelUpManager: todos os cards já chegaram no limite de escolhas; seguindo sem cards.");
+                avisouCardsEsgotados = true;
+            }
+
             pendentes = 0;
             ofertaAtual = null;
             FinalizarSemOferta();

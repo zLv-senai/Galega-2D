@@ -27,7 +27,13 @@ public class LookAt : MonoBehaviour
         // enquanto o jogo estiver rodando (ex: 60 vezes por segundo, se o jogo roda a 60fps).
         // É aqui que colocamos coisas que precisam ser checadas/atualizadas o tempo todo.
 
-        OlharParaTarget(); 
+        // Fora do jogo (menu, pausa, level up, game over) a nave não gira acompanhando o mouse.
+        if (!EstadoDoJogo.Rodando)
+        {
+            return;
+        }
+
+        OlharParaTarget();
         // Isso é uma CHAMADA de função: estamos "executando" a função OlharParaMouse()
         // que criamos logo abaixo. Como está dentro do Update(), ela vai rodar
         // repetidamente também, todo frame, fazendo a nave girar em tempo real.
@@ -40,7 +46,14 @@ public class LookAt : MonoBehaviour
     {
         if (target == null)
         {
-        posTarget = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());     
+            // Sem câmera principal ou sem mouse (ex.: só teclado/gamepad) não há para onde olhar: mantém a rotação.
+            Camera cam = Camera.main;
+            if (cam == null || Mouse.current == null)
+            {
+                return;
+            }
+
+            posTarget = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         } else
         {
             posTarget = target.transform.position;
