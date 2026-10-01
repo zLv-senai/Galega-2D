@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2608146066045791229}
   - component: {fileID: 2266964165223406115}
-  - component: {fileID: 1246445646681862241}
   - component: {fileID: 249539911860987445}
   - component: {fileID: 4063105620686941341}
+  - component: {fileID: 79341776932999401}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Inimigo
@@ -48,25 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d333145ac77bf4440adc9cc932696e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  target: {fileID: 0}
   vida: 2
   fireHate: 1
-  gameManager: {fileID: 0}
   tiroPrefab: {fileID: 7438003335854391405, guid: d40b2a584e04c774ea08b114e372413b, type: 3}
-  gun: {fileID: 1860903912063482846}
---- !u!114 &1246445646681862241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1488701778948552912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LookAt
-  target: {fileID: 0}
+  gun: {fileID: 1203631698976710982}
+  distanciaParada: 0.6
+  margemTela: 0.05
+  atrasoPrimeiroTiro: 0.5
 --- !u!58 &249539911860987445
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -130,6 +118,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &79341776932999401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488701778948552912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15338fe4ff9ad7748a27bde60f7d078c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DanoPorContato
+  dano: 10
+  margemContato: 0.05
+  raioContato: 0.7
+  intervalo: 0.5
+  forcaEmpurrao: 8
+  alvo: {fileID: 0}
 --- !u!1 &1860903912063482846
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +145,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203631698976710982}
-  - component: {fileID: 3614525723700125998}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -162,19 +167,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8566446764465787421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3614525723700125998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860903912063482846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a63d1468b484acb4e992eee295ded46a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LookAt
-  target: {fileID: 0}
 --- !u!1001 &8171949253107283446
 PrefabInstance:
   m_ObjectHideFlags: 0
