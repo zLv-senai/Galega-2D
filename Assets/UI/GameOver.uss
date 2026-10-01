@@ -24,12 +24,24 @@
     text-shadow: 0 6px 14px rgba(0, 0, 0, 0.9);
 }
 
+/* Integração: agrupa as linhas do resumo (level, wave, recorde). A margem de baixo que era do .go-level (48px) passou para cá. */
+.go-resumo {
+    margin: 0 0 40px 0;
+    align-items: center;
+}
+
 .go-level {
-    margin: 0 0 48px 0;
+    margin: 0 0 8px 0;
     color: rgb(255, 255, 255);
     font-size: 44px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
+}
+
+/* Ranking local (Infinito): destaque em dourado. Vem depois do .go-level, então a cor e o tamanho daqui valem. */
+.go-ranking {
+    color: rgb(255, 215, 90);
+    font-size: 38px;
 }
 
 /* O seletor ".go-raiz .go-botao" é mais forte que o estilo padrão do botão (inclusive no :hover). */

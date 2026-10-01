@@ -17,6 +17,10 @@ public class BossController : MonoBehaviour, IDamageable
     // Integração: sem alvo, procura o player de novo a cada tanto de segundos (e não todo frame).
     private const float IntervaloBuscaAlvo = 1f;
 
+    // Integração (Infinito): limites do Fortalecer, para os bosses de índice alto não virarem uma parede de tiros.
+    private const float IntervaloTiroMinimo = 0.3f;
+    private const int QuantidadeTirosMaxima = 15;
+
     // Integração: avisado quando QUALQUER boss morre (ControladorDeBoss, GerenciadorDeSom). Evento estático:
     // quem assinar precisa cancelar no OnDisable.
     public static event System.Action<BossController> AoMorrer;
@@ -108,8 +112,10 @@ public class BossController : MonoBehaviour, IDamageable
 
         vidaMaxima = Mathf.Max(1, Mathf.RoundToInt(vidaBase * (1f + 0.5f * indice)));
         vida = vidaMaxima;
-        intervaloTiro = intervaloTiroBase * Mathf.Pow(0.8f, indice);
-        quantidadeTiros = quantidadeTirosBase + 2 * indice;
+        // Integração (waves/Infinito): limites para os bosses não ficarem impossíveis. Se o valor de fábrica já
+        // passa do limite, ele é mantido (o Fortalecer nunca deixa o boss mais fraco que o prefab).
+        intervaloTiro = Mathf.Max(Mathf.Min(IntervaloTiroMinimo, intervaloTiroBase), intervaloTiroBase * Mathf.Pow(0.8f, indice));
+        quantidadeTiros = Mathf.Min(Mathf.Max(QuantidadeTirosMaxima, quantidadeTirosBase), quantidadeTirosBase + 2 * indice);
         velocidade = velocidadeBase * (1f + 0.1f * indice);
     }
 

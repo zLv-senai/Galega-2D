@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 // HUD de progressão: level, barra de XP, vida, escudo, o aviso "LEVEL UP!", o aviso do power-up pego
 // e a lista dos power-ups ativos com o tempo que falta (à direita do painel de level).
+// Com GerenciadorDeWaves na cena, mostra também a wave atual, os inimigos que faltam e o anúncio "WAVE N".
 // Usa o PanelRenderer no mesmo padrão do MenuManager: o Unity pode recriar a UI
 // (reload), então os elementos são buscados de novo em OnUIReload.
 public class HudProgressao : MonoBehaviour
@@ -49,6 +50,19 @@ public class HudProgressao : MonoBehaviour
     private VisualElement bossBarra;
     private Label bossTitulo;
     private VisualElement bossVidaPreenchimento;
+
+    // Integração (waves): "Wave N/15" (ou com recorde), inimigos que faltam e o anúncio central. Os dados vêm do
+    // GerenciadorDeWaves (achado no Start); sem ele, esses elementos ficam escondidos e a barra de ameaça volta.
+    private GerenciadorDeWaves waves;
+    private VisualElement waveBloco;
+    private Label waveLabel;
+    private Label inimigosLabel;
+    private Label waveAnuncio;
+    private int ultimaWave = -1;
+    private int ultimoTotalWaves = -1;
+    private int ultimosInimigos = -1;
+    private int ultimoAnuncio = -1;
+    private bool ultimoAnuncioBoss;
 
     // Últimos valores escritos na tela, para só mexer nos elementos quando mudar (-1 = ainda não escrito).
     private float ultimaAmeaca = -1f;
@@ -137,7 +151,11 @@ public class HudProgressao : MonoBehaviour
 
         // Integração: sem ControladorDeBoss na cena, a barra de ameaça e a do boss não aparecem.
         controladorBoss = FindAnyObjectByType<ControladorDeBoss>();
+
+        // Integração (waves): com GerenciadorDeWaves aparecem os dados da wave e some a barra de ameaça.
+        waves = FindAnyObjectByType<GerenciadorDeWaves>();
         AplicarVisibilidadeBoss();
+        AplicarVisibilidadeWaves();
 
         AtualizarTudo();
     }
@@ -195,6 +213,7 @@ public class HudProgressao : MonoBehaviour
     {
         AtualizarVida();
         AtualizarBoss();
+        AtualizarWaves();
 
         if (esconderLevelUpEm >= 0f && Time.unscaledTime >= esconderLevelUpEm)
         {
@@ -302,12 +321,28 @@ public class HudProgressao : MonoBehaviour
             Debug.LogWarning("HudProgressao: elementos do boss (AmeacaBloco, BossAlerta, BossBarra...) não encontrados. Confira se o PanelRenderer usa o HudProgressao.uxml atualizado.");
         }
 
-        // A árvore nova começa com os valores do UXML: força reescrever a ameaça e a vida do boss.
+        // Integração (waves)
+        waveBloco = root.Q<VisualElement>("WaveBloco");
+        waveLabel = root.Q<Label>("WaveLabel");
+        inimigosLabel = root.Q<Label>("InimigosLabel");
+        waveAnuncio = root.Q<Label>("WaveAnuncio");
+
+        if (waveBloco == null || waveLabel == null || inimigosLabel == null || waveAnuncio == null)
+        {
+            Debug.LogWarning("HudProgressao: elementos das waves (WaveBloco, WaveLabel, InimigosLabel, WaveAnuncio) não encontrados. Confira se o PanelRenderer usa o HudProgressao.uxml atualizado.");
+        }
+
+        // A árvore nova começa com os valores do UXML: força reescrever a ameaça, a vida do boss e os dados da wave.
         ultimaAmeaca = -1f;
         ultimaFracaoVidaBoss = -1f;
         ultimoNumeroBoss = -1;
         ultimoTotalBoss = -1;
+        ultimaWave = -1;
+        ultimoTotalWaves = -1;
+        ultimosInimigos = -1;
+        ultimoAnuncio = -1;
         AplicarVisibilidadeBoss();
+        AplicarVisibilidadeWaves();
 
         // As linhas antigas eram da árvore que foi recriada: começa a lista do zero.
         linhasPowerUp.Clear();
@@ -417,13 +452,84 @@ public class HudProgressao : MonoBehaviour
     private void AplicarVisibilidadeBoss()
     {
         bool temControlador = controladorBoss != null;
-        Mostrar(ameacaBloco, temControlador);
+
+        // Integração (waves): com GerenciadorDeWaves a barra de ameaça fica escondida (os bosses vêm pelas waves).
+        Mostrar(ameacaBloco, temControlador && waves == null);
 
         if (!temControlador)
         {
             Mostrar(bossAlerta, false);
             Mostrar(bossBarra, false);
         }
+    }
+
+    // Integração (waves): sem GerenciadorDeWaves, o bloco da wave e o anúncio ficam escondidos.
+    private void AplicarVisibilidadeWaves()
+    {
+        bool temWaves = waves != null;
+        Mostrar(waveBloco, temWaves);
+
+        if (!temWaves)
+        {
+            Mostrar(waveAnuncio, false);
+        }
+    }
+
+    // Integração (waves): lido por polling todo frame (como o boss). Só reescreve o texto quando o valor muda.
+    private void AtualizarWaves()
+    {
+        if (waves == null)
+        {
+            return;
+        }
+
+        int wave = waves.WaveAtual;
+        int total = waves.TotalDeWaves;
+
+        // Antes da 1ª wave começar (ex.: logo após o Restart) não há wave para mostrar.
+        Mostrar(waveBloco, wave > 0);
+
+        if (waveLabel != null && (wave != ultimaWave || total != ultimoTotalWaves))
+        {
+            ultimaWave = wave;
+            ultimoTotalWaves = total;
+            waveLabel.text = total > 0
+                ? "Wave " + wave + "/" + total
+                : "Wave " + wave + "  Recorde " + GerenciadorDeWaves.Recorde;
+        }
+
+        int inimigos = waves.Restantes;
+        if (inimigosLabel != null && inimigos != ultimosInimigos)
+        {
+            ultimosInimigos = inimigos;
+            inimigosLabel.text = "Inimigos: " + inimigos;
+        }
+
+        AtualizarAnuncioDaWave(wave);
+    }
+
+    // "WAVE N" (ou "WAVE N - BOSS", em vermelho) durante o anúncio da wave.
+    private void AtualizarAnuncioDaWave(int wave)
+    {
+        if (waveAnuncio == null)
+        {
+            return;
+        }
+
+        bool emAnuncio = waves.EmAnuncio;
+        if (emAnuncio)
+        {
+            bool ehBoss = waves.WaveAtualEhBoss;
+            if (wave != ultimoAnuncio || ehBoss != ultimoAnuncioBoss)
+            {
+                ultimoAnuncio = wave;
+                ultimoAnuncioBoss = ehBoss;
+                waveAnuncio.text = ehBoss ? "WAVE " + wave + " - BOSS" : "WAVE " + wave;
+                waveAnuncio.EnableInClassList("wave-anuncio-boss", ehBoss);
+            }
+        }
+
+        Mostrar(waveAnuncio, emAnuncio);
     }
 
     // Integração (boss): lido por polling todo frame (barato e à prova de reload da UI).
@@ -467,12 +573,14 @@ public class HudProgressao : MonoBehaviour
     private void AtualizarBarraDoBoss(BossController boss)
     {
         int numero = controladorBoss.NumeroDoBoss;
-        int total = controladorBoss.MaxBosses;
+
+        // Integração (waves): na Campanha o total vem das waves (3); no Infinito não há total ("BOSS 4").
+        int total = waves != null ? waves.TotalDeBosses : controladorBoss.MaxBosses;
         if (bossTitulo != null && (numero != ultimoNumeroBoss || total != ultimoTotalBoss))
         {
             ultimoNumeroBoss = numero;
             ultimoTotalBoss = total;
-            bossTitulo.text = "BOSS " + numero + "/" + total;
+            bossTitulo.text = total > 0 ? "BOSS " + numero + "/" + total : "BOSS " + numero;
         }
 
         float fracao = boss.VidaMaxima > 0 ? Mathf.Clamp01(boss.vida / (float)boss.VidaMaxima) : 0f;

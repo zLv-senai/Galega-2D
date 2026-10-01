@@ -9,6 +9,8 @@ public class GerenciadorDeSom : MonoBehaviour
     [SerializeField] private AudioClip tiroInimigo;
     [SerializeField] private AudioClip explosaoInimigo;
     [SerializeField] private AudioClip levelUp;
+    // Integração (waves): som de wave limpa. Opcional: vazio = toca o mesmo som do levelUp.
+    [SerializeField] private AudioClip waveLimpa;
     [SerializeField] private AudioClip powerUp;
     [SerializeField] private AudioClip gameOver;
 
@@ -44,26 +46,45 @@ public class GerenciadorDeSom : MonoBehaviour
         fonteMusica = gameObject.AddComponent<AudioSource>();
         fonteMusica.playOnAwake = false;
         fonteMusica.loop = true;
-        fonteMusica.volume = volumeMusica;
+
+        // Integração (Settings): aplica o volume Geral e o da música escolhidos no menu.
+        ConfiguracaoDeAudio.Aplicar();
+        AtualizarVolumeMusica();
+    }
+
+    // Integração (Settings): volume final da música = o do Inspector x o slider "Música".
+    private void AtualizarVolumeMusica()
+    {
+        if (fonteMusica != null)
+        {
+            fonteMusica.volume = volumeMusica * ConfiguracaoDeAudio.Musica;
+        }
     }
 
     private void OnEnable()
     {
+        ConfiguracaoDeAudio.AoMudar += AtualizarVolumeMusica;
+        AtualizarVolumeMusica();
+
         PadraoDeTiro.AoDisparar += TocarTiroPlayer;
         EnemyMove.AoAtirar += TocarTiroInimigo;
         EnemyMove.AoMorrer += TocarExplosaoInimigo;
         ControladorDeBoss.AoAlerta += TocarAlertaBoss;
         BossController.AoMorrer += TocarExplosaoBoss;
+        GerenciadorDeWaves.AoWaveLimpa += TocarWaveLimpa;
         GameManager.AoMudarEstado += TratarMudancaDeEstado;
     }
 
     private void OnDisable()
     {
+        ConfiguracaoDeAudio.AoMudar -= AtualizarVolumeMusica;
+
         PadraoDeTiro.AoDisparar -= TocarTiroPlayer;
         EnemyMove.AoAtirar -= TocarTiroInimigo;
         EnemyMove.AoMorrer -= TocarExplosaoInimigo;
         ControladorDeBoss.AoAlerta -= TocarAlertaBoss;
         BossController.AoMorrer -= TocarExplosaoBoss;
+        GerenciadorDeWaves.AoWaveLimpa -= TocarWaveLimpa;
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
 
         if (playerXp != null)
@@ -108,7 +129,8 @@ public class GerenciadorDeSom : MonoBehaviour
     {
         if (clip != null)
         {
-            fonteEfeitos.PlayOneShot(clip, volume);
+            // Integração (Settings): o slider "Efeitos" multiplica o volume de todo efeito.
+            fonteEfeitos.PlayOneShot(clip, volume * ConfiguracaoDeAudio.Efeitos);
         }
     }
 
@@ -146,6 +168,11 @@ public class GerenciadorDeSom : MonoBehaviour
     private void TocarLevelUp(int level)
     {
         Tocar(levelUp, volumeEfeitos);
+    }
+
+    private void TocarWaveLimpa(int wave)
+    {
+        Tocar(waveLimpa != null ? waveLimpa : levelUp, volumeEfeitos);
     }
 
     private void TocarPowerUp(PowerUpData dados)

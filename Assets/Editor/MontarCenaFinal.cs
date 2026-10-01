@@ -9,7 +9,8 @@ using UnityEngine.UIElements;
 // "Scene integrada" e liga tudo que veio das branches do grupo:
 // câmera seguindo o player (Samuel), parallax copiado da GameTeste (Samuel),
 // spawn contínuo (Wagner), sons (Eduardo), bosses (ControladorDeBoss + prefab Resources/Boss) e a
-// tela de vitória (VitoriaUI). Pode rodar de novo: não duplica nada.
+// tela de vitória (VitoriaUI) e as waves (GerenciadorDeWaves + BonusPassivoDeLevel no Player; o SpawnContinuo
+// fica na cena mas desligado). Pode rodar de novo: não duplica nada.
 public static class MontarCenaFinal
 {
     private const string CenaBase = "Assets/Scenes/Scene integrada.unity";
@@ -23,6 +24,7 @@ public static class MontarCenaFinal
     // Bosses e vitória
     private const string NomeControladorBoss = "ControladorDeBoss";
     private const string NomeTelaVitoria = "VitoriaUI";
+    private const string NomeGerenciadorDeWaves = "GerenciadorDeWaves";
     private const string CaminhoUxmlVitoria = "Assets/UI/Vitoria.uxml";
     private const string CaminhoPanelSettings = "Assets/UI Toolkit/PanelSettings.asset"; // reserva, se não achar o do GameOverUI
     private const int OrdemTelaVitoria = 20;            // mesma ordem da tela de Game Over (acima do HUD)
@@ -58,7 +60,9 @@ public static class MontarCenaFinal
         LigarSpawn();
         LigarSons();
         LigarBoss();
+        LigarWaves(player);
         LigarTelaDeVitoria();
+        LigarMenu();
         MontarFundo(camera);
         ColocarNoBuild();
 
@@ -86,9 +90,51 @@ public static class MontarCenaFinal
             spawn = new GameObject("Spawner").AddComponent<EnemySpawn>();
         }
 
-        if (spawn.GetComponent<SpawnContinuo>() == null)
+        SpawnContinuo continuo = spawn.GetComponent<SpawnContinuo>();
+        if (continuo == null)
         {
-            spawn.gameObject.AddComponent<SpawnContinuo>();
+            continuo = spawn.gameObject.AddComponent<SpawnContinuo>();
+        }
+
+        // Waves: o spawn contínuo fica na cena, mas desligado (o GerenciadorDeWaves assume o spawn).
+        continuo.enabled = false;
+        EditorUtility.SetDirty(continuo);
+    }
+
+    // Objeto "GerenciadorDeWaves" (separado do Spawner) ligado ao EnemySpawn, ao ControladorDeBoss e ao LevelUpManager,
+    // e o BonusPassivoDeLevel no Player (o level virou bônus passivo; os cards vêm por wave). Precisa rodar depois de
+    // LigarSpawn e LigarBoss.
+    private static void LigarWaves(PlayerMove player)
+    {
+        GerenciadorDeWaves waves = Object.FindAnyObjectByType<GerenciadorDeWaves>();
+        if (waves == null)
+        {
+            waves = new GameObject(NomeGerenciadorDeWaves).AddComponent<GerenciadorDeWaves>();
+        }
+
+        DefinirReferenciaSeAchou(waves, "spawn", Object.FindAnyObjectByType<EnemySpawn>());
+        DefinirReferenciaSeAchou(waves, "controladorBoss", Object.FindAnyObjectByType<ControladorDeBoss>());
+
+        LevelUpManager cartas = Object.FindAnyObjectByType<LevelUpManager>();
+        if (cartas == null)
+        {
+            Debug.LogWarning("MontarCenaFinal: não há LevelUpManager na cena base; as waves vão seguir sem oferecer cards.");
+        }
+
+        DefinirReferenciaSeAchou(waves, "levelUpManager", cartas);
+
+        if (player.GetComponent<BonusPassivoDeLevel>() == null)
+        {
+            player.gameObject.AddComponent<BonusPassivoDeLevel>();
+        }
+    }
+
+    // Só preenche o campo se achou o objeto (não apaga uma referência que já estava certa).
+    private static void DefinirReferenciaSeAchou(Object alvo, string campo, Object valor)
+    {
+        if (valor != null)
+        {
+            DefinirCampo(alvo, campo, valor);
         }
     }
 
@@ -187,6 +233,27 @@ public static class MontarCenaFinal
         DefinirCampo(painel, "m_PanelSettings", settings);
         DefinirCampo(painel, "sourceAsset", uxml);
         painel.sortingOrder = OrdemTelaVitoria;
+    }
+
+    // O GameManager só abre o menu se o campo menuPanel estiver preenchido (vazio = vai direto ao jogo).
+    // Liga ao PanelRenderer do objeto que tem o MenuManager; se já estiver preenchido, não mexe.
+    private static void LigarMenu()
+    {
+        GameManager gerenciador = Object.FindAnyObjectByType<GameManager>();
+        MenuManager menu = Object.FindAnyObjectByType<MenuManager>();
+        PanelRenderer painelDoMenu = menu != null ? menu.GetComponent<PanelRenderer>() : null;
+
+        if (gerenciador == null || painelDoMenu == null)
+        {
+            Debug.LogWarning("MontarCenaFinal: não achei o GameManager ou o objeto com MenuManager + PanelRenderer. O campo menuPanel do GameManager ficou como está.");
+            return;
+        }
+
+        SerializedProperty campo = new SerializedObject(gerenciador).FindProperty("menuPanel");
+        if (campo != null && campo.objectReferenceValue == null)
+        {
+            DefinirCampo(gerenciador, "menuPanel", painelDoMenu);
+        }
     }
 
     // O PanelSettings que o GameOverUI da cena já usa; se não houver, o padrão do projeto.

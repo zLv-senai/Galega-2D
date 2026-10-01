@@ -1,13 +1,62 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Menu.uss?fileID=7433441132597879392&amp;guid=abef5d96a7eebb3419759bb589f9e0c4&amp;type=3#Menu"/>
     <ui:VisualElement name="MainMenu" style="flex-grow: 1; align-items: center; justify-content: center; display: flex;">
+        <!-- Menu principal (Wagner): Play, Leaderboard, Settings, Exit. "Reset_btt" é o nome antigo do botão, hoje abre o Settings. -->
         <ui:GroupBox name="containerMenu" style="flex-grow: 1; flex-shrink: 0; min-width: 50%; min-height: 50%; max-height: 70%; max-width: 70%; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 0, 236); color: rgba(255, 255, 255, 0.894); background-color: rgba(41, 28, 53, 0.439); border-left-color: rgba(125, 38, 255, 0.71); border-right-color: rgba(125, 38, 255, 0.71); border-top-color: rgba(125, 38, 255, 0.71); border-bottom-color: rgba(125, 38, 255, 0.71); border-top-width: 12px; border-right-width: 12px; border-bottom-width: 12px; border-left-width: 12px; border-top-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px; backdrop-filter: none;">
             <ui:Label text="Menu" name="Title" style="color: rgb(193, 112, 207); font-size: 180px; -unity-text-align: middle-center; flex-shrink: 1; -unity-font-style: bold; flex-direction: column; -unity-text-outline-width: 8px; -unity-text-outline-color: rgb(153, 0, 178); letter-spacing: 8px; text-shadow: -18px 10px 0 rgb(197, 126, 221); -unity-text-auto-size: best-fit 100px 180px; padding-top: 25px; padding-bottom: 25px; padding-left: 10px; padding-right: 10px; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0;"/>
             <ui:GroupBox name="containerButons" style="padding-left: 0; padding-bottom: 0; margin-top: 40px; margin-bottom: 40px; margin-left: 20px; margin-right: 20px; padding-top: 0; align-self: auto; justify-content: center; align-items: center; align-content: flex-start; flex-direction: column; height: auto; flex-grow: 1; backdrop-filter: none;">
                 <ui:Button text="Play" name="Play_btt" class="button" style="border-bottom-right-radius: 45px; backdrop-filter: none; background-image: none;"/>
+                <ui:Button text="Leaderboard" name="Leaderboard_btt" class="button" style="background-image: none;"/>
                 <ui:Button text="Settings" name="Reset_btt" class="button" style="background-image: none;"/>
                 <ui:Button text="Exit" name="Quit_btt" class="button" style="background-image: none;"/>
             </ui:GroupBox>
         </ui:GroupBox>
+
+        <!-- Play: escolha do modo (escondido; o MenuManager.cs troca os painéis por style.display) -->
+        <ui:VisualElement name="PainelModo" class="moldura-menu">
+            <ui:Label text="Escolha o modo" name="TituloModo" class="titulo-painel"/>
+            <ui:TextField label="Seu nome" name="CampoNome" max-length="10" class="campo-nome"/>
+            <ui:VisualElement name="LinhaCards" class="linha-cards">
+                <ui:VisualElement name="Card_Campanha" class="card-modo">
+                    <ui:Label text="CAMPANHA" class="card-titulo" picking-mode="Ignore"/>
+                    <ui:Label text="15 waves e 3 bosses. Derrote o boss final da wave 15 para vencer." class="card-descricao" picking-mode="Ignore"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="Card_Infinito" class="card-modo">
+                    <ui:Label text="INFINITO" class="card-titulo" picking-mode="Ignore"/>
+                    <ui:Label text="Waves sem fim e bosses cada vez mais fortes. Sua maior wave entra no ranking." class="card-descricao" picking-mode="Ignore"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button text="Voltar" name="VoltarModo_btt" class="button button-voltar" style="background-image: none;"/>
+        </ui:VisualElement>
+
+        <!-- Leaderboard: top 5 local do Infinito (as linhas são criadas pelo MenuManager.cs em ListaLeaderboard) -->
+        <ui:VisualElement name="PainelLeaderboard" class="moldura-menu">
+            <ui:Label text="Leaderboard" name="TituloLeaderboard" class="titulo-painel"/>
+            <ui:VisualElement name="ListaLeaderboard" class="lista-ranking"/>
+            <ui:Button text="Voltar" name="VoltarLeaderboard_btt" class="button button-voltar" style="background-image: none;"/>
+        </ui:VisualElement>
+
+        <!-- Settings: volumes de 0 a 100 (Geral, Música e Efeitos) -->
+        <ui:VisualElement name="PainelSettings" class="moldura-menu">
+            <ui:Label text="Settings" name="TituloSettings" class="titulo-painel"/>
+            <ui:VisualElement name="AreaConfig" class="area-config">
+                <ui:VisualElement class="linha-config">
+                    <ui:Label text="Geral" class="rotulo-config"/>
+                    <ui:SliderInt name="Slider_Geral" low-value="0" high-value="100" value="100" class="slider-config"/>
+                    <ui:Label text="100" name="Valor_Geral" class="valor-config"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="linha-config">
+                    <ui:Label text="Música" class="rotulo-config"/>
+                    <ui:SliderInt name="Slider_Musica" low-value="0" high-value="100" value="100" class="slider-config"/>
+                    <ui:Label text="100" name="Valor_Musica" class="valor-config"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="linha-config">
+                    <ui:Label text="Efeitos" class="rotulo-config"/>
+                    <ui:SliderInt name="Slider_Efeitos" low-value="0" high-value="100" value="100" class="slider-config"/>
+                    <ui:Label text="100" name="Valor_Efeitos" class="valor-config"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button text="Voltar" name="VoltarSettings_btt" class="button button-voltar" style="background-image: none;"/>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

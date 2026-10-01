@@ -71,18 +71,20 @@ public class EnemySpawn : MonoBehaviour
         }
     }
 
-    public void SpawnEnemy()
+    // Integração: agora devolve o inimigo criado (null se não deu para criar), para o GerenciadorDeWaves contá-lo.
+    // Quem chamava sem usar o retorno (SpawnContinuo) continua funcionando igual.
+    public GameObject SpawnEnemy()
     {
         if (enemy == null || mainCamera == null)
         {
             Debug.LogWarning("EnemySpawn: falta o prefab Resources/Enemy ou a Main Camera.");
-            return;
+            return null;
         }
 
         // Integração: soma a posição da câmera, porque ela segue o player (CameraFollow);
         // sem isso os inimigos nasceriam em volta do centro do mundo.
         spawnPoint = (Vector2)mainCamera.transform.position + SpawnPosition();
 
-            Instantiate(enemy, spawnPoint, quaternion.identity);
+        return Instantiate(enemy, spawnPoint, quaternion.identity);
     }
 }

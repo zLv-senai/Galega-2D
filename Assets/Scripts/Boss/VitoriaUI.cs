@@ -19,6 +19,9 @@ public class VitoriaUI : MonoBehaviour
     // Total de bosses, para o subtítulo ("Você derrotou os 3 bosses"). Vem do ControladorDeBoss da cena.
     private int totalBosses = 3;
 
+    // Integração (waves): na Campanha por waves o subtítulo é "Você venceu as 15 waves". Vem do GerenciadorDeWaves da cena.
+    private GerenciadorDeWaves waves;
+
     private void Awake()
     {
         if (painel == null)
@@ -63,6 +66,8 @@ public class VitoriaUI : MonoBehaviour
             totalBosses = controlador.MaxBosses;
         }
 
+        waves = FindAnyObjectByType<GerenciadorDeWaves>();
+
         if (GameManager.Instance != null)
         {
             visivel = GameManager.Instance.gameState == GameManager.GameState.Vitoria;
@@ -106,12 +111,28 @@ public class VitoriaUI : MonoBehaviour
 
         if (visivel && subtitulo != null)
         {
-            subtitulo.text = totalBosses == 1
-                ? "Você derrotou o boss"
-                : "Você derrotou os " + totalBosses + " bosses";
+            subtitulo.text = TextoDoSubtitulo();
         }
 
         raiz.style.display = visivel ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    // Integração (waves): com GerenciadorDeWaves na Campanha, conta as waves; senão, o texto antigo dos bosses.
+    private string TextoDoSubtitulo()
+    {
+        if (waves == null)
+        {
+            waves = FindAnyObjectByType<GerenciadorDeWaves>();
+        }
+
+        if (waves != null && waves.TotalDeWaves > 0)
+        {
+            return "Você venceu as " + waves.TotalDeWaves + " waves";
+        }
+
+        return totalBosses == 1
+            ? "Você derrotou o boss"
+            : "Você derrotou os " + totalBosses + " bosses";
     }
 
     private void OnJogarDeNovoClicked(ClickEvent evt)

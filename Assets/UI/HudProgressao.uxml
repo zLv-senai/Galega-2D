@@ -8,7 +8,12 @@
             <ui:VisualElement name="XpFundo" class="xp-fundo" picking-mode="Ignore">
                 <ui:VisualElement name="XpPreenchimento" class="xp-preenchimento" picking-mode="Ignore" />
             </ui:VisualElement>
-            <!-- Ameaça: enche com abates e com o tempo; ao encher, chama o boss (o HudProgressao.cs esconde se não houver ControladorDeBoss) -->
+            <!-- Waves: "Wave N/15" (Campanha) ou "Wave N  Recorde R" (Infinito) e quantos inimigos faltam (o HudProgressao.cs esconde se não houver GerenciadorDeWaves) -->
+            <ui:VisualElement name="WaveBloco" class="wave-bloco" picking-mode="Ignore">
+                <ui:Label name="WaveLabel" text="Wave 1/15" class="hud-texto hud-wave" picking-mode="Ignore" />
+                <ui:Label name="InimigosLabel" text="Inimigos: 6" class="hud-texto" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <!-- Ameaça: enche com abates e com o tempo; ao encher, chama o boss (o HudProgressao.cs esconde se não houver ControladorDeBoss ou se houver GerenciadorDeWaves) -->
             <ui:VisualElement name="AmeacaBloco" class="ameaca-bloco" picking-mode="Ignore">
                 <ui:Label name="AmeacaLabel" text="AMEAÇA" class="hud-texto ameaca-titulo" picking-mode="Ignore" />
                 <ui:VisualElement name="AmeacaFundo" class="ameaca-fundo" picking-mode="Ignore">
@@ -30,6 +35,9 @@
 
         <!-- Centro-alto: alerta de boss (escondido por padrão; o HudProgressao.cs mostra piscando durante o alerta) -->
         <ui:Label name="BossAlerta" text="BOSS SE APROXIMANDO" class="boss-alerta" picking-mode="Ignore" />
+
+        <!-- Centro: anúncio da wave "WAVE N" ou "WAVE N - BOSS" (escondido por padrão; o HudProgressao.cs mostra durante o anúncio) -->
+        <ui:Label name="WaveAnuncio" text="WAVE 1" class="wave-anuncio" picking-mode="Ignore" />
 
         <!-- Topo central: barra de vida do boss (escondida por padrão; só aparece com boss vivo) -->
         <ui:VisualElement name="BossBarra" class="boss-barra" picking-mode="Ignore">

@@ -17,7 +17,11 @@ public class LevelUpUI : MonoBehaviour
     [SerializeField] private PanelRenderer painel;
     [SerializeField] private LevelUpManager manager;
 
+    // Integração (waves): título da tela quando o pedido de cards não traz um (ex.: "WAVE 3 CONCLUÍDA").
+    private const string TituloPadrao = "ESCOLHA UM CARD";
+
     private VisualElement raiz;
+    private Label tituloLabel;
     private Label restantesLabel;
     private readonly Button[] botoes = new Button[SorteadorDeCards.CardsPorOferta];
 
@@ -101,6 +105,7 @@ public class LevelUpUI : MonoBehaviour
     )
     {
         raiz = root.Q<VisualElement>("LevelUpRaiz");
+        tituloLabel = root.Q<Label>("LevelUpTitulo");
         restantesLabel = root.Q<Label>("LevelUpRestantes");
 
         for (int i = 0; i < botoes.Length; i++)
@@ -157,6 +162,13 @@ public class LevelUpUI : MonoBehaviour
         if (!visivel)
         {
             return;
+        }
+
+        if (tituloLabel != null)
+        {
+            // Integração (waves): "WAVE N CONCLUÍDA — escolha um card" no lugar do antigo "LEVEL UP — escolha um card".
+            string titulo = manager != null ? manager.TituloAtual : null;
+            tituloLabel.text = string.IsNullOrEmpty(titulo) ? TituloPadrao : titulo;
         }
 
         if (restantesLabel != null)

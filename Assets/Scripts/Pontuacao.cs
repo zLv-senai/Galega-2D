@@ -14,7 +14,9 @@ public class Pontuacao : MonoBehaviour
     void Update()
     {
         // Integração: o projeto usa só o Input System novo; Input.GetKeyDown daria erro.
-        if (UnityEngine.InputSystem.Keyboard.current != null
+        // Integração: só com o jogo rodando (no menu o Espaço é digitado no campo de nome).
+        if (EstadoDoJogo.Rodando
+            && UnityEngine.InputSystem.Keyboard.current != null
             && UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             pontos += 10 * multiplicador;

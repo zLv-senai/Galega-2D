@@ -7,7 +7,8 @@
     align-content: auto;
     align-items: stretch;
     flex-grow: 0;
-    min-width: auto;
+    /* Integração: largura mínima para o texto "Leaderboard" caber no botão (antes: min-width auto). */
+    min-width: 460px;
     min-height: auto;
     max-width: none;
     width: 50%;
@@ -29,9 +30,10 @@
     border-bottom-left-radius: 0;
     border-color: rgb(193, 112, 207);
     letter-spacing: 10px;
-    padding-bottom: 20px;
-    margin-bottom: 45px;
-    padding-top: 20px;
+    /* Integração: espaçamento menor (era padding 20px e margin-bottom 45px) para caber o 4º botão (Infinito). */
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+    padding-top: 14px;
     background-image: url("project://database/Assets/Welcome/2d-template.png?fileID=3684732902739343859&guid=474ce57d7c1704418af05d72d996ae5e&type=3#2d-template_0");
     background-size: auto auto;
     backdrop-filter: none;
@@ -51,6 +53,227 @@
     border-color: rgb(227, 75, 247);
     border-right-width: 8px;
     border-bottom-width: 18px;
-    margin-bottom: 39px;
+    margin-bottom: 18px;
     margin-right: 2px;
+}
+
+/* ================================================================================================
+   Integração: painéis novos do menu (Escolha o modo, Leaderboard e Settings), no mesmo estilo acima.
+   Os painéis ficam escondidos (display: none); o MenuManager.cs mostra um de cada vez.
+   ================================================================================================ */
+
+/* Moldura dos painéis: mesma aparência do containerMenu (que tem o estilo direto no MainMenu.uxml). */
+.moldura-menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80%;
+    height: 85%;
+    padding: 18px 28px 10px 28px;
+    color: rgba(255, 255, 255, 0.894);
+    background-color: rgba(41, 28, 53, 0.439);
+    border-color: rgba(125, 38, 255, 0.71);
+    border-width: 12px;
+    border-radius: 25px;
+}
+
+/* Título do painel: o "Menu" do Wagner em tamanho menor. */
+.titulo-painel {
+    flex-shrink: 0;
+    margin: 0 0 14px 0;
+    padding: 6px 10px;
+    color: rgb(193, 112, 207);
+    font-size: 72px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 4px;
+    -unity-text-outline-color: rgb(153, 0, 178);
+    letter-spacing: 6px;
+    text-shadow: -8px 6px 0 rgb(197, 126, 221);
+}
+
+/* Botão Voltar: o .button do Wagner, só mais estreito e com fonte menor (precisa vir depois do .button). */
+.button-voltar {
+    flex-shrink: 0;
+    width: 40%;
+    min-width: 300px;
+    font-size: 40px;
+    margin-bottom: 14px;
+}
+
+/* ---- Escolha o modo ---- */
+
+.campo-nome {
+    flex-shrink: 0;
+    width: 70%;
+    margin: 0 0 16px 0;
+    align-items: center;
+}
+
+.campo-nome .unity-base-field__label {
+    min-width: 200px;
+    margin: 0;
+    padding: 0 12px 0 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 34px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+}
+
+.campo-nome .unity-base-text-field__input {
+    flex-grow: 1;
+    margin: 0;
+    padding: 6px 14px;
+    color: rgb(255, 255, 255);
+    font-size: 34px;
+    -unity-text-align: middle-left;
+    background-color: rgba(30, 14, 46, 0.9);
+    border-color: rgb(193, 112, 207);
+    border-width: 3px;
+    border-radius: 14px;
+}
+
+.campo-nome:focus .unity-base-text-field__input {
+    border-color: rgb(238, 117, 222);
+}
+
+.linha-cards {
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: stretch;
+    margin-bottom: 14px;
+}
+
+/* Card do modo: botão grande clicável, com o formato do .button do Wagner (cantos opostos arredondados). */
+.card-modo {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    margin: 0 12px;
+    padding: 16px 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(76, 52, 98, 0.92);
+    border-color: rgb(193, 112, 207);
+    border-top-width: 3px;
+    border-right-width: 6px;
+    border-bottom-width: 12px;
+    border-left-width: 6px;
+    border-top-left-radius: 36px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 36px;
+    border-bottom-left-radius: 0;
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.12s;
+}
+
+.card-modo:hover {
+    background-color: rgba(112, 52, 150, 0.96);
+    border-color: rgb(238, 117, 222);
+    scale: 1.03 1.03;
+}
+
+.card-modo:active {
+    background-color: rgba(67, 25, 92, 0.96);
+}
+
+.card-titulo {
+    margin: 0 0 10px 0;
+    color: rgb(226, 160, 244);
+    font-size: 52px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 3px;
+    -unity-text-outline-color: rgb(110, 0, 140);
+    letter-spacing: 4px;
+    text-shadow: -5px 4px 0 rgb(124, 79, 139);
+}
+
+.card-descricao {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 28px;
+    -unity-text-align: upper-center;
+    white-space: normal;
+}
+
+/* ---- Leaderboard ---- */
+
+.lista-ranking {
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: stretch;
+    align-items: center;
+    justify-content: center;
+}
+
+.linha-ranking {
+    margin: 6px 0;
+    color: rgb(255, 255, 255);
+    font-size: 38px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(60, 10, 80);
+}
+
+.linha-ranking-topo {
+    color: rgb(255, 215, 90);
+}
+
+.linha-ranking-vazio {
+    color: rgba(255, 255, 255, 0.7);
+    -unity-font-style: normal;
+}
+
+/* ---- Settings ---- */
+
+.area-config {
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: stretch;
+    align-items: center;
+    justify-content: center;
+}
+
+.linha-config {
+    flex-direction: row;
+    align-items: center;
+    width: 92%;
+    margin: 0 0 22px 0;
+}
+
+.rotulo-config {
+    width: 190px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 40px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(60, 10, 80);
+}
+
+.valor-config {
+    width: 100px;
+    color: rgb(238, 150, 255);
+    font-size: 40px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-right;
+}
+
+.slider-config {
+    flex-grow: 1;
+    min-height: 40px;
+    margin: 0 18px;
+}
+
+.slider-config .unity-base-slider__tracker {
+    background-color: rgba(125, 38, 255, 0.55);
+    border-color: rgb(193, 112, 207);
+}
+
+.slider-config .unity-base-slider__dragger {
+    background-color: rgb(238, 117, 222);
+    border-color: rgb(255, 255, 255);
 }

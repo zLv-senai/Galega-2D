@@ -5,6 +5,9 @@ using UnityEngine;
 // Derrotando os "maxBosses", o jogo vira o estado Vitoria. Cada boss é mais forte que o anterior (BossController.Fortalecer).
 // Fica num objeto da cena (menu Galega > Montar Cena Final cria o "ControladorDeBoss").
 //
+// Integração (waves): com um GerenciadorDeWaves na cena, ele desliga a ameaça (ameacaAtiva = false) e chama
+// SurgirBoss(indice) nas waves de boss; aí quem decide a vitória é o gerenciador, não este controlador.
+//
 // EVENTOS: são ESTÁTICOS (mesmo padrão do EnemyMove.AoMorrer e do GameManager.AoMudarEstado). Quem assinar
 // precisa cancelar no OnDisable. Só existe um ControladorDeBoss por cena.
 public class ControladorDeBoss : MonoBehaviour
@@ -32,6 +35,9 @@ public class ControladorDeBoss : MonoBehaviour
     [SerializeField] private float margemSpawn = 3f;     // distância para fora da borda da tela onde o boss nasce
 
     [Header("Ameaça")]
+    // Integração (waves): false = a barra de ameaça fica desligada (o GerenciadorDeWaves desliga no Start).
+    // Os bosses então só nascem por SurgirBoss(indice) e a vitória não é decidida aqui.
+    public bool ameacaAtiva = true;
     [SerializeField] private float metaInicial = 30f;          // pontos para chamar o 1º boss
     [SerializeField] private float multiplicadorMeta = 1.5f;   // a meta do boss seguinte = meta atual x isto
     [SerializeField] private float pontosPorAbate = 1f;        // por inimigo morto
@@ -62,17 +68,22 @@ public class ControladorDeBoss : MonoBehaviour
     private int bossesDerrotados;
     private BossController bossAtual;
 
+    // Integração (waves): índice (0 = primeiro) e se é o boss final, do boss que está no alerta ou em campo.
+    private int indiceAtual;
+    private bool ehFinalAtual;
+
     // ---- Leitura para o HUD (o HudProgressao lê isto por polling) ----
 
-    public float Ameaca01 => meta > 0f ? Mathf.Clamp01(ameaca / meta) : 0f;
+    // Integração (waves): com a ameaça desligada, a barra fica sempre em 0.
+    public float Ameaca01 => ameacaAtiva && meta > 0f ? Mathf.Clamp01(ameaca / meta) : 0f;
     public bool EmAlerta => fase == Fase.Alerta;
-    public bool EhBossFinal => bossesDerrotados >= MaxBosses - 1;
+    public bool EhBossFinal => ameacaAtiva ? bossesDerrotados >= MaxBosses - 1 : ehFinalAtual;
     public int BossesDerrotados => bossesDerrotados;
     public int MaxBosses => Mathf.Max(1, maxBosses);
     public BossController BossAtual => bossAtual;
 
-    // Número (1, 2, 3...) do boss que está no alerta ou em campo.
-    public int NumeroDoBoss => Mathf.Min(bossesDerrotados + 1, MaxBosses);
+    // Número (1, 2, 3...) do boss que está no alerta ou em campo. Com waves vem do índice pedido (no Infinito passa de MaxBosses).
+    public int NumeroDoBoss => ameacaAtiva ? Mathf.Min(bossesDerrotados + 1, MaxBosses) : indiceAtual + 1;
 
     private void Awake()
     {
@@ -109,7 +120,7 @@ public class ControladorDeBoss : MonoBehaviour
                 tempoAlerta -= Time.deltaTime;
                 if (tempoAlerta <= 0f)
                 {
-                    SurgirBoss();
+                    InstanciarBoss();
                 }
                 break;
 
@@ -141,7 +152,8 @@ public class ControladorDeBoss : MonoBehaviour
     // Só soma enquanto está acumulando: não enche durante o alerta, com boss vivo nem depois de vencer.
     private void AdicionarAmeaca(float pontos)
     {
-        if (fase != Fase.Acumulando || pontos <= 0f)
+        // Integração (waves): com a ameaça desligada ela não enche (nem pelo ContextMenu de teste).
+        if (!ameacaAtiva || fase != Fase.Acumulando || pontos <= 0f)
         {
             return;
         }
@@ -152,7 +164,7 @@ public class ControladorDeBoss : MonoBehaviour
 
         if (encheu)
         {
-            IniciarAlerta();
+            IniciarAlerta(bossesDerrotados, bossesDerrotados >= MaxBosses - 1);
         }
     }
 
@@ -168,21 +180,51 @@ public class ControladorDeBoss : MonoBehaviour
         AoMudarAmeaca?.Invoke(fracao);
     }
 
-    private void IniciarAlerta()
+    private void IniciarAlerta(int indice, bool ehFinal)
     {
+        indiceAtual = indice;
+        ehFinalAtual = ehFinal;
         fase = Fase.Alerta;
         tempoAlerta = Mathf.Max(0f, duracaoAlerta);
-        AoAlerta?.Invoke(bossesDerrotados, EhBossFinal);
+        AoAlerta?.Invoke(indiceAtual, ehFinalAtual);
     }
 
-    private void SurgirBoss()
+    // Integração (waves): chamado pelo GerenciadorDeWaves nas waves de boss. Faz o alerta (AoAlerta) e, depois de
+    // "duracaoAlerta" segundos, o boss nasce fora da tela já fortalecido (Fortalecer(indice)).
+    // Devolve false (e não faz nada) se já há um alerta ou um boss em andamento.
+    public bool SurgirBoss(int indice, bool ehFinal = false)
+    {
+        if (fase == Fase.Alerta || fase == Fase.BossVivo)
+        {
+            Debug.LogWarning("ControladorDeBoss: já há um boss em andamento; o pedido do boss " + (indice + 1) + " foi ignorado.", this);
+            return false;
+        }
+
+        IniciarAlerta(Mathf.Max(0, indice), ehFinal);
+        return true;
+    }
+
+    // Integração (waves, usado pelos testes do gerenciador): apaga o boss atual (sem contar como derrotado) e cancela o alerta.
+    public void CancelarBoss()
+    {
+        if (bossAtual != null)
+        {
+            Destroy(bossAtual.gameObject);
+        }
+
+        bossAtual = null;
+        fase = Fase.Acumulando;
+    }
+
+    // Antes se chamava SurgirBoss (privado): agora é só a parte que cria o boss, quando o alerta acaba.
+    private void InstanciarBoss()
     {
         GameObject prefab = bossPrefab != null ? bossPrefab : Resources.Load<GameObject>(BossNoResources);
         if (prefab == null)
         {
             // Sem prefab não há boss: volta a acumular em vez de ficar preso no alerta.
             Debug.LogWarning("ControladorDeBoss: sem bossPrefab e sem 'Boss' em Assets/Resources. Rode o menu Galega > Criar Prefab do Boss.", this);
-            VoltarAAcumular();
+            AbandonarBoss();
             return;
         }
 
@@ -192,14 +234,28 @@ public class ControladorDeBoss : MonoBehaviour
         {
             Debug.LogWarning("ControladorDeBoss: o prefab do boss não tem o BossController.", this);
             Destroy(criado);
+            AbandonarBoss();
+            return;
+        }
+
+        // Integração: usa o índice guardado no alerta (com a ameaça ligada é igual a bossesDerrotados, como antes).
+        boss.Fortalecer(indiceAtual);
+        bossAtual = boss;
+        fase = Fase.BossVivo;
+        AoBossSurgir?.Invoke(boss);
+    }
+
+    // Integração: não deu para criar o boss. Com a ameaça ligada volta a acumular (como antes); com waves conta como
+    // derrotado, para a wave não ficar esperando um boss que nunca vai nascer.
+    private void AbandonarBoss()
+    {
+        if (ameacaAtiva)
+        {
             VoltarAAcumular();
             return;
         }
 
-        boss.Fortalecer(bossesDerrotados);
-        bossAtual = boss;
-        fase = Fase.BossVivo;
-        AoBossSurgir?.Invoke(boss);
+        FinalizarBoss();
     }
 
     private void VoltarAAcumular()
@@ -227,6 +283,13 @@ public class ControladorDeBoss : MonoBehaviour
         bossAtual = null;
         bossesDerrotados++;
         AoBossDerrotado?.Invoke(bossesDerrotados, MaxBosses);
+
+        // Integração (waves): quem decide a vitória (e o que vem depois) é o GerenciadorDeWaves; aqui só volta ao repouso.
+        if (!ameacaAtiva)
+        {
+            fase = Fase.Acumulando;
+            return;
+        }
 
         if (bossesDerrotados >= MaxBosses)
         {

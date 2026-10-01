@@ -138,6 +138,38 @@
     background-color: rgb(255, 80, 30);
 }
 
+/* Waves: bloco com a wave atual e os inimigos que faltam, abaixo da barra de XP */
+.wave-bloco {
+    margin-bottom: 8px;
+}
+
+.hud-wave {
+    margin-bottom: 2px;
+    color: rgb(255, 221, 87);
+}
+
+/* Centro: anúncio da wave (escondido por padrão). A classe wave-anuncio-boss deixa o texto vermelho. */
+.wave-anuncio {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 36%;
+    margin: 0;
+    color: rgb(255, 255, 255);
+    font-size: 96px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(0, 60, 80);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+}
+
+.wave-anuncio-boss {
+    color: rgb(255, 70, 50);
+    -unity-text-outline-color: rgb(90, 0, 0);
+}
+
 /* Centro-alto: alerta de boss (escondido por padrão; pisca pelo código via opacity) */
 .boss-alerta {
     display: none;
