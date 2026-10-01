@@ -14,6 +14,17 @@ public class HudProgressao : MonoBehaviour
     // Quanto tempo (em segundos) o nome do power-up pego fica na tela.
     private const float DuracaoPowerUp = 1.5f;
 
+    // Integração (boss): enfeite do alerta. O "⚠" pode não existir na fonte padrão do UI Toolkit (vira um quadradinho),
+    // por isso "!!". Se a fonte do projeto tiver o glifo, troque aqui.
+    private const string IconeAlerta = "!!";
+    private const string TextoAlertaBoss = IconeAlerta + " BOSS SE APROXIMANDO " + IconeAlerta;
+    private const string TextoAlertaBossFinal = IconeAlerta + " BOSS FINAL " + IconeAlerta;
+
+    // Integração (boss): o alerta pisca (1 ciclo = PeriodoPiscar segundos, aceso na primeira parte do ciclo).
+    private const float PeriodoPiscar = 0.8f;
+    private const float FracaoAcesoPiscar = 0.6f;
+    private const float OpacidadeApagado = 0.2f;
+
     [SerializeField] private PanelRenderer painel;
     [SerializeField] private PlayerXp playerXp;
     [SerializeField] private PlayerStats playerStats;
@@ -28,6 +39,22 @@ public class HudProgressao : MonoBehaviour
     private Label levelUpNivel;
     private Label powerUpAviso;
     private VisualElement powerUpsAtivos;
+
+    // Integração (boss): barra de ameaça, alerta e barra de vida do boss. Os dados vêm do ControladorDeBoss
+    // (achado no Start); sem ele, os elementos ficam escondidos.
+    private ControladorDeBoss controladorBoss;
+    private VisualElement ameacaBloco;
+    private VisualElement ameacaPreenchimento;
+    private Label bossAlerta;
+    private VisualElement bossBarra;
+    private Label bossTitulo;
+    private VisualElement bossVidaPreenchimento;
+
+    // Últimos valores escritos na tela, para só mexer nos elementos quando mudar (-1 = ainda não escrito).
+    private float ultimaAmeaca = -1f;
+    private float ultimaFracaoVidaBoss = -1f;
+    private int ultimoNumeroBoss = -1;
+    private int ultimoTotalBoss = -1;
 
     // Uma linha na lista por power-up ativo, e os segundos escritos nela (para só mexer no texto quando mudar).
     private readonly Dictionary<PowerUpData, Label> linhasPowerUp = new Dictionary<PowerUpData, Label>();
@@ -91,10 +118,13 @@ public class HudProgressao : MonoBehaviour
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
     }
 
-    // HUD visível em OnPlay, Pause e LevelUp; escondido no Menu e no Game Over.
+    // HUD visível em OnPlay, Pause e LevelUp; escondido no Menu, no Game Over e na Vitória.
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
-        hudVisivel = estado != GameManager.GameState.Menu && estado != GameManager.GameState.GameOver;
+        // Integração: a Vitória também esconde o HUD (antes só Menu e GameOver).
+        hudVisivel = estado != GameManager.GameState.Menu
+            && estado != GameManager.GameState.GameOver
+            && estado != GameManager.GameState.Vitoria;
         Mostrar(hudRaiz, hudVisivel);
     }
 
@@ -104,6 +134,11 @@ public class HudProgressao : MonoBehaviour
         // que faltava). Busca de novo o que ficou nulo no Awake e assina o que faltou.
         BuscarReferenciasDoPlayer();
         Assinar();
+
+        // Integração: sem ControladorDeBoss na cena, a barra de ameaça e a do boss não aparecem.
+        controladorBoss = FindAnyObjectByType<ControladorDeBoss>();
+        AplicarVisibilidadeBoss();
+
         AtualizarTudo();
     }
 
@@ -159,6 +194,7 @@ public class HudProgressao : MonoBehaviour
     private void Update()
     {
         AtualizarVida();
+        AtualizarBoss();
 
         if (esconderLevelUpEm >= 0f && Time.unscaledTime >= esconderLevelUpEm)
         {
@@ -251,6 +287,27 @@ public class HudProgressao : MonoBehaviour
         levelUpNivel = root.Q<Label>("LevelUpNivel");
         powerUpAviso = root.Q<Label>("PowerUpAviso");
         powerUpsAtivos = root.Q<VisualElement>("PowerUpsAtivos");
+
+        // Integração (boss)
+        ameacaBloco = root.Q<VisualElement>("AmeacaBloco");
+        ameacaPreenchimento = root.Q<VisualElement>("AmeacaPreenchimento");
+        bossAlerta = root.Q<Label>("BossAlerta");
+        bossBarra = root.Q<VisualElement>("BossBarra");
+        bossTitulo = root.Q<Label>("BossTitulo");
+        bossVidaPreenchimento = root.Q<VisualElement>("BossVidaPreenchimento");
+
+        if (ameacaBloco == null || ameacaPreenchimento == null || bossAlerta == null
+            || bossBarra == null || bossTitulo == null || bossVidaPreenchimento == null)
+        {
+            Debug.LogWarning("HudProgressao: elementos do boss (AmeacaBloco, BossAlerta, BossBarra...) não encontrados. Confira se o PanelRenderer usa o HudProgressao.uxml atualizado.");
+        }
+
+        // A árvore nova começa com os valores do UXML: força reescrever a ameaça e a vida do boss.
+        ultimaAmeaca = -1f;
+        ultimaFracaoVidaBoss = -1f;
+        ultimoNumeroBoss = -1;
+        ultimoTotalBoss = -1;
+        AplicarVisibilidadeBoss();
 
         // As linhas antigas eram da árvore que foi recriada: começa a lista do zero.
         linhasPowerUp.Clear();
@@ -354,6 +411,76 @@ public class HudProgressao : MonoBehaviour
         ultimaVida = vida;
         ultimaVidaMax = vidaMax;
         vidaLabel.text = "Vida " + vida + "/" + vidaMax;
+    }
+
+    // Integração (boss): sem ControladorDeBoss, esconde tudo do boss. Com ele, o AtualizarBoss controla o resto.
+    private void AplicarVisibilidadeBoss()
+    {
+        bool temControlador = controladorBoss != null;
+        Mostrar(ameacaBloco, temControlador);
+
+        if (!temControlador)
+        {
+            Mostrar(bossAlerta, false);
+            Mostrar(bossBarra, false);
+        }
+    }
+
+    // Integração (boss): lido por polling todo frame (barato e à prova de reload da UI).
+    // Ameaça: barra laranja. Alerta: texto piscando. Boss vivo: barra de vida no topo.
+    private void AtualizarBoss()
+    {
+        if (controladorBoss == null)
+        {
+            return;
+        }
+
+        float ameaca = controladorBoss.Ameaca01;
+        if (ameacaPreenchimento != null && !Mathf.Approximately(ameaca, ultimaAmeaca))
+        {
+            ultimaAmeaca = ameaca;
+            ameacaPreenchimento.style.width = new Length(ameaca * 100f, LengthUnit.Percent);
+        }
+
+        bool emAlerta = controladorBoss.EmAlerta;
+        if (bossAlerta != null && emAlerta)
+        {
+            bossAlerta.text = controladorBoss.EhBossFinal ? TextoAlertaBossFinal : TextoAlertaBoss;
+
+            // Time.unscaledTime: o piscar não depende do timeScale.
+            bool aceso = Mathf.Repeat(Time.unscaledTime, PeriodoPiscar) < PeriodoPiscar * FracaoAcesoPiscar;
+            bossAlerta.style.opacity = aceso ? 1f : OpacidadeApagado;
+        }
+
+        Mostrar(bossAlerta, emAlerta);
+
+        BossController boss = controladorBoss.BossAtual;
+        bool bossVisivel = boss != null && boss.vida > 0;
+        Mostrar(bossBarra, bossVisivel);
+
+        if (bossVisivel)
+        {
+            AtualizarBarraDoBoss(boss);
+        }
+    }
+
+    private void AtualizarBarraDoBoss(BossController boss)
+    {
+        int numero = controladorBoss.NumeroDoBoss;
+        int total = controladorBoss.MaxBosses;
+        if (bossTitulo != null && (numero != ultimoNumeroBoss || total != ultimoTotalBoss))
+        {
+            ultimoNumeroBoss = numero;
+            ultimoTotalBoss = total;
+            bossTitulo.text = "BOSS " + numero + "/" + total;
+        }
+
+        float fracao = boss.VidaMaxima > 0 ? Mathf.Clamp01(boss.vida / (float)boss.VidaMaxima) : 0f;
+        if (bossVidaPreenchimento != null && !Mathf.Approximately(fracao, ultimaFracaoVidaBoss))
+        {
+            ultimaFracaoVidaBoss = fracao;
+            bossVidaPreenchimento.style.width = new Length(fracao * 100f, LengthUnit.Percent);
+        }
     }
 
     // "Escudo x2"; some quando não há cargas.

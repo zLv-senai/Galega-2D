@@ -1,0 +1,56 @@
+/* Tela de Vitória: fundo escuro, título dourado, subtítulo e botão para jogar de novo. Mesmo molde do GameOver.uss. */
+
+/* Tela cheia escurecida. Fica escondida até o código mostrar (style.display = flex). */
+.vit-raiz {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(4, 8, 24, 0.85);
+}
+
+.vit-titulo {
+    margin: 0 0 12px 0;
+    color: rgb(255, 221, 87);
+    font-size: 120px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 3px;
+    -unity-text-outline-color: rgb(120, 60, 0);
+    text-shadow: 0 6px 14px rgba(0, 0, 0, 0.9);
+}
+
+.vit-subtitulo {
+    margin: 0 0 48px 0;
+    color: rgb(255, 255, 255);
+    font-size: 44px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* O seletor ".vit-raiz .vit-botao" é mais forte que o estilo padrão do botão (inclusive no :hover). */
+.vit-raiz .vit-botao {
+    width: 420px;
+    padding: 18px 24px;
+    margin: 0;
+    font-size: 38px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    background-color: rgb(40, 110, 200);
+    border-width: 4px;
+    border-radius: 14px;
+    border-color: rgb(120, 190, 255);
+}
+
+.vit-raiz .vit-botao:hover {
+    background-color: rgb(60, 140, 235);
+    border-color: rgb(190, 225, 255);
+}
+
+.vit-raiz .vit-botao:active {
+    background-color: rgb(30, 85, 160);
+}

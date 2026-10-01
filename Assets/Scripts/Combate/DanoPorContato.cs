@@ -3,8 +3,9 @@ using UnityEngine;
 // No inimigo: quando o collider dele encosta no collider do player, causa dano
 // e empurra o player para longe. O escudo é tratado dentro do PlayerMove
 // (TakeDamage), então aqui o empurrão acontece mesmo quando o escudo bloqueia o dano.
-// RequireComponent impede colocar este script em tiros ou outros objetos que não são inimigos.
-[RequireComponent(typeof(EnemyMove))]
+// Integração: antes havia [RequireComponent(typeof(EnemyMove))] para impedir este script em tiros e outros objetos
+// que não são inimigos. Como o boss (BossController) também causa dano por contato e não pode ter EnemyMove
+// (ele andaria e atiraria como inimigo comum), a guarda agora é feita no Start: só vale em EnemyMove ou BossController.
 public class DanoPorContato : MonoBehaviour
 {
     [SerializeField] private int dano = 10;
@@ -18,13 +19,23 @@ public class DanoPorContato : MonoBehaviour
     private IDamageable alvoDano;
     private Empurravel alvoEmpurravel;
     private EnemyMove inimigo;
+    private BossController boss; // Integração: o boss também usa este componente
     private Collider2D meuCollider;
     private Collider2D colliderAlvo;
 
     private void Start()
     {
         inimigo = GetComponent<EnemyMove>();
+        boss = GetComponent<BossController>();
         meuCollider = GetComponent<Collider2D>();
+
+        // Integração: no lugar do antigo RequireComponent. Sem inimigo nem boss, não faz nada.
+        if (inimigo == null && boss == null)
+        {
+            Debug.LogError("DanoPorContato: este componente só funciona em inimigos (EnemyMove) ou no boss (BossController). Remova-o deste objeto.", this);
+            enabled = false;
+            return;
+        }
 
         if (alvo == null)
         {
@@ -83,6 +94,12 @@ public class DanoPorContato : MonoBehaviour
 
         // Inimigo já morreu neste frame (o Destroy só acontece no fim do frame): não bate mais.
         if (inimigo != null && inimigo.vida < 1)
+        {
+            return;
+        }
+
+        // Integração: idem para o boss.
+        if (boss != null && boss.vida < 1)
         {
             return;
         }

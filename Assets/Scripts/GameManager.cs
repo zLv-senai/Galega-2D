@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
         Pause,
         // Novo valor sempre no FIM do enum: o estado é salvo como número nas cenas.
         LevelUp,
+        // Integração: fim de jogo por vitória (derrotou todos os bosses, ver ControladorDeBoss). Também no FIM do enum.
+        Vitoria,
 
     }
 
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
             break;
             case GameState.Pause:
             case GameState.LevelUp:
+            case GameState.Vitoria:
             Time.timeScale = 0f;
             break;
         }

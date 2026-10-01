@@ -8,6 +8,13 @@
             <ui:VisualElement name="XpFundo" class="xp-fundo" picking-mode="Ignore">
                 <ui:VisualElement name="XpPreenchimento" class="xp-preenchimento" picking-mode="Ignore" />
             </ui:VisualElement>
+            <!-- Ameaça: enche com abates e com o tempo; ao encher, chama o boss (o HudProgressao.cs esconde se não houver ControladorDeBoss) -->
+            <ui:VisualElement name="AmeacaBloco" class="ameaca-bloco" picking-mode="Ignore">
+                <ui:Label name="AmeacaLabel" text="AMEAÇA" class="hud-texto ameaca-titulo" picking-mode="Ignore" />
+                <ui:VisualElement name="AmeacaFundo" class="ameaca-fundo" picking-mode="Ignore">
+                    <ui:VisualElement name="AmeacaPreenchimento" class="ameaca-preenchimento" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
             <ui:Label name="VidaLabel" text="Vida 100/100" class="hud-texto" picking-mode="Ignore" />
             <ui:Label name="EscudoLabel" text="Escudo x0" class="hud-texto hud-escudo" picking-mode="Ignore" />
         </ui:VisualElement>
@@ -19,6 +26,17 @@
         <ui:VisualElement name="LevelUpPainel" class="levelup-painel" picking-mode="Ignore">
             <ui:Label name="LevelUpTitulo" text="LEVEL UP!" class="levelup-titulo" picking-mode="Ignore" />
             <ui:Label name="LevelUpNivel" text="Level 2" class="hud-texto levelup-nivel" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+        <!-- Centro-alto: alerta de boss (escondido por padrão; o HudProgressao.cs mostra piscando durante o alerta) -->
+        <ui:Label name="BossAlerta" text="BOSS SE APROXIMANDO" class="boss-alerta" picking-mode="Ignore" />
+
+        <!-- Topo central: barra de vida do boss (escondida por padrão; só aparece com boss vivo) -->
+        <ui:VisualElement name="BossBarra" class="boss-barra" picking-mode="Ignore">
+            <ui:Label name="BossTitulo" text="BOSS 1/3" class="hud-texto boss-titulo" picking-mode="Ignore" />
+            <ui:VisualElement name="BossVidaFundo" class="boss-vida-fundo" picking-mode="Ignore">
+                <ui:VisualElement name="BossVidaPreenchimento" class="boss-vida-preenchimento" picking-mode="Ignore" />
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- Centro-baixo: nome do power-up pego (escondido por padrão; o HudProgressao.cs mostra por 1,5 s) -->

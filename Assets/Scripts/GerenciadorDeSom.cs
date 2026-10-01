@@ -12,6 +12,12 @@ public class GerenciadorDeSom : MonoBehaviour
     [SerializeField] private AudioClip powerUp;
     [SerializeField] private AudioClip gameOver;
 
+    // Integração (boss): alerta quando a ameaça enche, explosão quando um boss morre e música de vitória.
+    [Header("Boss")]
+    [SerializeField] private AudioClip alertaBoss;
+    [SerializeField] private AudioClip explosaoBoss;
+    [SerializeField] private AudioClip vitoria;
+
     [Header("Música")]
     [SerializeField] private AudioClip musicaDeFundo;
 
@@ -46,6 +52,8 @@ public class GerenciadorDeSom : MonoBehaviour
         PadraoDeTiro.AoDisparar += TocarTiroPlayer;
         EnemyMove.AoAtirar += TocarTiroInimigo;
         EnemyMove.AoMorrer += TocarExplosaoInimigo;
+        ControladorDeBoss.AoAlerta += TocarAlertaBoss;
+        BossController.AoMorrer += TocarExplosaoBoss;
         GameManager.AoMudarEstado += TratarMudancaDeEstado;
     }
 
@@ -54,6 +62,8 @@ public class GerenciadorDeSom : MonoBehaviour
         PadraoDeTiro.AoDisparar -= TocarTiroPlayer;
         EnemyMove.AoAtirar -= TocarTiroInimigo;
         EnemyMove.AoMorrer -= TocarExplosaoInimigo;
+        ControladorDeBoss.AoAlerta -= TocarAlertaBoss;
+        BossController.AoMorrer -= TocarExplosaoBoss;
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
 
         if (playerXp != null)
@@ -123,6 +133,16 @@ public class GerenciadorDeSom : MonoBehaviour
         Tocar(explosaoInimigo, volumeEfeitos);
     }
 
+    private void TocarAlertaBoss(int indiceBoss, bool ehFinal)
+    {
+        Tocar(alertaBoss, volumeEfeitos);
+    }
+
+    private void TocarExplosaoBoss(BossController boss)
+    {
+        Tocar(explosaoBoss, volumeEfeitos);
+    }
+
     private void TocarLevelUp(int level)
     {
         Tocar(levelUp, volumeEfeitos);
@@ -139,6 +159,12 @@ public class GerenciadorDeSom : MonoBehaviour
         {
             fonteMusica.Stop();
             Tocar(gameOver, volumeEfeitos);
+        }
+        else if (estado == GameManager.GameState.Vitoria)
+        {
+            // Integração (boss): vitória para a música de fundo e toca o som de vitória.
+            fonteMusica.Stop();
+            Tocar(vitoria, volumeEfeitos);
         }
         else if (estado == GameManager.GameState.OnPlay && musicaDeFundo != null && !fonteMusica.isPlaying)
         {

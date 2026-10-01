@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Chama o EnemySpawn (Wagner) de tempos em tempos, ficando mais rápido com o tempo.
+// Chama o EnemySpawn de tempos em tempos, ficando mais rápido com o tempo.
 // Fica no mesmo objeto do EnemySpawn.
 [RequireComponent(typeof(EnemySpawn))]
 public class SpawnContinuo : MonoBehaviour
@@ -42,7 +42,7 @@ public class SpawnContinuo : MonoBehaviour
 
         proximoSpawn = Time.time + intervaloAtual;
 
-        if (FindObjectsByType<EnemyMove>(FindObjectsSortMode.None).Length >= maxInimigosVivos)
+        if (FindObjectsByType<EnemyMove>().Length >= maxInimigosVivos)
         {
             return;
         }

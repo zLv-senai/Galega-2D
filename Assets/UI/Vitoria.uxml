@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="Vitoria.uss" />
+    <!-- Tela cheia escurecida; escondida por padrão (o VitoriaUI.cs mostra quando o estado vira Vitoria) -->
+    <ui:VisualElement name="VitoriaRaiz" class="vit-raiz">
+        <ui:Label name="VitoriaTitulo" text="VITÓRIA!" class="vit-titulo" />
+        <ui:Label name="VitoriaSubtitulo" text="Você derrotou os 3 bosses" class="vit-subtitulo" />
+        <ui:Button name="VitoriaJogarDeNovo" text="Jogar de novo" class="vit-botao" />
+    </ui:VisualElement>
+</ui:UXML>
