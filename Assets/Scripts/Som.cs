@@ -3,21 +3,20 @@ using UnityEngine;
 public class Som : MonoBehaviour
 {
     public AudioSource audioSource;
-    public AudioClip som;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public AudioClip Sons;
 
     // Update is called once per frame
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown (KeyCode.Space))
         {
-            audioSource.PlayOneShot(som);
+            PlaySound(Sons);
         }
-        
+    }
+    public void PlaySound(AudioClip som)
+    
+    {
+        audioSource.PlayOneShot(som);
     }
 }
