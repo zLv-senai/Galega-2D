@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+// Controla o estado do jogo (menu, jogando, pausa, level up, game over, vitória), o Time.timeScale
+// e o reinício da cena.
 public class GameManager : MonoBehaviour
 {
     // Singleton simples: outros scripts acessam via GameManager.Instance
@@ -12,7 +14,10 @@ public class GameManager : MonoBehaviour
     // HUD, etc.) deve cancelar a assinatura no OnDisable, porque o evento é estático.
     public static event System.Action<GameState> AoMudarEstado;
 
+    // Painel do menu principal; se não estiver atribuído (cena de teste), o jogo começa direto em OnPlay.
     public PanelRenderer menuPanel;
+    // Estados do jogo. Menu: tela inicial; OnPlay: jogando; GameOver e Vitoria: fim de partida;
+    // Pause e LevelUp: jogo parado.
     public enum GameState
     {
         Menu,
@@ -26,8 +31,20 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // Estado atual. Para mudar, use SetGameState (ele acerta o tempo e avisa quem escuta o evento).
     public GameState gameState;
 
+    // "Jogar de novo" pede que a próxima carga da cena pule o menu. Estático para sobreviver ao LoadScene;
+    // é zerado ao entrar em Play porque o projeto roda sem Domain Reload (Enter Play Mode Options).
+    private static bool pularMenuNaProximaCarga;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ZerarEstaticos()
+    {
+        pularMenuNaProximaCarga = false;
+    }
+
+    // Registra o singleton; um segundo GameManager na cena remove só o próprio componente.
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -41,6 +58,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    // Libera o singleton quando este GameManager é destruído.
     private void OnDestroy()
     {
         if (Instance == this)
@@ -49,12 +67,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Escolhe o estado inicial: Menu (se há menuPanel e não veio de "Jogar de novo") ou direto OnPlay.
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Cenas com menu configurado começam nele. Cenas de teste sem menu
+        bool pularMenu = pularMenuNaProximaCarga;
+        pularMenuNaProximaCarga = false;
+
+        // Cenas com menu configurado começam nele (menos depois de "Jogar de novo"). Cenas de teste sem menu
         // atribuído (menuPanel nulo) vão direto para o jogo.
-        if (menuPanel != null)
+        if (menuPanel != null && !pularMenu)
         {
             SetGameState(GameState.Menu);
         }
@@ -64,6 +86,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Troca o estado e acerta o tempo: Menu liga o painel do menu e congela; OnPlay desliga o menu e libera;
+    // os demais congelam. No fim dispara o AoMudarEstado.
     public void SetGameState(GameState currentGameState)
     {
         gameState = currentGameState;
@@ -93,6 +117,7 @@ public class GameManager : MonoBehaviour
         AoMudarEstado?.Invoke(gameState);
     }
 
+    // Se há menuPanel, congela o tempo e liga o painel do menu.
     private void MenuState(bool state)
     {
         if (state && menuPanel != null)
@@ -123,5 +148,12 @@ public class GameManager : MonoBehaviour
 #else
         SceneManager.LoadScene(cenaAtiva.name);
 #endif
+    }
+
+    // Reinicia no mesmo modo e com o mesmo nome (ConfiguracaoDePartida é estática), sem passar pelo menu.
+    public void JogarDeNovo()
+    {
+        pularMenuNaProximaCarga = true;
+        Restart();
     }
 }

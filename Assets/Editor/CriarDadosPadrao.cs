@@ -8,6 +8,7 @@ using UnityEngine;
 // Nunca sobrescreve: se um asset já existir (o grupo pode ter editado), ele é mantido como está.
 public static class CriarDadosPadrao
 {
+    // Pastas e arquivos onde os cards, os power-ups, o banco e a tabela são criados.
     private const string PastaDados = "Assets/Data";
     private const string PastaCards = "Assets/Data/Cards";
     private const string PastaPowerUps = "Assets/Data/PowerUps";
@@ -64,6 +65,7 @@ public static class CriarDadosPadrao
         }
     }
 
+    // Os cards padrão do jogo, agrupados por raridade; cada um muda um stat (maxEscolhas 0 = sem limite de escolhas).
     private static readonly DefCard[] Cards =
     {
         new DefCard(Raridade.Comum, "Motor Afinado", "+8% de velocidade", StatTipo.Velocidade, TipoModificador.Percentual, 0.08f, 0),
@@ -88,6 +90,7 @@ public static class CriarDadosPadrao
         new DefCard(Raridade.Mitico, "Canhão Extra", "+1 projétil por disparo", StatTipo.Projeteis, TipoModificador.Somar, 1f, 2),
     };
 
+    // Os power-ups padrão: cor, duração em segundos, peso no sorteio e o modificador de stat (o Escudo só recarrega o escudo).
     private static readonly DefPowerUp[] PowerUps =
     {
         new DefPowerUp("Ímã de XP", Color.green, 3f, 30, false, StatTipo.RaioColeta, TipoModificador.Somar, 30f),
@@ -97,6 +100,7 @@ public static class CriarDadosPadrao
         new DefPowerUp("Tiro Triplo", Color.magenta, 10f, 10, false, StatTipo.Projeteis, TipoModificador.Somar, 2f),
     };
 
+    // Cria as pastas, os assets que faltam e as listas BancoDeCards e TabelaDePowerUps; no fim diz no Console quantos foram criados.
     [MenuItem("Galega/Criar cards e power-ups padrão")]
     public static void Criar()
     {
@@ -127,6 +131,7 @@ public static class CriarDadosPadrao
         Debug.Log("Galega: " + criados + " asset(s) criado(s). Os que já existiam foram mantidos.");
     }
 
+    // Devolve o card que já existe na pasta ou cria um novo a partir da definição (conta em "criados" só se criou).
     private static CardData ObterOuCriarCard(DefCard def, ref int criados)
     {
         string caminho = PastaCards + "/" + def.raridade + "_" + NomeDeArquivo(def.nome) + ".asset";
@@ -152,6 +157,7 @@ public static class CriarDadosPadrao
         return card;
     }
 
+    // Devolve o power-up que já existe na pasta ou cria um novo a partir da definição (conta em "criados" só se criou).
     private static PowerUpData ObterOuCriarPowerUp(DefPowerUp def, ref int criados)
     {
         string caminho = PastaPowerUps + "/" + NomeDeArquivo(def.nome) + ".asset";
@@ -179,6 +185,7 @@ public static class CriarDadosPadrao
         return powerUp;
     }
 
+    // Cria o BancoDeCards com a lista de cards, se esse asset ainda não existir.
     private static void CriarBancoSeNaoExistir(List<CardData> cards, ref int criados)
     {
         if (AssetDatabase.LoadAssetAtPath<BancoDeCards>(CaminhoBanco) != null)
@@ -192,6 +199,7 @@ public static class CriarDadosPadrao
         criados++;
     }
 
+    // Cria a TabelaDePowerUps com a lista de power-ups, se esse asset ainda não existir.
     private static void CriarTabelaSeNaoExistir(List<PowerUpData> powerUps, ref int criados)
     {
         if (AssetDatabase.LoadAssetAtPath<TabelaDePowerUps>(CaminhoTabela) != null)

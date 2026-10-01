@@ -7,8 +7,10 @@ using UnityEngine;
 // O "Galega > Montar Cena Final" chama GarantirPrefab() e cria o prefab sozinho se ele ainda não existir.
 public static class CriarPrefabBoss
 {
+    // Onde o prefab do boss é salvo.
     public const string CaminhoPrefab = "Assets/Resources/Boss.prefab";
 
+    // Arquivos de onde o boss tira o sprite, o Animator e o prefab do tiro.
     private const string CaminhoSprite = "Assets/Images/boss2.png";
     private const string CaminhoAnimator = "Assets/Images/Player/boss2_1.controller";
     private const string CaminhoTiro = "Assets/Prefabs/ShotEnemy.prefab";
@@ -16,6 +18,7 @@ public static class CriarPrefabBoss
     // Mesma tag dos inimigos (Enemy.prefab): o tiro do boss usa essa tag para não acertar inimigos nem o próprio boss.
     private const string TagInimigo = "Inimigo";
 
+    // Escala do boss, ordem de desenho, vida e dano por contato.
     private const float Escala = 3f;
     private const int OrdemDeDesenho = 10;
     private const int VidaDoBoss = 60;
@@ -25,8 +28,10 @@ public static class CriarPrefabBoss
     // o boss piscaria para um sprite minúsculo, então o Animator só é colocado quando os quadros são parecidos.
     // Mude para true para colocar o Animator mesmo assim.
     private const bool ForcarAnimator = false;
+    // Quanto o menor quadro pode ser, em proporção da área do maior, para os quadros ainda contarem como parecidos.
     private const float AreaMinimaRelativaDosQuadros = 0.5f;
 
+    // Item do menu: cria o prefab, seleciona e destaca ele no Project e avisa no Console.
     [MenuItem("Galega/Criar Prefab do Boss")]
     public static void CriarPeloMenu()
     {
@@ -75,6 +80,7 @@ public static class CriarPrefabBoss
         }
     }
 
+    // Monta o boss no objeto temporário: escala, tag, sprite, Animator, collider, Rigidbody2D, BossController e DanoPorContato.
     private static void Montar(GameObject boss, Sprite sprite)
     {
         boss.transform.localScale = Vector3.one * Escala;
@@ -118,6 +124,7 @@ public static class CriarPrefabBoss
         }
     }
 
+    // Põe a tag de inimigo no boss; se a tag não existir no projeto, só avisa no Console.
     private static void DefinirTag(GameObject boss)
     {
         try
@@ -130,6 +137,7 @@ public static class CriarPrefabBoss
         }
     }
 
+    // Carrega o prefab de tiro do boss; avisa no Console se não achar.
     private static GameObject CarregarTiro()
     {
         GameObject tiro = AssetDatabase.LoadAssetAtPath<GameObject>(CaminhoTiro);
@@ -163,6 +171,7 @@ public static class CriarPrefabBoss
         return maior;
     }
 
+    // Coloca o Animator no boss, a menos que o controller não exista ou os quadros sejam muito diferentes (ver ForcarAnimator).
     private static void AdicionarAnimator(GameObject boss)
     {
         RuntimeAnimatorController controle = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(CaminhoAnimator);

@@ -9,11 +9,13 @@ public class DestruirForaDaTela : MonoBehaviour
     //Referência da câmera principal cacheada, em vez de buscar Camera.main todo frame
     private Camera cameraPrincipal;
 
+    // Pega a câmera principal uma vez só.
     void Start()
     {
         cameraPrincipal = Camera.main;
     }
 
+    // Todo frame: marca quando o objeto entra na tela e o destrói quando sai dela depois disso.
     void Update()
     {
         //Se ainda não conseguimos a câmera (ex.: objeto instanciado antes dela existir), tenta de novo.

@@ -5,11 +5,14 @@ using UnityEngine;
 // ao ser coletado (AoColetar).
 public abstract class Coletavel : MonoBehaviour
 {
+    // Velocidade com que o item começa a voar até o player e quanto ela aumenta por segundo.
     [SerializeField] private float velocidadeInicial = 6f;
     [SerializeField] private float aceleracao = 4f;
 
+    // Distância do alvo a partir da qual o item conta como coletado.
     private const float DistanciaParaColetar = 0.3f;
 
+    // Quem está sendo perseguido (null = parado) e a velocidade atual do voo.
     private Coletor alvo;
     private float velocidadeAtual;
 
@@ -27,6 +30,8 @@ public abstract class Coletavel : MonoBehaviour
         velocidadeAtual = velocidadeInicial;
     }
 
+    // Com o jogo rodando e com alvo: voa até o player acelerando; ao chegar perto chama
+    // AoColetar e some.
     private void Update()
     {
         if (alvo == null || !EstadoDoJogo.Rodando)
@@ -53,5 +58,6 @@ public abstract class Coletavel : MonoBehaviour
         }
     }
 
+    // Efeito de cada tipo de item ao ser coletado; as classes filhas implementam.
     protected abstract void AoColetar(Coletor c);
 }

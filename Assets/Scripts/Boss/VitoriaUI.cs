@@ -9,6 +9,7 @@ public class VitoriaUI : MonoBehaviour
 {
     [SerializeField] private PanelRenderer painel;
 
+    // Elementos da tela de vitória: raiz, subtítulo e botão de jogar de novo (buscados a cada reload da UI).
     private VisualElement raiz;
     private Label subtitulo;
     private Button jogarDeNovo;
@@ -22,6 +23,7 @@ public class VitoriaUI : MonoBehaviour
     // Integração (waves): na Campanha por waves o subtítulo é "Você venceu as 15 waves". Vem do GerenciadorDeWaves da cena.
     private GerenciadorDeWaves waves;
 
+    // Acha o PanelRenderer do mesmo objeto e registra o callback de recarga da UI.
     private void Awake()
     {
         if (painel == null)
@@ -39,6 +41,7 @@ public class VitoriaUI : MonoBehaviour
         }
     }
 
+    // Cancela o registro do callback de recarga da UI.
     private void OnDestroy()
     {
         if (painel != null)
@@ -47,17 +50,20 @@ public class VitoriaUI : MonoBehaviour
         }
     }
 
+    // Passa a ouvir as mudanças de estado do jogo para mostrar ou esconder a tela.
     private void OnEnable()
     {
         // Evento estático: precisa cancelar no OnDisable.
         GameManager.AoMudarEstado += TratarMudancaDeEstado;
     }
 
+    // Para de ouvir as mudanças de estado do jogo.
     private void OnDisable()
     {
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
     }
 
+    // Pega o total de bosses e o gerenciador de waves da cena, vê se já está em Vitoria e desenha a tela.
     private void Start()
     {
         ControladorDeBoss controlador = FindAnyObjectByType<ControladorDeBoss>();
@@ -76,6 +82,7 @@ public class VitoriaUI : MonoBehaviour
         Renderizar();
     }
 
+    // Quando a UI é (re)criada: busca os elementos de novo, liga o clique do botão e redesenha a tela.
     private void OnUIReload(
         PanelRenderer panel,
         VisualElement root,
@@ -96,12 +103,14 @@ public class VitoriaUI : MonoBehaviour
         Renderizar();
     }
 
+    // A tela só fica visível no estado Vitoria.
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
         visivel = estado == GameManager.GameState.Vitoria;
         Renderizar();
     }
 
+    // Atualiza o subtítulo e mostra ou esconde a tela conforme 'visivel'.
     private void Renderizar()
     {
         if (raiz == null)
@@ -135,6 +144,7 @@ public class VitoriaUI : MonoBehaviour
             : "Você derrotou os " + totalBosses + " bosses";
     }
 
+    // Clique no botão: pede ao GameManager para jogar de novo (recarrega a cena).
     private void OnJogarDeNovoClicked(ClickEvent evt)
     {
         if (GameManager.Instance == null)
@@ -143,6 +153,6 @@ public class VitoriaUI : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.Restart();
+        GameManager.Instance.JogarDeNovo();
     }
 }

@@ -7,6 +7,7 @@ public class Empurravel : MonoBehaviour
     [SerializeField] private float forcaMax = 12f;      // velocidade máxima do empurrão
     [SerializeField] private float desaceleracao = 30f; // quanto a velocidade cai por segundo
 
+    // Velocidade atual do empurrão (zero = parado).
     private Vector2 velocidade;
 
     // Soma um impulso na direção dada (a direção é normalizada; "forca" é a velocidade inicial).
@@ -20,6 +21,7 @@ public class Empurravel : MonoBehaviour
         velocidade = Vector2.ClampMagnitude(velocidade + direcao.normalized * forca, forcaMax);
     }
 
+    // Move o transform pela velocidade do empurrão e vai freando até parar (só com o jogo rodando).
     private void Update()
     {
         if (!EstadoDoJogo.Rodando || velocidade == Vector2.zero)

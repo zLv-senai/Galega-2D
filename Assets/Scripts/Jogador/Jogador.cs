@@ -5,6 +5,7 @@ using UnityEngine;
 // FindWithTag devolveria um filho sem PlayerXp/PlayerStats/Empurravel.
 public static class Jogador
 {
+    // Devolve o objeto raiz do player (procura o PlayerMove; senão usa a tag Player) ou null se não houver.
     public static GameObject Encontrar()
     {
         PlayerMove playerMove = Object.FindAnyObjectByType<PlayerMove>();

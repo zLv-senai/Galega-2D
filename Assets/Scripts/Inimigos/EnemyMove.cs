@@ -14,6 +14,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
 
      // Publicando a variável vida para que possa ser ajustada no Inspector do Unity
     public int vida =2;
+    // Segundos de espera entre um tiro e o próximo.
     public float fireHate  = 1.0f;
 
     // Opcionais: se ficarem vazios, o tiro vem do Resources e a arma é procurada nos filhos.
@@ -29,6 +30,21 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Segundos entre entrar na tela e o primeiro tiro (dá tempo do jogador ver o inimigo).
     [SerializeField] private float atrasoPrimeiroTiro = 0.5f;
 
+    // Velocidade de perseguição (unidades/s). Antes era fixa em 0,5 (2 * deltaTime / 4): 10x mais lenta
+    // que o player (5), então todo inimigo que ficava para trás nunca mais alcançava.
+    [SerializeField] private float velocidade = 2f;
+
+    [Header("Reciclagem (inimigo que ficou longe)")]
+    // Unidades além da borda da câmera a partir das quais o inimigo conta como "longe".
+    [SerializeField] private float distanciaReciclar = 6f;
+    // Segundos seguidos longe antes de reaparecer do outro lado da tela.
+    [SerializeField] private float tempoParaReciclar = 1.5f;
+    // Distância além da borda onde ele reaparece (a mesma margem do EnemySpawn).
+    [SerializeField] private float margemReaparecer = 1f;
+
+    // Segundos seguidos que o inimigo está longe (zera quando volta para perto ou é reciclado).
+    private float tempoLonge;
+
     // Achados sozinhos no Start (um inimigo criado por código não tem nada arrastado).
     //Declarando variável para armazenar a posição do alvo
     private Transform target;
@@ -40,6 +56,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Time.time a partir do qual pode atirar depois de entrar na tela (-1 = está fora da tela).
     private float liberaTiroEm = -1f;
 
+    // Câmera principal, usada para saber se o inimigo está na tela ou ficou longe.
     private Camera cam;
 
     // Evento estático: quem quiser saber quando QUALQUER inimigo morre assina aqui (ex.: GeradorDeGemas).
@@ -48,6 +65,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Som: avisado quando qualquer inimigo atira (ex.: GerenciadorDeSom).
     public static event System.Action<EnemyMove> AoAtirar;
 
+    // Pega a câmera e o GameManager, acha a arma (Gun) e o prefab do tiro se não vieram do Inspector
+    // e procura o player.
     private void Start()
     {
         cam = Camera.main;
@@ -83,6 +102,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
         BuscarAlvo();
     }
 
+    // Se ainda não há alvo, procura o player da cena.
     private void BuscarAlvo()
     {
         if (target != null)
@@ -98,7 +118,9 @@ public class EnemyMove : MonoBehaviour, IDamageable
     }
 
     // Update is called once per frame
-     private void Update()
+    // Com o jogo em andamento: segue o player, recicla o inimigo que ficou longe, mira a arma
+    // e atira (só dentro da tela).
+    private void Update()
     {
         GameManager gm = ObterGameManager();
         if(gm == null || gm.gameState != GameManager.GameState.OnPlay)
@@ -107,6 +129,14 @@ public class EnemyMove : MonoBehaviour, IDamageable
         }
 
         SeguirJogador();
+
+        // Ficou para trás (o player é mais rápido): reaparece logo fora da tela, na frente do player.
+        // Neste frame não mira nem atira.
+        if (ReciclarSeEstiverLonge())
+        {
+            return;
+        }
+
         MirarNoJogador();
 
         // Fora da tela: não atira, e o atraso do primeiro tiro recomeça quando voltar.
@@ -126,6 +156,59 @@ public class EnemyMove : MonoBehaviour, IDamageable
             canShoot = false;
             StartCoroutine(Shoot());
         }
+    }
+
+    // Inimigo esquecido longe reaparece do lado oposto da tela. É o MESMO objeto: continua no "vivos" do
+    // GerenciadorDeWaves, com a vida (e o bônus da wave), e não dispara AoMorrer (sem gema, drop nem abate).
+    // O boss não tem EnemyMove, então nunca é reciclado.
+    private bool ReciclarSeEstiverLonge()
+    {
+        if (cam == null)
+        {
+            cam = Camera.main;
+            if (cam == null)
+            {
+                return false;
+            }
+        }
+
+        float altura = cam.orthographicSize;
+        float largura = altura * cam.aspect;
+        Vector2 deslocamento = transform.position - cam.transform.position;
+
+        bool longe = Mathf.Abs(deslocamento.x) > largura + distanciaReciclar
+                  || Mathf.Abs(deslocamento.y) > altura + distanciaReciclar;
+        if (!longe)
+        {
+            tempoLonge = 0f;
+            return false;
+        }
+
+        tempoLonge += Time.deltaTime;
+        if (tempoLonge < tempoParaReciclar)
+        {
+            return false;
+        }
+
+        tempoLonge = 0f;
+        transform.position = EnemySpawn.PontoForaDaTela(cam, LadoOposto(deslocamento, largura, altura), margemReaparecer);
+        liberaTiroEm = -1f;
+        return true;
+    }
+
+    // Lado da tela oposto ao lado em que o inimigo ficou (ficou em cima = o player foi para baixo = reaparece embaixo).
+    // Compara as distâncias proporcionais à metade da tela, para a tela larga (16:9) não favorecer os lados.
+    private static int LadoOposto(Vector2 deslocamento, float largura, float altura)
+    {
+        float proporcaoX = Mathf.Abs(deslocamento.x) / Mathf.Max(0.01f, largura);
+        float proporcaoY = Mathf.Abs(deslocamento.y) / Mathf.Max(0.01f, altura);
+
+        if (proporcaoX > proporcaoY)
+        {
+            return deslocamento.x > 0f ? EnemySpawn.LadoEsquerda : EnemySpawn.LadoDireita;
+        }
+
+        return deslocamento.y > 0f ? EnemySpawn.LadoBaixo : EnemySpawn.LadoCima;
     }
 
     // O GameManager pode ainda não existir no Start (ordem de inicialização); tenta de novo.
@@ -196,6 +279,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
         }
     }
 
+    // Atira um tiro na direção do player (se há alvo, prefab e arma) e depois espera fireHate para poder atirar de novo.
        IEnumerator Shoot()
     {
         // Só atira se tiver alvo, prefab e ponto de disparo. canShoot sempre
@@ -241,6 +325,6 @@ public class EnemyMove : MonoBehaviour, IDamageable
             return;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, target.position, 2 * Time.deltaTime/4);
+        transform.position = Vector2.MoveTowards(transform.position, target.position, velocidade * Time.deltaTime);
     }
 }

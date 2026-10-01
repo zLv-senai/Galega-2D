@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Jeitos de o boss se mover: Oscilar (balança em volta de onde nasceu), Seguir (persegue o player)
+// e Rondar (gira em volta dele).
 // Integração: Rondar foi adicionado NO FIM do enum (o padrão é salvo como número nas cenas).
 public enum PadraoBoss { Oscilar, Seguir, Rondar }
 
@@ -28,14 +30,18 @@ public class BossController : MonoBehaviour, IDamageable
     [Header("Referências")]
     // Integração: mantido por compatibilidade com a cena do Samuel. O estado do jogo agora vem de EstadoDoJogo.
     public GameManager gameManager;
+    // Quem o boss persegue e mira (vazio = acha o player da cena), o prefab do tiro e de onde os tiros saem
+    // (vazio = o próprio boss).
     public Transform target;
     public GameObject tiroPrefab;
     public Transform gun;
 
     [Header("Vida")]
+    // Vida atual: o boss morre quando fica abaixo de 1. O Fortalecer ajusta o valor conforme o número do boss.
     public int vida = 20;
 
     [Header("Movimento")]
+    // Padrão de movimento, velocidade e, no Oscilar, o quanto balança para os lados (X) e para cima e baixo (Y).
     public PadraoBoss padrao = PadraoBoss.Oscilar;
     public float velocidade = 2f;
     public float amplitudeX = 3f;
@@ -44,6 +50,7 @@ public class BossController : MonoBehaviour, IDamageable
     public float distanciaRondar = 5f;
 
     [Header("Tiro")]
+    // Segundos entre disparos, tiros por disparo, ângulo entre eles e um desvio extra (anguloBase) aplicado ao leque todo.
     public float intervaloTiro = 1.5f;
     public int quantidadeTiros = 3;
     public float anguloEntreTiros = 15f;
@@ -51,6 +58,7 @@ public class BossController : MonoBehaviour, IDamageable
     // Integração: true = o leque de tiros é centrado na direção do player; false = usa a rotação da arma (como antes).
     public bool mirarNoPlayer = true;
 
+    // Onde o boss nasceu (centro do Oscilar), relógio do movimento e cronômetro até o próximo disparo.
     private Vector3 posicaoInicial;
     private float tempo;
     private float timerTiro;
@@ -71,6 +79,7 @@ public class BossController : MonoBehaviour, IDamageable
     // Integração: para a barra de vida do boss no HUD ("vida" já é pública, e este é o valor máximo atual).
     public int VidaMaxima => vidaMaxima;
 
+    // Guarda os valores de fábrica do boss (vida, tiro e velocidade) para o Fortalecer partir deles.
     void Awake()
     {
         vidaBase = vida;
@@ -80,6 +89,7 @@ public class BossController : MonoBehaviour, IDamageable
         velocidadeBase = velocidade;
     }
 
+    // Guarda onde o boss nasceu, procura o player e usa o próprio boss como arma se não houver 'gun'.
     void Start()
     {
         posicaoInicial = transform.position;
@@ -93,6 +103,7 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
+    // Enquanto o jogo está rodando, o boss se move e atira.
     void Update()
     {
         // Integração: antes era gameManager.gameState == OnPlay (quebrava sem o gameManager arrastado).
@@ -119,6 +130,7 @@ public class BossController : MonoBehaviour, IDamageable
         velocidade = velocidadeBase * (1f + 0.1f * indice);
     }
 
+    // Se ainda não há alvo, usa o player da cena.
     void BuscarAlvo()
     {
         if (target != null)
@@ -151,6 +163,7 @@ public class BossController : MonoBehaviour, IDamageable
         return target != null;
     }
 
+    // Aplica o padrão de movimento escolhido (Oscilar, Seguir ou Rondar) neste frame.
     void Mover()
     {
         switch (padrao)
@@ -214,6 +227,7 @@ public class BossController : MonoBehaviour, IDamageable
         transform.position = Vector3.MoveTowards(transform.position, suave, velocidade * MultiplicadorVelocidadeRondar * Time.deltaTime);
     }
 
+    // Conta o tempo e, a cada intervaloTiro, dispara um leque de tiros, mas só com o boss dentro da tela.
     void Atirar()
     {
         // Integração: só conta o tempo do tiro com o boss dentro da tela
@@ -233,6 +247,7 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
+    // Diz se o boss está dentro da câmera (sem câmera principal, considera que sim).
     private bool EstaNaTela()
     {
         Camera cam = Camera.main;
@@ -261,6 +276,7 @@ public class BossController : MonoBehaviour, IDamageable
         return gun.rotation;
     }
 
+    // Cria quantidadeTiros tiros em leque a partir da arma, separados por anguloEntreTiros, e os marca como tiros de inimigo.
     void Disparar()
     {
         // Integração: sem prefab de tiro ou sem arma não há o que disparar.

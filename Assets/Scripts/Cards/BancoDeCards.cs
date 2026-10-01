@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BancoDeCards", menuName = "Galega/Banco de cards")]
 public class BancoDeCards : ScriptableObject
 {
+    // Arraste aqui os assets de card; o sorteador ignora entradas vazias.
     public List<CardData> cards = new List<CardData>();
 }

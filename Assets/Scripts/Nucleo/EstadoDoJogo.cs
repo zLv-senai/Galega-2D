@@ -2,6 +2,7 @@
 // Toda lógica nova de gameplay deve checar EstadoDoJogo.Rodando antes de agir.
 public static class EstadoDoJogo
 {
+    // True só no estado OnPlay do GameManager (menu, pausa, level up, game over e vitória dão false).
     public static bool Rodando
     {
         get

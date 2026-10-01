@@ -1,9 +1,11 @@
 using UnityEngine;
 
+// Faz a câmera acompanhar o player: copia a posição dele todo frame, mantendo o Z em -10.
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform player;   // Quem a câmera vai seguir?  Função SerializeField permite que a variável seja privada, mas ainda assim visível no Inspector do Unity.
 
+    // Roda depois de todos os Update (o player já se moveu) e coloca a câmera na posição dele.
     void LateUpdate()
     {
         Vector3 novaPosicao = player.position;   // Qual a posição do player? (1) A câmera vai seguir o player, então a posição da câmera será a mesma do player.

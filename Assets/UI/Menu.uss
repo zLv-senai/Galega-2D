@@ -132,10 +132,21 @@
     border-color: rgb(193, 112, 207);
     border-width: 3px;
     border-radius: 14px;
+    --unity-cursor-color: rgb(255, 255, 255);
 }
 
 .campo-nome:focus .unity-base-text-field__input {
     border-color: rgb(238, 117, 222);
+}
+
+/* "Piloto" de fundo (placeholder): mais apagado que o texto digitado, para não parecer um nome já escrito. */
+.campo-nome .unity-base-text-field__input--placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Fase apagada do cursor piscando (o MenuManager liga e desliga esta classe). */
+.campo-nome.campo-nome--cursor-apagado .unity-base-text-field__input {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
 }
 
 .linha-cards {

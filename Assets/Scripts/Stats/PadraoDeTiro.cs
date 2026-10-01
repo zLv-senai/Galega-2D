@@ -15,6 +15,7 @@ public static class PadraoDeTiro
     public static event System.Action AoDisparar;
 
     // "direcao" = para onde mirar (ex.: da arma até o mouse). Se vier zero, usa a rotação da arma.
+    // Instancia o leque de tiros na posição da arma, com dano e quantidade vindos dos stats, e avisa o AoDisparar.
     public static void Disparar(GameObject prefab, Transform gun, PlayerStats stats, Vector2 direcao)
     {
         if (prefab == null || gun == null)

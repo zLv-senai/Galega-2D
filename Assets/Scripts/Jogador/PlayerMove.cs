@@ -2,13 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Controle do player: anda com WASD, atira com o botão esquerdo do mouse, recebe dano e chama o Game Over ao morrer.
 [RequireComponent(typeof(PlayerStats))] // PlayerStats: player sempre precisa dos stats
 public class PlayerMove : MonoBehaviour, IDamageable
 {
+    // Vida atual (começa cheia pelo VidaMax dos stats, no Awake).
     public int vida = 100;
     public int level = 1; // PlayerStats: level/XP agora vivem em PlayerXp; campo mantido para não quebrar o Inspector.
     private int xp = 0; // PlayerStats: idem, não é mais incrementado por aqui.
     public float velocidade = 5.0f; // PlayerStats: substituído por stats.Velocidade; campo mantido sem uso para não quebrar o Inspector.
+    // Prefab do projétil, GameManager (se faltar, usa o singleton) e a ponta da arma de onde o tiro sai.
     public GameObject tiroPrefab;
     public GameManager gameManager;
     [SerializeField] private Transform gun;
@@ -32,17 +35,19 @@ public class PlayerMove : MonoBehaviour, IDamageable
         vida = stats.VidaMax;
     }
 
+    // A cada frame, com o jogo rodando, o player atira e se move.
     // Update is called once per frame
     void Update()
     {
-        GameManager gm = ObterGameManager();
-        if(gm != null && gm.gameState == GameManager.GameState.OnPlay)
+        // Mesmo critério do resto do jogo: OnPlay com GameManager, e sempre ligado em cenas de teste sem ele.
+        if (EstadoDoJogo.Rodando)
         {
             Shoot();
             Movimento();
         }
     }
 
+    // Recebe dano (depois do filtro do escudo); se a vida zera, chama o Game Over e desativa o player.
     public void TakeDamage(int dano)
     {
         if (morto)
@@ -58,7 +63,6 @@ public class PlayerMove : MonoBehaviour, IDamageable
         }
 
         vida -= dano;
-        Debug.Log(vida);
 
         if (vida <= 0)
         {
@@ -126,19 +130,26 @@ public class PlayerMove : MonoBehaviour, IDamageable
         // na diagonal não fica mais rápido do que andar reto.
         Vector2 direcao = Vector2.zero;
 
-        if (Keyboard.current.wKey.isPressed)
+        // Sem teclado conectado o Keyboard.current é nulo.
+        Keyboard teclado = Keyboard.current;
+        if (teclado == null)
+        {
+            return;
+        }
+
+        if (teclado.wKey.isPressed)
         {
             direcao.y += 1;
         }
-        if (Keyboard.current.sKey.isPressed)
+        if (teclado.sKey.isPressed)
         {
             direcao.y -= 1;
         }
-        if (Keyboard.current.aKey.isPressed)
+        if (teclado.aKey.isPressed)
         {
             direcao.x -= 1;
         }
-        if (Keyboard.current.dKey.isPressed)
+        if (teclado.dKey.isPressed)
         {
             direcao.x += 1;
         }

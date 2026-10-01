@@ -22,6 +22,7 @@ public class ControladorDeBoss : MonoBehaviour
     // O evento AoMudarAmeaca só dispara quando a barra muda pelo menos isto (0 a 1), para não avisar todo frame.
     private const float MudancaMinimaAmeaca = 0.002f;
 
+    // Etapa do boss atual: acumulando ameaça, alerta antes de o boss nascer, boss vivo em campo e partida concluída.
     private enum Fase { Acumulando, Alerta, BossVivo, Concluido }
 
     [Header("Prefabs")]
@@ -29,6 +30,7 @@ public class ControladorDeBoss : MonoBehaviour
     [SerializeField] private GameObject gemaPrefab;   // solta ao boss morrer; vazio = Resources/GemsXp
 
     [Header("Bosses")]
+    // Quantos bosses a partida tem e quantas gemas de XP cada um solta ao morrer.
     [SerializeField] private int maxBosses = 3;
     [SerializeField] private int gemasAoMorrer = 15;
     [SerializeField] private float duracaoAlerta = 3f;   // segundos entre o aviso e o boss aparecer
@@ -60,6 +62,8 @@ public class ControladorDeBoss : MonoBehaviour
     // O último boss morreu (logo depois do GameManager ir para o estado Vitoria).
     public static event System.Action AoVitoria;
 
+    // Estado: etapa atual, meta e valor da barra de ameaça, última fração avisada ao HUD, contagem do alerta,
+    // bosses já derrotados e o boss em campo.
     private Fase fase = Fase.Acumulando;
     private float meta;
     private float ameaca;
@@ -76,32 +80,41 @@ public class ControladorDeBoss : MonoBehaviour
 
     // Integração (waves): com a ameaça desligada, a barra fica sempre em 0.
     public float Ameaca01 => ameacaAtiva && meta > 0f ? Mathf.Clamp01(ameaca / meta) : 0f;
+    // Diz se o aviso está rodando (a contagem para o boss nascer).
     public bool EmAlerta => fase == Fase.Alerta;
+    // Se o boss do alerta ou em campo é o último (o que fecha a partida).
     public bool EhBossFinal => ameacaAtiva ? bossesDerrotados >= MaxBosses - 1 : ehFinalAtual;
     public int BossesDerrotados => bossesDerrotados;
+    // Total de bosses da partida (nunca menos que 1).
     public int MaxBosses => Mathf.Max(1, maxBosses);
+    // O boss vivo em campo (null se não há nenhum).
     public BossController BossAtual => bossAtual;
 
     // Número (1, 2, 3...) do boss que está no alerta ou em campo. Com waves vem do índice pedido (no Infinito passa de MaxBosses).
     public int NumeroDoBoss => ameacaAtiva ? Mathf.Min(bossesDerrotados + 1, MaxBosses) : indiceAtual + 1;
 
+    // Define a meta da primeira barra de ameaça (nunca menos que 1).
     private void Awake()
     {
         meta = Mathf.Max(1f, metaInicial);
     }
 
+    // Passa a ouvir as mortes de inimigos (enchem a ameaça) e de bosses (encerram o boss atual).
     private void OnEnable()
     {
         EnemyMove.AoMorrer += TratarInimigoMorreu;
         BossController.AoMorrer += TratarBossMorreu;
     }
 
+    // Para de ouvir esses eventos estáticos.
     private void OnDisable()
     {
         EnemyMove.AoMorrer -= TratarInimigoMorreu;
         BossController.AoMorrer -= TratarBossMorreu;
     }
 
+    // Segue a etapa atual: acumula ameaça com o tempo, conta o alerta até o boss nascer
+    // ou confere se o boss em campo ainda existe.
     private void Update()
     {
         // Pausa, menu, level up, game over e vitória: nada anda (o alerta usa Time.deltaTime, então também congela).
@@ -141,6 +154,7 @@ public class ControladorDeBoss : MonoBehaviour
         AdicionarAmeaca(meta);
     }
 
+    // Cada inimigo morto durante a partida soma pontosPorAbate na barra de ameaça.
     private void TratarInimigoMorreu(EnemyMove inimigo)
     {
         if (EstadoDoJogo.Rodando)
@@ -168,6 +182,7 @@ public class ControladorDeBoss : MonoBehaviour
         }
     }
 
+    // Avisa o HUD (AoMudarAmeaca) da fração atual da barra, só se mudou o bastante ou se 'forcar' for true.
     private void NotificarAmeaca(bool forcar)
     {
         float fracao = Ameaca01;
@@ -180,6 +195,7 @@ public class ControladorDeBoss : MonoBehaviour
         AoMudarAmeaca?.Invoke(fracao);
     }
 
+    // Entra no alerta: guarda qual boss vem aí, começa a contagem de duracaoAlerta e avisa o HUD (AoAlerta).
     private void IniciarAlerta(int indice, bool ehFinal)
     {
         indiceAtual = indice;
@@ -258,6 +274,7 @@ public class ControladorDeBoss : MonoBehaviour
         FinalizarBoss();
     }
 
+    // Zera a barra de ameaça e volta a acumular para chamar o próximo boss.
     private void VoltarAAcumular()
     {
         ameaca = 0f;
@@ -265,6 +282,7 @@ public class ControladorDeBoss : MonoBehaviour
         NotificarAmeaca(true);
     }
 
+    // Quando o boss deste controlador morre: solta as gemas e conta como derrotado.
     private void TratarBossMorreu(BossController boss)
     {
         // Ignora bosses que não são os deste controlador (ex.: um boss colocado à mão em outra cena de teste).
@@ -301,6 +319,7 @@ public class ControladorDeBoss : MonoBehaviour
         VoltarAAcumular();
     }
 
+    // Encerra a partida: muda o jogo para o estado Vitoria e avisa AoVitoria.
     private void Vencer()
     {
         fase = Fase.Concluido;
@@ -315,6 +334,7 @@ public class ControladorDeBoss : MonoBehaviour
         AoVitoria?.Invoke();
     }
 
+    // Cria gemasAoMorrer gemas de XP espalhadas em volta de onde o boss morreu.
     private void SoltarGemas(Vector3 centro)
     {
         GameObject prefab = gemaPrefab != null ? gemaPrefab : Resources.Load<GameObject>(GemaNoResources);

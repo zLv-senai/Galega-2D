@@ -9,13 +9,16 @@ using UnityEngine.UIElements;
 // "Scene integrada" e liga tudo que veio das branches do grupo:
 // câmera seguindo o player (Samuel), parallax copiado da GameTeste (Samuel),
 // spawn contínuo (Wagner), sons (Eduardo), bosses (ControladorDeBoss + prefab Resources/Boss) e a
-// tela de vitória (VitoriaUI) e as waves (GerenciadorDeWaves + BonusPassivoDeLevel no Player; o SpawnContinuo
-// fica na cena mas desligado). Pode rodar de novo: não duplica nada.
+// tela de vitória (VitoriaUI), o menu de pausa (MenuDePausa) e as waves (GerenciadorDeWaves + BonusPassivoDeLevel
+// no Player; o SpawnContinuo fica na cena mas desligado) e a seta do boss fora da tela (SetaDoBoss no Hud).
+// Pode rodar de novo: não duplica nada.
 public static class MontarCenaFinal
 {
+    // Cena de origem (só é copiada se a CenaFinal ainda não existir) e a cena final que este menu monta.
     private const string CenaBase = "Assets/Scenes/Scene integrada.unity";
     private const string CenaFinal = "Assets/Scenes/CenaFinal.unity";
 
+    // Imagem, nome do objeto, ordem de desenho e fator de parallax do fundo espacial.
     private const string CaminhoFundo = "Assets/Images/FUNDOJOGO.png";
     private const string NomeFundo = "Fundo";
     private const int OrdemFundo = -100;              // desenha atrás de tudo
@@ -28,8 +31,15 @@ public static class MontarCenaFinal
     private const string CaminhoUxmlVitoria = "Assets/UI/Vitoria.uxml";
     private const string CaminhoPanelSettings = "Assets/UI Toolkit/PanelSettings.asset"; // reserva, se não achar o do GameOverUI
     private const int OrdemTelaVitoria = 20;            // mesma ordem da tela de Game Over (acima do HUD)
+
+    // Menu de pausa (MenuDePausa + Pausa.uxml, feito a partir do menu principal)
+    private const string NomeMenuDePausa = "MenuDePausa";
+    private const string CaminhoUxmlPausa = "Assets/UI/Pausa.uxml";
+    private const int OrdemMenuDePausa = 30;            // acima do HUD, do LevelUp e das telas de fim
+    // Lugares onde procurar o prefab da gema de XP (vale o primeiro que existir).
     private static readonly string[] CaminhosGema = { "Assets/Prefabs/GemsXp.prefab", "Assets/Resources/GemsXp.prefab" };
 
+    // Cria a CenaFinal a partir da cena base (se não existir), liga os sistemas por código, salva e coloca a cena em 1º no Build.
     [MenuItem("Galega/Montar Cena Final")]
     public static void Montar()
     {
@@ -61,7 +71,9 @@ public static class MontarCenaFinal
         LigarSons();
         LigarBoss();
         LigarWaves(player);
-        LigarTelaDeVitoria();
+        LigarSetaDoBoss();
+        LigarTela<VitoriaUI>(NomeTelaVitoria, CaminhoUxmlVitoria, OrdemTelaVitoria);
+        LigarTela<MenuDePausa>(NomeMenuDePausa, CaminhoUxmlPausa, OrdemMenuDePausa);
         LigarMenu();
         MontarFundo(camera);
         ColocarNoBuild();
@@ -71,6 +83,7 @@ public static class MontarCenaFinal
         Debug.Log("MontarCenaFinal: pronto! " + CenaFinal + " salva e colocada em 1º nas Build Settings.");
     }
 
+    // Garante o CameraFollow na câmera principal e aponta o campo "player" dele para o Player.
     private static void LigarCameraFollow(Camera camera, Transform player)
     {
         CameraFollow follow = camera.GetComponent<CameraFollow>();
@@ -82,6 +95,7 @@ public static class MontarCenaFinal
         DefinirCampo(follow, "player", player);
     }
 
+    // Garante o EnemySpawn na cena e um SpawnContinuo junto dele, deixando o SpawnContinuo desligado.
     private static void LigarSpawn()
     {
         EnemySpawn spawn = Object.FindAnyObjectByType<EnemySpawn>();
@@ -138,6 +152,28 @@ public static class MontarCenaFinal
         }
     }
 
+    // Seta do boss fora da tela: SetaDoBoss no mesmo objeto do HudProgressao (usa o PanelRenderer dele).
+    // Precisa rodar depois de LigarBoss. Pode rodar de novo: não duplica.
+    private static void LigarSetaDoBoss()
+    {
+        HudProgressao hud = Object.FindAnyObjectByType<HudProgressao>();
+        if (hud == null)
+        {
+            Debug.LogWarning("MontarCenaFinal: não achei o HudProgressao na cena; a seta do boss não foi ligada.");
+            return;
+        }
+
+        SetaDoBoss seta = hud.GetComponent<SetaDoBoss>();
+        if (seta == null)
+        {
+            seta = hud.gameObject.AddComponent<SetaDoBoss>();
+        }
+
+        DefinirReferenciaSeAchou(seta, "painel", hud.GetComponent<PanelRenderer>());
+        DefinirReferenciaSeAchou(seta, "controladorBoss", Object.FindAnyObjectByType<ControladorDeBoss>());
+    }
+
+    // Garante o GerenciadorDeSom e preenche os sons (tiros, explosões, level up, power-up, game over, música, boss e vitória) com arquivos de Assets/Sons.
     private static void LigarSons()
     {
         GerenciadorDeSom som = Object.FindAnyObjectByType<GerenciadorDeSom>();
@@ -191,6 +227,7 @@ public static class MontarCenaFinal
         }
     }
 
+    // Devolve o primeiro prefab de gema achado em CaminhosGema, ou null se nenhum existir.
     private static GameObject CarregarGema()
     {
         foreach (string caminho in CaminhosGema)
@@ -205,15 +242,16 @@ public static class MontarCenaFinal
         return null;
     }
 
-    // Objeto "VitoriaUI" (VitoriaUI + PanelRenderer com o Vitoria.uxml), usando o mesmo PanelSettings do GameOverUI.
-    private static void LigarTelaDeVitoria()
+    // Objeto com o componente T + PanelRenderer com o UXML da tela (VitoriaUI, MenuDePausa...), usando o mesmo
+    // PanelSettings do GameOverUI e a ordem de desenho pedida.
+    private static void LigarTela<T>(string nomeObjeto, string caminhoUxml, int ordem) where T : MonoBehaviour
     {
-        VitoriaUI tela = Object.FindAnyObjectByType<VitoriaUI>();
+        T tela = Object.FindAnyObjectByType<T>();
         if (tela == null)
         {
-            GameObject objeto = new GameObject(NomeTelaVitoria);
+            GameObject objeto = new GameObject(nomeObjeto);
             objeto.AddComponent<PanelRenderer>();
-            tela = objeto.AddComponent<VitoriaUI>();
+            tela = objeto.AddComponent<T>();
         }
 
         PanelRenderer painel = tela.GetComponent<PanelRenderer>();
@@ -223,16 +261,16 @@ public static class MontarCenaFinal
         }
 
         PanelSettings settings = AcharPanelSettings();
-        VisualTreeAsset uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(CaminhoUxmlVitoria);
+        VisualTreeAsset uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(caminhoUxml);
         if (settings == null || uxml == null)
         {
-            Debug.LogWarning("MontarCenaFinal: não consegui ligar a tela de vitória (PanelSettings ou " + CaminhoUxmlVitoria + " não encontrado). Confira o PanelRenderer do objeto '" + NomeTelaVitoria + "'.");
+            Debug.LogWarning("MontarCenaFinal: não consegui ligar '" + nomeObjeto + "' (PanelSettings ou " + caminhoUxml + " não encontrado). Confira o PanelRenderer do objeto.");
         }
 
         // Nomes dos campos serializados do PanelRenderer (iguais aos que aparecem na cena salva).
         DefinirCampo(painel, "m_PanelSettings", settings);
         DefinirCampo(painel, "sourceAsset", uxml);
-        painel.sortingOrder = OrdemTelaVitoria;
+        painel.sortingOrder = ordem;
     }
 
     // O GameManager só abre o menu se o campo menuPanel estiver preenchido (vazio = vai direto ao jogo).
@@ -323,6 +361,7 @@ public static class MontarCenaFinal
         DefinirFloat(parallax, "parallax", FatorParallaxFundo);
     }
 
+    // Devolve o primeiro Sprite dentro do arquivo de imagem, ou null se não houver.
     private static Sprite CarregarSprite(string caminho)
     {
         foreach (Object asset in AssetDatabase.LoadAllAssetsAtPath(caminho))
@@ -336,6 +375,7 @@ public static class MontarCenaFinal
         return null;
     }
 
+    // Preenche um campo float [SerializeField] privado, como se fosse digitado no Inspector.
     private static void DefinirFloat(Object alvo, string campo, float valor)
     {
         SerializedObject so = new SerializedObject(alvo);
@@ -350,6 +390,7 @@ public static class MontarCenaFinal
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 
+    // Põe a CenaFinal em 1º lugar nas Build Settings, mantendo as outras cenas depois dela.
     private static void ColocarNoBuild()
     {
         List<EditorBuildSettingsScene> cenas = new List<EditorBuildSettingsScene>
@@ -368,6 +409,7 @@ public static class MontarCenaFinal
         EditorBuildSettings.scenes = cenas.ToArray();
     }
 
+    // Carrega o som do caminho e o põe no campo do alvo; avisa no Console se o arquivo não existir.
     private static void DefinirClip(Object alvo, string campo, string caminho)
     {
         AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(caminho);

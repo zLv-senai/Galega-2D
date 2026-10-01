@@ -1,7 +1,10 @@
 using UnityEngine;
 
+// Contador de pontos de teste: soma 10 x multiplicador a cada Espaço com o jogo rodando.
+// Código não usado: nenhuma cena ou prefab tem este script.
 public class Pontuacao : MonoBehaviour
 {
+    // Pontos acumulados e o multiplicador aplicado a cada Espaço.
     public int pontos ;
     public int multiplicador = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -11,6 +14,7 @@ public class Pontuacao : MonoBehaviour
     }
 
     // Update is called once per frame
+    // Com o jogo rodando, cada Espaço apertado soma 10 x multiplicador nos pontos.
     void Update()
     {
         // Integração: o projeto usa só o Input System novo; Input.GetKeyDown daria erro.

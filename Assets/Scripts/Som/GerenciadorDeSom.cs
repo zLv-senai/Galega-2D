@@ -4,6 +4,7 @@ using UnityEngine;
 // precisa saber dele). Os clipes (pasta Assets/Sons, do Eduardo) são arrastados no Inspector.
 public class GerenciadorDeSom : MonoBehaviour
 {
+    // Clipes dos efeitos (tiros, explosão, level up, power up, game over); clipe vazio = esse som não toca.
     [Header("Efeitos")]
     [SerializeField] private AudioClip tiroPlayer;
     [SerializeField] private AudioClip tiroInimigo;
@@ -20,9 +21,11 @@ public class GerenciadorDeSom : MonoBehaviour
     [SerializeField] private AudioClip explosaoBoss;
     [SerializeField] private AudioClip vitoria;
 
+    // Música de fundo (toca em loop; para no Game Over e na Vitória).
     [Header("Música")]
     [SerializeField] private AudioClip musicaDeFundo;
 
+    // Volumes base do Inspector; o volume final é este valor vezes o slider do Settings (Efeitos ou Música).
     [Header("Volume")]
     [SerializeField, Range(0f, 1f)] private float volumeEfeitos = 0.6f;
     [SerializeField, Range(0f, 1f)] private float volumeTiroInimigo = 0.3f;
@@ -31,13 +34,16 @@ public class GerenciadorDeSom : MonoBehaviour
     // Com muitos inimigos atirando juntos, o som vira ruído: limita a 1 por intervalo.
     [SerializeField] private float intervaloMinimoTiroInimigo = 0.08f;
 
+    // As duas AudioSources (efeitos e música) e a hora liberada para o próximo som de tiro inimigo.
     private AudioSource fonteEfeitos;
     private AudioSource fonteMusica;
     private float proximoTiroInimigo;
 
+    // Player e power-ups cujos eventos este script ouve (achados no Start).
     private PlayerXp playerXp;
     private PlayerPowerUps playerPowerUps;
 
+    // Cria as duas AudioSources (efeitos e música em loop) e aplica os volumes do Settings.
     private void Awake()
     {
         fonteEfeitos = gameObject.AddComponent<AudioSource>();
@@ -61,6 +67,7 @@ public class GerenciadorDeSom : MonoBehaviour
         }
     }
 
+    // Ao ativar, assina os eventos do jogo (tiros, mortes, boss, wave limpa, estado) e o de mudança de volume.
     private void OnEnable()
     {
         ConfiguracaoDeAudio.AoMudar += AtualizarVolumeMusica;
@@ -75,6 +82,7 @@ public class GerenciadorDeSom : MonoBehaviour
         GameManager.AoMudarEstado += TratarMudancaDeEstado;
     }
 
+    // Cancela as assinaturas (inclusive as do Player feitas no Start): os eventos estáticos sobrevivem a este objeto.
     private void OnDisable()
     {
         ConfiguracaoDeAudio.AoMudar -= AtualizarVolumeMusica;
@@ -98,6 +106,7 @@ public class GerenciadorDeSom : MonoBehaviour
         }
     }
 
+    // Acha o Player para ouvir level up e power up, e começa a tocar a música de fundo.
     private void Start()
     {
         // Eventos de instância ficam no Player: procura pelo PlayerMove (a tag pode faltar).
@@ -125,6 +134,7 @@ public class GerenciadorDeSom : MonoBehaviour
         }
     }
 
+    // Toca um efeito uma vez com o volume dado; ignora se o clipe estiver vazio.
     private void Tocar(AudioClip clip, float volume)
     {
         if (clip != null)
@@ -134,11 +144,13 @@ public class GerenciadorDeSom : MonoBehaviour
         }
     }
 
+    // Som do tiro do player.
     private void TocarTiroPlayer()
     {
         Tocar(tiroPlayer, volumeEfeitos);
     }
 
+    // Som do tiro de inimigo, limitado a um por intervalo para não virar ruído.
     private void TocarTiroInimigo(EnemyMove inimigo)
     {
         if (Time.unscaledTime < proximoTiroInimigo)
@@ -150,47 +162,58 @@ public class GerenciadorDeSom : MonoBehaviour
         Tocar(tiroInimigo, volumeTiroInimigo);
     }
 
+    // Som de explosão quando um inimigo morre.
     private void TocarExplosaoInimigo(EnemyMove inimigo)
     {
         Tocar(explosaoInimigo, volumeEfeitos);
     }
 
+    // Som de alerta quando a ameaça do boss enche.
     private void TocarAlertaBoss(int indiceBoss, bool ehFinal)
     {
         Tocar(alertaBoss, volumeEfeitos);
     }
 
+    // Som de explosão quando um boss morre.
     private void TocarExplosaoBoss(BossController boss)
     {
         Tocar(explosaoBoss, volumeEfeitos);
     }
 
+    // Som de level up do player.
     private void TocarLevelUp(int level)
     {
         Tocar(levelUp, volumeEfeitos);
     }
 
+    // Som de wave limpa (usa o do level up se não houver clipe próprio).
     private void TocarWaveLimpa(int wave)
     {
         Tocar(waveLimpa != null ? waveLimpa : levelUp, volumeEfeitos);
     }
 
+    // Som ao ativar um power-up.
     private void TocarPowerUp(PowerUpData dados)
     {
         Tocar(powerUp, volumeEfeitos);
     }
 
+    // GameOver e Vitória cortam música e efeitos e tocam o som de fim; voltar a OnPlay retoma a música se ela parou.
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
         if (estado == GameManager.GameState.GameOver)
         {
             fonteMusica.Stop();
+            // Corta efeitos em andamento (explosão do boss, wave limpa) para o som de fim tocar limpo.
+            fonteEfeitos.Stop();
             Tocar(gameOver, volumeEfeitos);
         }
         else if (estado == GameManager.GameState.Vitoria)
         {
             // Integração (boss): vitória para a música de fundo e toca o som de vitória.
             fonteMusica.Stop();
+            // Corta efeitos em andamento (explosão do boss, wave limpa) para o som de vitória tocar limpo.
+            fonteEfeitos.Stop();
             Tocar(vitoria, volumeEfeitos);
         }
         else if (estado == GameManager.GameState.OnPlay && musicaDeFundo != null && !fonteMusica.isPlaying)

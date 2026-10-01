@@ -14,12 +14,15 @@ public class LevelUpUI : MonoBehaviour
         "raridade-epico", "raridade-lendario", "raridade-mitico"
     };
 
+    // O PanelRenderer (se faltar, pega do mesmo objeto) e o LevelUpManager (se faltar, procura na cena).
     [SerializeField] private PanelRenderer painel;
     [SerializeField] private LevelUpManager manager;
 
     // Integração (waves): título da tela quando o pedido de cards não traz um (ex.: "WAVE 3 CONCLUÍDA").
     private const string TituloPadrao = "ESCOLHA UM CARD";
 
+    // Elementos do LevelUp.uxml (buscados a cada reload): painel inteiro, título, contador de escolhas
+    // e um botão por card.
     private VisualElement raiz;
     private Label tituloLabel;
     private Label restantesLabel;
@@ -29,8 +32,10 @@ public class LevelUpUI : MonoBehaviour
     private CardData[] ofertaAtual;
     private int pendentes;
 
+    // Manager em que os eventos estão assinados, para cancelar certo no OnDisable.
     private LevelUpManager managerAssinado;
 
+    // Acha o PanelRenderer e registra o OnUIReload, que monta a tela quando a UI carrega.
     private void Awake()
     {
         if (painel == null)
@@ -48,6 +53,7 @@ public class LevelUpUI : MonoBehaviour
         }
     }
 
+    // Cancela o registro do callback de reload da UI.
     private void OnDestroy()
     {
         if (painel != null)
@@ -56,6 +62,7 @@ public class LevelUpUI : MonoBehaviour
         }
     }
 
+    // Ao ativar, passa a ouvir o LevelUpManager.
     private void OnEnable()
     {
         Assinar();
@@ -67,6 +74,7 @@ public class LevelUpUI : MonoBehaviour
         Assinar();
     }
 
+    // Ao desativar, para de ouvir o LevelUpManager.
     private void OnDisable()
     {
         if (managerAssinado != null)
@@ -77,6 +85,7 @@ public class LevelUpUI : MonoBehaviour
         }
     }
 
+    // Acha o LevelUpManager e passa a ouvi-lo: mostra a tela quando há oferta e esconde quando a escolha termina.
     private void Assinar()
     {
         if (manager == null)
@@ -98,6 +107,7 @@ public class LevelUpUI : MonoBehaviour
         }
     }
 
+    // Roda quando a UI é criada ou recriada: busca os elementos pelo name, liga o clique de cada card e redesenha.
     private void OnUIReload(
         PanelRenderer panel,
         VisualElement root,
@@ -125,6 +135,7 @@ public class LevelUpUI : MonoBehaviour
         Renderizar();
     }
 
+    // Chegou uma oferta nova: guarda os cards e quantas escolhas faltam, e desenha na tela.
     private void MostrarOferta(CardData[] oferta, int escolhasPendentes)
     {
         ofertaAtual = oferta;
@@ -132,12 +143,14 @@ public class LevelUpUI : MonoBehaviour
         Renderizar();
     }
 
+    // A escolha terminou: limpa a oferta, o que esconde a tela.
     private void Esconder()
     {
         ofertaAtual = null;
         Renderizar();
     }
 
+    // Clique no botão de número "indice": manda o card correspondente para o LevelUpManager aplicar.
     private void EscolherIndice(int indice)
     {
         if (manager == null || ofertaAtual == null || indice >= ofertaAtual.Length)
@@ -194,6 +207,7 @@ public class LevelUpUI : MonoBehaviour
         }
     }
 
+    // Preenche um botão com a cor da raridade (classe USS), o nome, a descrição e o ícone do card.
     private static void PreencherBotao(Button botao, CardData card)
     {
         foreach (string classe in ClassesDeRaridade)
