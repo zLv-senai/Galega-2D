@@ -68,7 +68,7 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
-        GameObject jogador = GameObject.FindWithTag("Player");
+        GameObject jogador = Jogador.Encontrar();
         if (jogador != null)
         {
             playerXp = jogador.GetComponent<PlayerXp>();

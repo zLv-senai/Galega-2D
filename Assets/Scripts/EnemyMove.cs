@@ -87,7 +87,7 @@ public class EnemyMove : MonoBehaviour, IDamageable
             return;
         }
 
-        GameObject jogador = GameObject.FindWithTag("Player");
+        GameObject jogador = Jogador.Encontrar();
         if (jogador != null)
         {
             target = jogador.transform;

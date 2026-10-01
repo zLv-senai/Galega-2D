@@ -69,7 +69,7 @@ public class LevelUpManager : MonoBehaviour
     {
         if (playerXp == null)
         {
-            GameObject jogador = GameObject.FindWithTag("Player");
+            GameObject jogador = Jogador.Encontrar();
             if (jogador != null)
             {
                 playerXp = jogador.GetComponent<PlayerXp>();

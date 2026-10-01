@@ -278,10 +278,10 @@ public class HudProgressao : MonoBehaviour
             return;
         }
 
-        GameObject jogador = GameObject.FindWithTag("Player");
+        GameObject jogador = Jogador.Encontrar();
         if (jogador == null)
         {
-            Debug.LogWarning("HudProgressao: nenhum objeto com a tag Player na cena.");
+            Debug.LogWarning("HudProgressao: nenhum Player (PlayerMove) na cena.");
             return;
         }
 

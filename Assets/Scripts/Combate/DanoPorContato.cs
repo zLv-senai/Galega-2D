@@ -28,7 +28,7 @@ public class DanoPorContato : MonoBehaviour
 
         if (alvo == null)
         {
-            GameObject jogador = GameObject.FindWithTag("Player");
+            GameObject jogador = Jogador.Encontrar();
             if (jogador != null)
             {
                 alvo = jogador.transform;
