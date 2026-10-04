@@ -491,6 +491,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5591305237193500382, guid: fc7e319f2433d974b97dd93201e6121d, type: 3}
+      propertyPath: tiroPrefab
+      value: 
+      objectReference: {fileID: 5886891375417080250, guid: 592fc255f10f3dc4990ec34f58cbee46, type: 3}
+    - target: {fileID: 5591305237193500382, guid: fc7e319f2433d974b97dd93201e6121d, type: 3}
       propertyPath: velocidade
       value: 5
       objectReference: {fileID: 0}
@@ -650,7 +654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &468195258
 Transform:
   m_ObjectHideFlags: 0
@@ -1248,7 +1252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &831469122
 Transform:
   m_ObjectHideFlags: 0
