@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &687088835
 Transform:
   m_ObjectHideFlags: 0
@@ -527,8 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc929a8e8de76c4e8be05592f11244b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
-  mainCamera: {fileID: 519420031}
-  rayRange: 5
+  margem: 1
   direcaoRay: {x: 0, y: 1}
 --- !u!1 &831469121
 GameObject:
@@ -573,6 +572,10 @@ PrefabInstance:
     - target: {fileID: 1488701778948552912, guid: 16fafdbdfcdee724aac99f3fdea842f9, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1488701778948552912, guid: 16fafdbdfcdee724aac99f3fdea842f9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2608146066045791229, guid: 16fafdbdfcdee724aac99f3fdea842f9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -678,11 +681,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4268933976208642546, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.541
       objectReference: {fileID: 0}
     - target: {fileID: 4268933976208642546, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.21
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4268933976208642546, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
       propertyPath: m_LocalPosition.z
@@ -719,6 +722,10 @@ PrefabInstance:
     - target: {fileID: 4936260201874732870, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4936260201874732870, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5591305237193500382, guid: 64570306e12cacf4683fe76ec13e0188, type: 3}
       propertyPath: gameManager
