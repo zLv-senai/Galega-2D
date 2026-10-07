@@ -93,7 +93,7 @@ public static class CriarDadosPadrao
     // Os power-ups padrão: cor, duração em segundos, peso no sorteio e o modificador de stat (o Escudo só recarrega o escudo).
     private static readonly DefPowerUp[] PowerUps =
     {
-        new DefPowerUp("Ímã de XP", Color.green, 3f, 30, false, StatTipo.RaioColeta, TipoModificador.Somar, 30f),
+        new DefPowerUp("Ímã de XP", new Color(0.25f, 0.5f, 1f), 3f, 30, false, StatTipo.RaioColeta, TipoModificador.Somar, 30f),
         new DefPowerUp("Turbo", Color.yellow, 8f, 25, false, StatTipo.Velocidade, TipoModificador.Percentual, 0.5f),
         new DefPowerUp("Escudo", Color.cyan, 0f, 20, true, StatTipo.Escudo, TipoModificador.Somar, 0f),
         new DefPowerUp("Tiro Rápido", new Color(1f, 0.55f, 0f), 8f, 15, false, StatTipo.TirosPorSegundo, TipoModificador.Percentual, 1f),

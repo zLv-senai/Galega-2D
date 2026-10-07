@@ -21,7 +21,7 @@ public class PowerUpPickup : Coletavel
         AplicarCor();
     }
 
-    // Pinta o sprite do item com a cor do power-up.
+    // Pinta o item com a cor do power-up: o sprite (modelo antigo) e, se houver, as partículas (modelo novo).
     private void AplicarCor()
     {
         if (dados == null)
@@ -33,6 +33,13 @@ public class PowerUpPickup : Coletavel
         if (sprite != null)
         {
             sprite.color = dados.cor;
+        }
+
+        // Cor inicial das partículas: vale para as que nascerem daqui em diante (o Configurar roda logo após o Instantiate).
+        foreach (ParticleSystem particulas in GetComponentsInChildren<ParticleSystem>())
+        {
+            ParticleSystem.MainModule principal = particulas.main;
+            principal.startColor = dados.cor;
         }
     }
 

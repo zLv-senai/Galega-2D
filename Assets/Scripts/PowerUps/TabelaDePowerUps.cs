@@ -8,13 +8,14 @@ public class TabelaDePowerUps : ScriptableObject
     // Power-ups que podem sair; a chance de cada um depende do peso no próprio PowerUpData.
     public List<PowerUpData> powerUps = new List<PowerUpData>();
 
-    // Sorteia um power-up pelo peso. Ignora nulos e peso <= 0; devolve null se não sobrar nenhum.
+    // Sorteia um power-up pelo peso. Ignora nulos, peso <= 0 e os "somenteNoInfinito" fora do Infinito;
+    // devolve null se não sobrar nenhum.
     public PowerUpData Sortear()
     {
         int total = 0;
         foreach (PowerUpData powerUp in powerUps)
         {
-            if (powerUp != null && powerUp.peso > 0)
+            if (PodeSair(powerUp))
             {
                 total += powerUp.peso;
             }
@@ -30,7 +31,7 @@ public class TabelaDePowerUps : ScriptableObject
 
         foreach (PowerUpData powerUp in powerUps)
         {
-            if (powerUp == null || powerUp.peso <= 0)
+            if (!PodeSair(powerUp))
             {
                 continue;
             }
@@ -43,5 +44,16 @@ public class TabelaDePowerUps : ScriptableObject
         }
 
         return null;
+    }
+
+    // Entra no sorteio: existe, tem peso e, se for "somenteNoInfinito", a partida está no modo Infinito.
+    private static bool PodeSair(PowerUpData powerUp)
+    {
+        if (powerUp == null || powerUp.peso <= 0)
+        {
+            return false;
+        }
+
+        return !powerUp.somenteNoInfinito || ConfiguracaoDePartida.Modo == ModoDeJogo.Infinito;
     }
 }

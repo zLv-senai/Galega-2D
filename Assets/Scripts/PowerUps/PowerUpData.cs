@@ -22,6 +22,12 @@ public class PowerUpData : ScriptableObject
     // Se ao pegar ele enche o escudo (PlayerStats.RecarregarEscudo). Não depende da duração.
     public bool recarregaEscudo;
 
+    // Cura ao pegar: fração da vida máxima (0.1 = 10%), sem passar do máximo. 0 = não cura. Não depende da duração.
+    [Range(0f, 1f)] public float curaPercentualVidaMax;
+
+    // Se true, só sai no sorteio do modo Infinito (TabelaDePowerUps.Sortear). Ex.: Reparo.
+    public bool somenteNoInfinito;
+
     // Peso no sorteio da TabelaDePowerUps: quanto maior, mais comum. Peso <= 0 nunca sai.
     public int peso = 10;
 }
