@@ -9,6 +9,10 @@ using UnityEngine;
 // Combate normal: 6 + 3*(N-1) inimigos, 1 a cada 0,6 s (EnemySpawn.SpawnEnemy), no máximo 40 vivos. A cada 3 waves os
 // inimigos nascem com +1 de vida. Waves múltiplas de 5 têm boss (ControladorDeBoss.SurgirBoss) + escoltas (metade do normal).
 //
+// Inimigos e bosses aleatórios: cada inimigo é sorteado entre os modelos do EnemySpawn (nos dois modos).
+// Boss na Campanha = fixo (wave 5 = modelo 1, wave 10 = modelo 2, wave 15 = modelo 3);
+// boss no Infinito = sorteado entre os modelos, sem repetir o anterior (ControladorDeBoss.EscolherModelo).
+//
 // Este objeto desliga o SpawnContinuo e a barra de ameaça do ControladorDeBoss (as waves assumem esse papel).
 // Só começa a contar quando o jogo entra em OnPlay (o modo vem do menu), e tudo respeita a pausa (EstadoDoJogo.Rodando).
 //
@@ -265,6 +269,7 @@ public class GerenciadorDeWaves : MonoBehaviour
     }
 
     // Fim do anúncio: libera os spawns e, em wave de boss, chama o boss para a tela.
+    // Campanha: modelo do boss fixo pela ordem; Infinito: modelo sorteado (a força sobe com o índice nos dois).
     private void IniciarCombate()
     {
         fase = Fase.Combate;
@@ -274,7 +279,8 @@ public class GerenciadorDeWaves : MonoBehaviour
         {
             int indiceDoBoss = WaveAtual / WavesPorBoss - 1;
             bool ehFinal = modo == ModoDeJogo.Campanha && WaveAtual >= TotalDeWaves;
-            bossPendente = controladorBoss.SurgirBoss(indiceDoBoss, ehFinal);
+            bool sortearModelo = modo == ModoDeJogo.Infinito;
+            bossPendente = controladorBoss.SurgirBoss(indiceDoBoss, ehFinal, sortearModelo);
         }
     }
 
@@ -316,7 +322,7 @@ public class GerenciadorDeWaves : MonoBehaviour
 
             if (!avisouSpawnFalhou)
             {
-                Debug.LogError("GerenciadorDeWaves: o EnemySpawn não criou um inimigo com EnemyMove (confira Resources/Enemy).", this);
+                Debug.LogError("GerenciadorDeWaves: o EnemySpawn não criou um inimigo com EnemyMove (confira EnemyUno/EnemyDuo/EnemyThree em Resources).", this);
                 avisouSpawnFalhou = true;
             }
 

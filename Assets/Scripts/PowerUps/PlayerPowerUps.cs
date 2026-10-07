@@ -15,6 +15,9 @@ public class PlayerPowerUps : MonoBehaviour
     // PlayerStats que recebe e perde os modificadores dos power-ups.
     private PlayerStats stats;
 
+    // PlayerMove do mesmo Player (onde fica a vida atual), para os power-ups de cura. Pode faltar.
+    private PlayerMove playerMove;
+
     // Power-ups ativos e o Time.time em que cada um expira.
     private readonly Dictionary<PowerUpData, float> expiraEm = new Dictionary<PowerUpData, float>();
 
@@ -25,10 +28,11 @@ public class PlayerPowerUps : MonoBehaviour
     // Para o tempo que falta, use TempoRestante.
     public IReadOnlyDictionary<PowerUpData, float> ExpiraEm => expiraEm;
 
-    // Guarda o PlayerStats do Player.
+    // Guarda o PlayerStats e o PlayerMove do Player.
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
+        playerMove = GetComponent<PlayerMove>();
     }
 
     // Segundos que faltam para o power-up acabar (0 se não está ativo). Útil para o HUD.
@@ -56,6 +60,11 @@ public class PlayerPowerUps : MonoBehaviour
             stats.RecarregarEscudo();
         }
 
+        if (dados.curaPercentualVidaMax > 0f)
+        {
+            Curar(dados.curaPercentualVidaMax);
+        }
+
         bool temModificadores = dados.modificadores != null && dados.modificadores.Length > 0;
 
         if (temModificadores && dados.duracao <= 0f)
@@ -75,6 +84,20 @@ public class PlayerPowerUps : MonoBehaviour
         }
 
         AoAtivar?.Invoke(dados);
+    }
+
+    // Cura uma fração da vida máxima (arredondada para cima, no mínimo 1), sem passar do máximo.
+    // Mesmo jeito de curar do BonusPassivoDeLevel.
+    private void Curar(float fracaoDaVidaMax)
+    {
+        if (playerMove == null)
+        {
+            Debug.LogWarning("PlayerPowerUps: o Player não tem PlayerMove, então o power-up de cura não curou.", this);
+            return;
+        }
+
+        int cura = Mathf.Max(1, Mathf.CeilToInt(stats.VidaMax * fracaoDaVidaMax));
+        playerMove.vida = Mathf.Min(stats.VidaMax, playerMove.vida + cura);
     }
 
     // Com o jogo rodando, remove os power-ups cujo tempo acabou e dispara o evento AoExpirar.

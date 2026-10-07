@@ -12,6 +12,11 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Nome do prefab do tiro dentro de Assets/Resources, usado se o campo tiroPrefab estiver vazio.
     private const string TiroNoResources = "Tiro";
 
+    // Integração (VFX): prefab da explosão em Assets/Resources, usado se o campo explosaoPrefab estiver vazio,
+    // e quanto tempo ela fica na cena se não tiver partículas para medir.
+    private const string ExplosaoNoResources = "Explosion";
+    private const float DuracaoPadraoExplosao = 2f;
+
      // Publicando a variável vida para que possa ser ajustada no Inspector do Unity
     public int vida =2;
     // Segundos de espera entre um tiro e o próximo.
@@ -20,6 +25,12 @@ public class EnemyMove : MonoBehaviour, IDamageable
     // Opcionais: se ficarem vazios, o tiro vem do Resources e a arma é procurada nos filhos.
     [SerializeField] private GameObject tiroPrefab;
     [SerializeField] private Transform gun;
+
+    // Integração (VFX): explosão criada onde o inimigo morre. Vazio = Resources/Explosion.
+    [SerializeField] private GameObject explosaoPrefab;
+
+    // Avisa uma vez só (e não uma vez por inimigo) que falta o prefab da explosão.
+    private static bool avisouSemExplosao;
 
     // Contato: distância em que o inimigo para de andar, colado na nave em vez de ficar em cima dela.
     [SerializeField] float distanciaParada = 0.6f;
@@ -96,6 +107,16 @@ public class EnemyMove : MonoBehaviour, IDamageable
             if (tiroPrefab == null)
             {
                 Debug.LogWarning("EnemyMove: sem tiroPrefab e sem 'Tiro' em Assets/Resources. " + name + " não vai atirar.");
+            }
+        }
+
+        if (explosaoPrefab == null)
+        {
+            explosaoPrefab = Resources.Load<GameObject>(ExplosaoNoResources);
+            if (explosaoPrefab == null && !avisouSemExplosao)
+            {
+                Debug.LogWarning("EnemyMove: sem explosaoPrefab e sem 'Explosion' em Assets/Resources. Os inimigos vão morrer sem explosão.");
+                avisouSemExplosao = true;
             }
         }
 
@@ -274,9 +295,37 @@ public class EnemyMove : MonoBehaviour, IDamageable
             }
             finally
             {
+                CriarExplosao();
                 Destroy(gameObject);
             }
         }
+    }
+
+    // Integração (VFX): cria a explosão onde o inimigo morreu e a apaga quando as partículas acabam
+    // (o prefab Explosion não se destrói sozinho).
+    private void CriarExplosao()
+    {
+        if (explosaoPrefab == null)
+        {
+            return;
+        }
+
+        GameObject explosao = Instantiate(explosaoPrefab, transform.position, Quaternion.identity);
+        Destroy(explosao, DuracaoDasParticulas(explosao));
+    }
+
+    // Tempo até a última partícula sumir: o maior (atraso + duração + vida da partícula) entre os ParticleSystems do objeto.
+    private static float DuracaoDasParticulas(GameObject objeto)
+    {
+        float duracao = 0f;
+        foreach (ParticleSystem particulas in objeto.GetComponentsInChildren<ParticleSystem>())
+        {
+            ParticleSystem.MainModule principal = particulas.main;
+            float total = principal.startDelay.constantMax + principal.duration + principal.startLifetime.constantMax;
+            duracao = Mathf.Max(duracao, total);
+        }
+
+        return duracao > 0f ? duracao : DuracaoPadraoExplosao;
     }
 
     // Atira um tiro na direção do player (se há alvo, prefab e arma) e depois espera fireHate para poder atirar de novo.

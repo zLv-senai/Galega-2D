@@ -8,6 +8,11 @@ using UnityEngine;
 // Integração (waves): com um GerenciadorDeWaves na cena, ele desliga a ameaça (ameacaAtiva = false) e chama
 // SurgirBoss(indice) nas waves de boss; aí quem decide a vitória é o gerenciador, não este controlador.
 //
+// Integração (bosses aleatórios): há 3 modelos de boss (BOSS1/2/3(FINAL) no Resources, ou os do Inspector).
+// Campanha = modelo fixo pela ordem (1º boss = modelo 1, 2º = modelo 2, 3º = modelo 3).
+// Infinito = SurgirBoss(..., sortearModelo: true) sorteia o modelo, sem repetir o boss anterior.
+// A força continua vindo do índice (Fortalecer), não do modelo.
+//
 // EVENTOS: são ESTÁTICOS (mesmo padrão do EnemyMove.AoMorrer e do GameManager.AoMudarEstado). Quem assinar
 // precisa cancelar no OnDisable. Só existe um ControladorDeBoss por cena.
 public class ControladorDeBoss : MonoBehaviour
@@ -15,6 +20,9 @@ public class ControladorDeBoss : MonoBehaviour
     // Nomes dentro de Assets/Resources, usados se os prefabs não forem arrastados no Inspector.
     private const string BossNoResources = "Boss";
     private const string GemaNoResources = "GemsXp";
+
+    // Integração (bosses aleatórios): os 3 modelos de boss no Resources, na ordem da Campanha (waves 5, 10 e 15).
+    private static readonly string[] BossesNoResources = { "BOSS1(FINAL)", "BOSS2(FINAL)", "BOSS3(FINAL)" };
 
     // Raio (em unidades) em que as gemas do boss se espalham.
     private const float RaioDasGemas = 1.5f;
@@ -26,7 +34,10 @@ public class ControladorDeBoss : MonoBehaviour
     private enum Fase { Acumulando, Alerta, BossVivo, Concluido }
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject bossPrefab;   // vazio = Resources/Boss
+    // Integração (bosses aleatórios): modelos de boss, na ordem da Campanha. Vazio = BOSS1/2/3(FINAL) do Resources.
+    [SerializeField] private GameObject[] modelosDeBoss;
+    // Reserva: só é usado se não houver nenhum modelo acima. Vazio = Resources/Boss.
+    [SerializeField] private GameObject bossPrefab;
     [SerializeField] private GameObject gemaPrefab;   // solta ao boss morrer; vazio = Resources/GemsXp
 
     [Header("Bosses")]
@@ -76,6 +87,12 @@ public class ControladorDeBoss : MonoBehaviour
     private int indiceAtual;
     private bool ehFinalAtual;
 
+    // Integração (bosses aleatórios): modelos carregados no Awake, se o boss do alerta é sorteado (Infinito)
+    // ou fixo pelo índice (Campanha) e o último modelo sorteado (-1 = nenhum ainda), para não repetir.
+    private GameObject[] modelos;
+    private bool sortearAtual;
+    private int ultimoModeloSorteado = -1;
+
     // ---- Leitura para o HUD (o HudProgressao lê isto por polling) ----
 
     // Integração (waves): com a ameaça desligada, a barra fica sempre em 0.
@@ -93,10 +110,11 @@ public class ControladorDeBoss : MonoBehaviour
     // Número (1, 2, 3...) do boss que está no alerta ou em campo. Com waves vem do índice pedido (no Infinito passa de MaxBosses).
     public int NumeroDoBoss => ameacaAtiva ? Mathf.Min(bossesDerrotados + 1, MaxBosses) : indiceAtual + 1;
 
-    // Define a meta da primeira barra de ameaça (nunca menos que 1).
+    // Define a meta da primeira barra de ameaça (nunca menos que 1) e carrega os modelos de boss.
     private void Awake()
     {
         meta = Mathf.Max(1f, metaInicial);
+        modelos = SorteioDeModelos.Carregar(modelosDeBoss, BossesNoResources, this);
     }
 
     // Passa a ouvir as mortes de inimigos (enchem a ameaça) e de bosses (encerram o boss atual).
@@ -207,8 +225,10 @@ public class ControladorDeBoss : MonoBehaviour
 
     // Integração (waves): chamado pelo GerenciadorDeWaves nas waves de boss. Faz o alerta (AoAlerta) e, depois de
     // "duracaoAlerta" segundos, o boss nasce fora da tela já fortalecido (Fortalecer(indice)).
+    // Integração (bosses aleatórios): sortearModelo = true (Infinito) sorteia o modelo; false (Campanha) usa o
+    // modelo da posição "indice" da lista.
     // Devolve false (e não faz nada) se já há um alerta ou um boss em andamento.
-    public bool SurgirBoss(int indice, bool ehFinal = false)
+    public bool SurgirBoss(int indice, bool ehFinal = false, bool sortearModelo = false)
     {
         if (fase == Fase.Alerta || fase == Fase.BossVivo)
         {
@@ -216,6 +236,7 @@ public class ControladorDeBoss : MonoBehaviour
             return false;
         }
 
+        sortearAtual = sortearModelo;
         IniciarAlerta(Mathf.Max(0, indice), ehFinal);
         return true;
     }
@@ -235,11 +256,11 @@ public class ControladorDeBoss : MonoBehaviour
     // Antes se chamava SurgirBoss (privado): agora é só a parte que cria o boss, quando o alerta acaba.
     private void InstanciarBoss()
     {
-        GameObject prefab = bossPrefab != null ? bossPrefab : Resources.Load<GameObject>(BossNoResources);
+        GameObject prefab = EscolherModelo();
         if (prefab == null)
         {
             // Sem prefab não há boss: volta a acumular em vez de ficar preso no alerta.
-            Debug.LogWarning("ControladorDeBoss: sem bossPrefab e sem 'Boss' em Assets/Resources. Rode o menu Galega > Criar Prefab do Boss.", this);
+            Debug.LogWarning("ControladorDeBoss: sem modelos de boss (BOSS1/2/3(FINAL)), sem bossPrefab e sem 'Boss' em Assets/Resources. Rode o menu Galega > Criar Prefab do Boss.", this);
             AbandonarBoss();
             return;
         }
@@ -259,6 +280,26 @@ public class ControladorDeBoss : MonoBehaviour
         bossAtual = boss;
         fase = Fase.BossVivo;
         AoBossSurgir?.Invoke(boss);
+    }
+
+    // Integração (bosses aleatórios): qual prefab nasce agora.
+    //   Sorteado (Infinito): qualquer modelo, menos o do boss anterior.
+    //   Fixo (Campanha e barra de ameaça): o modelo da posição do índice; passou do fim da lista, repete o último.
+    // Sem nenhum modelo, usa o bossPrefab (ou Resources/Boss), como antes.
+    private GameObject EscolherModelo()
+    {
+        if (modelos == null || modelos.Length == 0)
+        {
+            return bossPrefab != null ? bossPrefab : Resources.Load<GameObject>(BossNoResources);
+        }
+
+        if (!sortearAtual)
+        {
+            return modelos[Mathf.Clamp(indiceAtual, 0, modelos.Length - 1)];
+        }
+
+        ultimoModeloSorteado = SorteioDeModelos.SortearSemRepetir(modelos.Length, ultimoModeloSorteado);
+        return modelos[ultimoModeloSorteado];
     }
 
     // Integração: não deu para criar o boss. Com a ameaça ligada volta a acumular (como antes); com waves conta como

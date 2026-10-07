@@ -81,9 +81,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
   vida: 2
   fireHate: 1
-  tiroPrefab: {fileID: 622103057824685011, guid: 5dd7fc3dde96d534687fe0bf1edd2bd2, type: 3}
+  tiroPrefab: {fileID: 6131626399955094929, guid: 601f9040f90ddea4c90e46fab5268d9d, type: 3}
   gun: {fileID: 5842648887065746348}
-  distanciaParada: 0
+  distanciaParada: 0.6
   margemTela: 0.05
   atrasoPrimeiroTiro: 0.5
   velocidade: 2

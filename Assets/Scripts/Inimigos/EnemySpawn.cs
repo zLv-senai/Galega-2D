@@ -2,7 +2,8 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Cria inimigos (prefab Resources/Enemy) logo fora da tela, num lado aleatório.
+// Cria inimigos logo fora da tela, num lado aleatório. Cada inimigo é sorteado entre os modelos
+// (EnemyUno, EnemyDuo e EnemyThree do Resources, ou os arrastados no Inspector).
 // Quem decide quando criar é o SpawnContinuo ou o GerenciadorDeWaves.
 public class EnemySpawn : MonoBehaviour
 {
@@ -12,12 +13,20 @@ public class EnemySpawn : MonoBehaviour
     public const int LadoEsquerda = 2;
     public const int LadoDireita = 3;
 
-    // Câmera principal, GameManager e prefab do inimigo (preenchidos no Awake) e o último ponto de spawn usado.
+    // Integração (inimigos aleatórios): nomes dentro de Assets/Resources. Os 3 modelos novos são sorteados;
+    // o inimigo antigo ("Enemy") só é usado se nenhum deles existir.
+    private static readonly string[] InimigosNoResources = { "EnemyUno", "EnemyDuo", "EnemyThree" };
+    private static readonly string[] InimigoAntigoNoResources = { "Enemy" };
+
+    // Integração (inimigos aleatórios): modelos sorteados a cada spawn. Vazio = os do Resources acima.
+    [SerializeField] private GameObject[] modelosDeInimigo;
+
+    // Câmera principal, GameManager e modelos de inimigo (preenchidos no Awake) e o último ponto de spawn usado.
     private Camera mainCamera;
     private Vector2 spawnPoint;
 
     private GameManager gameManager;
-    private GameObject enemy;
+    private GameObject[] modelos;
 
     // Distância (em unidades) para fora da borda da tela onde o inimigo nasce.
     [SerializeField] public int margem = 1;
@@ -25,7 +34,7 @@ public class EnemySpawn : MonoBehaviour
     // Nenhum script lê este campo hoje.
     [SerializeField] public Vector2 direcaoRay = Vector2.up;
 
-    // Acha o GameManager, a câmera principal e carrega o prefab do inimigo em Resources/Enemy.
+    // Acha o GameManager, a câmera principal e carrega os modelos de inimigo (Inspector ou Resources).
     void Awake()
     {
         // Integração: a tag "GameManager" não existe neste projeto (FindGameObjectWithTag
@@ -38,11 +47,15 @@ public class EnemySpawn : MonoBehaviour
         {
             mainCamera = Camera.main;
         }
-        if (enemy == null)
+        if (modelos == null)
         {
-            enemy = Resources.Load<GameObject>("Enemy");
+            modelos = SorteioDeModelos.Carregar(modelosDeInimigo, InimigosNoResources, this);
+            if (modelos.Length == 0)
+            {
+                modelos = SorteioDeModelos.Carregar(null, InimigoAntigoNoResources, this);
+            }
         }
-    
+
     }
 
     // Gera uma posiçao de spawn aleatoria em um dos quatro lados da tela com margem para que o inimigo
@@ -80,18 +93,21 @@ public class EnemySpawn : MonoBehaviour
 
     // Integração: agora devolve o inimigo criado (null se não deu para criar), para o GerenciadorDeWaves contá-lo.
     // Quem chamava sem usar o retorno (SpawnContinuo) continua funcionando igual.
+    // Integração (inimigos aleatórios): cada chamada sorteia um dos modelos (pode repetir).
     public GameObject SpawnEnemy()
     {
-        if (enemy == null || mainCamera == null)
+        if (modelos == null || modelos.Length == 0 || mainCamera == null)
         {
-            Debug.LogWarning("EnemySpawn: falta o prefab Resources/Enemy ou a Main Camera.");
+            Debug.LogWarning("EnemySpawn: faltam os modelos de inimigo (EnemyUno/EnemyDuo/EnemyThree ou Enemy em Resources) ou a Main Camera.");
             return null;
         }
+
+        GameObject modelo = modelos[UnityEngine.Random.Range(0, modelos.Length)];
 
         // Integração: soma a posição da câmera, porque ela segue o player (CameraFollow);
         // sem isso os inimigos nasceriam em volta do centro do mundo.
         spawnPoint = (Vector2)mainCamera.transform.position + SpawnPosition();
 
-        return Instantiate(enemy, spawnPoint, quaternion.identity);
+        return Instantiate(modelo, spawnPoint, quaternion.identity);
     }
 }
