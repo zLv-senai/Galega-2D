@@ -13,15 +13,28 @@
     background-color: rgba(4, 6, 20, 0.82);
 }
 
+/* Título curto ("WAVE N CONCLUÍDA"): quebra de linha e largura máxima evitam sair da tela em resoluções menores. */
 .lv-titulo {
-    margin: 0 0 8px 0;
+    margin: 0 0 4px 0;
+    max-width: 90%;
     color: rgb(255, 221, 87);
-    font-size: 64px;
+    font-size: 52px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
+    white-space: normal;
     -unity-text-outline-width: 2px;
     -unity-text-outline-color: rgb(120, 60, 0);
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* "Escolha um card": instrução menor abaixo do título. */
+.lv-subtitulo {
+    margin: 0 0 8px 0;
+    max-width: 90%;
+    color: rgb(235, 238, 255);
+    font-size: 30px;
+    -unity-text-align: middle-center;
+    white-space: normal;
 }
 
 /* "Escolhas restantes: N" (só aparece quando subiu mais de um level de uma vez) */
@@ -33,17 +46,24 @@
     -unity-text-align: middle-center;
 }
 
+/* Largura relativa à tela: os 3 cards dividem o espaço e encolhem em telas pequenas (máx. 300px cada). */
 .lv-cards {
     flex-direction: row;
     align-items: stretch;
     justify-content: center;
+    width: 94%;
+    max-width: 1100px;
 }
 
 /* Cada card é um botão. O seletor ".lv-cards .lv-card" é mais forte que o estilo padrão do botão (inclusive no :hover). */
 .lv-cards .lv-card {
-    width: 300px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 0;
+    max-width: 300px;
     min-height: 400px;
-    margin: 0 18px;
+    margin: 0 12px;
     padding: 22px 18px;
     flex-direction: column;
     align-items: center;
@@ -66,6 +86,44 @@
 .lv-cards .lv-card:active {
     scale: 0.98 0.98;
     background-color: rgb(46, 54, 104);
+}
+
+/* Card selecionado (aguardando Confirmar): destacado, maior e com borda grossa. Fica depois do :hover/:active para vencer. */
+.lv-cards .lv-card.lv-card-selecionado,
+.lv-cards .lv-card.lv-card-selecionado:hover,
+.lv-cards .lv-card.lv-card-selecionado:active {
+    scale: 1.1 1.1;
+    border-width: 8px;
+    background-color: rgb(52, 62, 120);
+}
+
+/* Botão Confirmar: verde quando habilitado, apagado enquanto nenhum card foi selecionado. */
+.lv-raiz .lv-confirmar {
+    margin: 28px 0 0 0;
+    padding: 16px 40px;
+    min-width: 420px;
+    font-size: 34px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    background-color: rgb(36, 150, 76);
+    border-width: 4px;
+    border-radius: 14px;
+    border-color: rgb(130, 235, 160);
+}
+
+.lv-raiz .lv-confirmar:hover {
+    background-color: rgb(50, 185, 96);
+    border-color: rgb(190, 250, 205);
+}
+
+.lv-raiz .lv-confirmar:active {
+    background-color: rgb(28, 120, 60);
+}
+
+.lv-raiz .lv-confirmar:disabled {
+    color: rgb(170, 175, 195);
+    background-color: rgb(50, 54, 78);
+    border-color: rgb(90, 96, 124);
 }
 
 .lv-card-icone {

@@ -11,6 +11,11 @@
             <!-- Ranking local: o GameOverUI.cs só mostra no Infinito, quando a partida entrou no top 5 -->
             <ui:Label name="GameOverRanking" text="Você entrou no ranking em Nº 1" class="go-level go-ranking" />
         </ui:VisualElement>
-        <ui:Button name="JogarDeNovo" text="Jogar de novo" class="go-botao" />
+        <!-- Botões da tela: o GameOverUI.cs liga os 3 pelo name. Voltar ao menu e Sair são opcionais no código. -->
+        <ui:VisualElement name="GameOverBotoes" class="go-botoes">
+            <ui:Button name="JogarDeNovo" text="Jogar novamente" class="go-botao" />
+            <ui:Button name="VoltarAoMenu" text="Voltar ao menu principal" class="go-botao go-botao-secundario" />
+            <ui:Button name="Sair" text="Sair" class="go-botao go-botao-sair" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

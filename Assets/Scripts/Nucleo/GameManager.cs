@@ -156,4 +156,24 @@ public class GameManager : MonoBehaviour
         pularMenuNaProximaCarga = true;
         Restart();
     }
+
+    // Volta ao menu principal recarregando a cena (sem pular o menu). Usado pela pausa e pelo Game Over.
+    public void VoltarAoMenu()
+    {
+        ConfiguracaoDeAudio.Salvar();
+        pularMenuNaProximaCarga = false;
+        Restart();
+    }
+
+    // Grava os volumes e fecha o jogo (no Editor, para o Play Mode). Usado pela pausa e pelo Game Over.
+    public void Sair()
+    {
+        ConfiguracaoDeAudio.Salvar();
+        Application.Quit();
+
+#if UNITY_EDITOR
+        // No Editor o Application.Quit não faz nada: para o Play Mode.
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }

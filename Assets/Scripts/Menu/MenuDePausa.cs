@@ -225,18 +225,17 @@ public class MenuDePausa : MonoBehaviour
             return;
         }
 
-        ConfiguracaoDeAudio.Salvar();
-
         if (GameManager.Instance == null)
         {
+            ConfiguracaoDeAudio.Salvar();
             Debug.LogWarning("MenuDePausa: não há GameManager na cena para voltar ao menu.");
             return;
         }
 
-        GameManager.Instance.Restart();
+        GameManager.Instance.VoltarAoMenu();
     }
 
-    // Grava os volumes e fecha o jogo (no Editor, para o Play Mode); ignora cliques logo depois de pausar.
+    // Grava os volumes e fecha o jogo (via GameManager.Sair); ignora cliques logo depois de pausar.
     private void OnExitClicked(ClickEvent exitEvt)
     {
         if (Time.unscaledTime < aceitaCliqueEm)
@@ -244,12 +243,13 @@ public class MenuDePausa : MonoBehaviour
             return;
         }
 
-        ConfiguracaoDeAudio.Salvar();
-        Application.Quit();
+        if (GameManager.Instance == null)
+        {
+            ConfiguracaoDeAudio.Salvar();
+            Application.Quit();
+            return;
+        }
 
-#if UNITY_EDITOR
-        // No Editor o Application.Quit não faz nada: para o Play Mode.
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        GameManager.Instance.Sair();
     }
 }

@@ -25,12 +25,17 @@ public class LevelUpUI : MonoBehaviour
     // e um botão por card.
     private VisualElement raiz;
     private Label tituloLabel;
+    private Label subtituloLabel;
     private Label restantesLabel;
+    private Button confirmarBotao;
     private readonly Button[] botoes = new Button[SorteadorDeCards.CardsPorOferta];
 
     // Oferta que está na tela (null = tela escondida) e quantas escolhas faltam, para reaplicar no reload.
     private CardData[] ofertaAtual;
     private int pendentes;
+
+    // Índice do card selecionado (aguardando o botão Confirmar); -1 = nenhum.
+    private int selecionado = -1;
 
     // Manager em que os eventos estão assinados, para cancelar certo no OnDisable.
     private LevelUpManager managerAssinado;
@@ -116,7 +121,18 @@ public class LevelUpUI : MonoBehaviour
     {
         raiz = root.Q<VisualElement>("LevelUpRaiz");
         tituloLabel = root.Q<Label>("LevelUpTitulo");
+        subtituloLabel = root.Q<Label>("LevelUpSubtitulo");
         restantesLabel = root.Q<Label>("LevelUpRestantes");
+        confirmarBotao = root.Q<Button>("LevelUpConfirmar");
+
+        if (confirmarBotao != null)
+        {
+            confirmarBotao.RegisterCallback<ClickEvent>(evt => ConfirmarSelecao());
+        }
+        else
+        {
+            Debug.LogWarning("LevelUpUI: botão LevelUpConfirmar não encontrado. Sem ele não dá para confirmar o card.");
+        }
 
         for (int i = 0; i < botoes.Length; i++)
         {
@@ -129,7 +145,7 @@ public class LevelUpUI : MonoBehaviour
                 continue;
             }
 
-            botoes[i].RegisterCallback<ClickEvent>(evt => EscolherIndice(indice));
+            botoes[i].RegisterCallback<ClickEvent>(evt => SelecionarIndice(indice));
         }
 
         Renderizar();
@@ -140,6 +156,7 @@ public class LevelUpUI : MonoBehaviour
     {
         ofertaAtual = oferta;
         pendentes = escolhasPendentes;
+        selecionado = -1; // oferta nova: ninguém selecionado ainda
         Renderizar();
     }
 
@@ -147,18 +164,31 @@ public class LevelUpUI : MonoBehaviour
     private void Esconder()
     {
         ofertaAtual = null;
+        selecionado = -1;
         Renderizar();
     }
 
-    // Clique no botão de número "indice": manda o card correspondente para o LevelUpManager aplicar.
-    private void EscolherIndice(int indice)
+    // Clique no card de número "indice": só marca como selecionado; a escolha vale ao clicar em Confirmar.
+    private void SelecionarIndice(int indice)
     {
-        if (manager == null || ofertaAtual == null || indice >= ofertaAtual.Length)
+        if (ofertaAtual == null || indice < 0 || indice >= ofertaAtual.Length || ofertaAtual[indice] == null)
         {
             return;
         }
 
-        manager.Escolher(ofertaAtual[indice]);
+        selecionado = indice;
+        Renderizar();
+    }
+
+    // Clique em Confirmar: manda o card selecionado para o LevelUpManager aplicar. Sem seleção, não faz nada.
+    private void ConfirmarSelecao()
+    {
+        if (manager == null || ofertaAtual == null || selecionado < 0 || selecionado >= ofertaAtual.Length)
+        {
+            return;
+        }
+
+        manager.Escolher(ofertaAtual[selecionado]);
     }
 
     // Desenha o estado atual: some se não há oferta; senão preenche cada botão com seu card.
@@ -179,9 +209,16 @@ public class LevelUpUI : MonoBehaviour
 
         if (tituloLabel != null)
         {
-            // Integração (waves): "WAVE N CONCLUÍDA — escolha um card" no lugar do antigo "LEVEL UP — escolha um card".
+            // Integração (waves): "WAVE N CONCLUÍDA" no lugar do antigo "LEVEL UP — escolha um card" ("Escolha um card" vai no subtítulo).
             string titulo = manager != null ? manager.TituloAtual : null;
             tituloLabel.text = string.IsNullOrEmpty(titulo) ? TituloPadrao : titulo;
+        }
+
+        if (subtituloLabel != null)
+        {
+            // O título padrão já é "ESCOLHA UM CARD": o subtítulo só aparece quando o título é outro (ex.: "WAVE 3 CONCLUÍDA").
+            string tituloPedido = manager != null ? manager.TituloAtual : null;
+            subtituloLabel.style.display = string.IsNullOrEmpty(tituloPedido) ? DisplayStyle.None : DisplayStyle.Flex;
         }
 
         if (restantesLabel != null)
@@ -199,11 +236,19 @@ public class LevelUpUI : MonoBehaviour
             // Menos de 3 cards elegíveis: os botões que sobram ficam escondidos.
             bool temCard = i < ofertaAtual.Length && ofertaAtual[i] != null;
             botoes[i].style.display = temCard ? DisplayStyle.Flex : DisplayStyle.None;
+            botoes[i].EnableInClassList("lv-card-selecionado", temCard && i == selecionado);
 
             if (temCard)
             {
                 PreencherBotao(botoes[i], ofertaAtual[i]);
             }
+        }
+
+        if (confirmarBotao != null)
+        {
+            bool temSelecao = selecionado >= 0;
+            confirmarBotao.SetEnabled(temSelecao);
+            confirmarBotao.text = temSelecao ? "CONFIRMAR" : "SELECIONE UM CARD";
         }
     }
 

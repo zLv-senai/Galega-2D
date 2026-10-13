@@ -14,6 +14,13 @@ public class GameOverUI : MonoBehaviour
     private VisualElement raiz;
     private Label levelLabel;
     private Button jogarDeNovo;
+    private Button voltarAoMenu;
+    private Button sair;
+
+    // Tempo (unscaled, o jogo está parado) em que os botões ignoram clique depois de a tela abrir:
+    // evita escolher sem querer por causa de clique rápido do tiro.
+    private const float TempoAntesDeAceitarClique = 0.5f;
+    private float aceitaCliqueEm;
 
     // Integração (waves): "Wave alcançada" e, no Infinito, "Recorde". Sem GerenciadorDeWaves ficam escondidos.
     private Label waveLabel;
@@ -105,6 +112,8 @@ public class GameOverUI : MonoBehaviour
         raiz = root.Q<VisualElement>("GameOverRaiz");
         levelLabel = root.Q<Label>("GameOverLevel");
         jogarDeNovo = root.Q<Button>("JogarDeNovo");
+        voltarAoMenu = root.Q<Button>("VoltarAoMenu");
+        sair = root.Q<Button>("Sair");
 
         // Integração (waves): opcionais; se faltarem, só não aparecem.
         waveLabel = root.Q<Label>("GameOverWave");
@@ -118,6 +127,10 @@ public class GameOverUI : MonoBehaviour
         }
 
         jogarDeNovo.RegisterCallback<ClickEvent>(OnJogarDeNovoClicked);
+
+        // Opcionais: se o UXML não tiver esses botões, a tela continua funcionando só com o "Jogar novamente".
+        voltarAoMenu?.RegisterCallback<ClickEvent>(OnVoltarAoMenuClicked);
+        sair?.RegisterCallback<ClickEvent>(OnSairClicked);
         Renderizar();
     }
 
@@ -125,6 +138,7 @@ public class GameOverUI : MonoBehaviour
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
         visivel = estado == GameManager.GameState.GameOver;
+        aceitaCliqueEm = Time.unscaledTime + TempoAntesDeAceitarClique;
         Renderizar();
     }
 
@@ -204,6 +218,11 @@ public class GameOverUI : MonoBehaviour
     // Clique em 'Jogar de novo': pede ao GameManager para reiniciar a partida.
     private void OnJogarDeNovoClicked(ClickEvent evt)
     {
+        if (Time.unscaledTime < aceitaCliqueEm)
+        {
+            return;
+        }
+
         if (GameManager.Instance == null)
         {
             Debug.LogWarning("GameOverUI: não há GameManager na cena para reiniciar.");
@@ -211,5 +230,39 @@ public class GameOverUI : MonoBehaviour
         }
 
         GameManager.Instance.JogarDeNovo();
+    }
+
+    // Clique em 'Voltar ao menu principal': recarrega a cena começando pelo menu.
+    private void OnVoltarAoMenuClicked(ClickEvent evt)
+    {
+        if (Time.unscaledTime < aceitaCliqueEm)
+        {
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogWarning("GameOverUI: não há GameManager na cena para voltar ao menu.");
+            return;
+        }
+
+        GameManager.Instance.VoltarAoMenu();
+    }
+
+    // Clique em 'Sair': grava os volumes e fecha o jogo.
+    private void OnSairClicked(ClickEvent evt)
+    {
+        if (Time.unscaledTime < aceitaCliqueEm)
+        {
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogWarning("GameOverUI: não há GameManager na cena para sair.");
+            return;
+        }
+
+        GameManager.Instance.Sair();
     }
 }

@@ -42,6 +42,7 @@ public class GerenciadorDeWaves : MonoBehaviour
     [SerializeField] private int wavesDaCampanha = 15;
     [SerializeField] private int wavesPorBoss = 5;           // a cada quantas waves vem um boss
     [SerializeField] private float duracaoAnuncio = 2f;      // segundos do aviso "WAVE N"
+    [SerializeField, Range(0f, 1f)] private float chanceDeOferta = 0.4f; // chance (0 a 1) de uma wave normal oferecer cards; boss sempre oferece
 
     // Quantos inimigos nascem por wave, em que ritmo, o limite de vivos ao mesmo tempo e o bônus de vida por wave.
     [Header("Inimigos")]
@@ -381,7 +382,21 @@ public class GerenciadorDeWaves : MonoBehaviour
             return;
         }
 
-        levelUpManager.OferecerCartas(IniciarProximaWave, "WAVE " + WaveAtual + " CONCLUÍDA — escolha um card");
+        // Fora das waves de oferta (e sem boss) segue direto, sem pausar o jogo: deixa o ritmo mais frenético.
+        if (!DeveOferecerCartas())
+        {
+            IniciarProximaWave();
+            return;
+        }
+
+        levelUpManager.OferecerCartas(IniciarProximaWave, "WAVE " + WaveAtual + " CONCLUÍDA");
+    }
+
+    // True se a wave que acabou de terminar dá cards: toda wave de boss sempre, e as demais com a
+    // probabilidade "chanceDeOferta" (0 = nunca, 1 = sempre). Ajuste o valor no Inspector (GerenciadorDeWaves).
+    private bool DeveOferecerCartas()
+    {
+        return ehBoss || Random.value < chanceDeOferta;
     }
 
     // Chamado quando o jogador escolhe o card: começa a wave seguinte.
