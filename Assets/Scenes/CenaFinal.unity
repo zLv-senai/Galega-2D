@@ -1750,11 +1750,12 @@ MonoBehaviour:
   levelUpManager: {fileID: 238185657}
   wavesDaCampanha: 15
   wavesPorBoss: 5
-  duracaoAnuncio: 2
+  duracaoAnuncio: 1.5
+  chanceDeOferta: 0.4
   inimigosNaPrimeiraWave: 6
-  inimigosAMaisPorWave: 3
-  intervaloEntreSpawns: 0.6
-  maxVivos: 40
+  inimigosAMaisPorWave: 4
+  intervaloEntreSpawns: 0.4
+  maxVivos: 55
   wavesPorBonusDeVida: 3
 --- !u!4 &2015024236
 Transform:

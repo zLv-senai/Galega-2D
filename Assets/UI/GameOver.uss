@@ -44,11 +44,16 @@
     font-size: 38px;
 }
 
+/* Coluna com os 3 botões (Jogar novamente, Voltar ao menu principal, Sair). */
+.go-botoes {
+    align-items: center;
+}
+
 /* O seletor ".go-raiz .go-botao" é mais forte que o estilo padrão do botão (inclusive no :hover). */
 .go-raiz .go-botao {
-    width: 420px;
+    width: 520px;
     padding: 18px 24px;
-    margin: 0;
+    margin: 0 0 16px 0;
     font-size: 38px;
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
@@ -65,4 +70,35 @@
 
 .go-raiz .go-botao:active {
     background-color: rgb(30, 85, 160);
+}
+
+/* Voltar ao menu principal: cinza-azulado, para o "Jogar novamente" continuar sendo o botão principal. */
+.go-raiz .go-botao-secundario {
+    background-color: rgb(52, 60, 92);
+    border-color: rgb(150, 160, 205);
+}
+
+.go-raiz .go-botao-secundario:hover {
+    background-color: rgb(72, 82, 126);
+    border-color: rgb(200, 208, 240);
+}
+
+.go-raiz .go-botao-secundario:active {
+    background-color: rgb(40, 46, 74);
+}
+
+/* Sair: vermelho escuro. */
+.go-raiz .go-botao-sair {
+    margin-bottom: 0;
+    background-color: rgb(140, 36, 52);
+    border-color: rgb(255, 130, 150);
+}
+
+.go-raiz .go-botao-sair:hover {
+    background-color: rgb(180, 50, 70);
+    border-color: rgb(255, 185, 198);
+}
+
+.go-raiz .go-botao-sair:active {
+    background-color: rgb(104, 26, 38);
 }

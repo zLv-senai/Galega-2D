@@ -2,7 +2,8 @@
     <Style src="LevelUp.uss" />
     <!-- Tela cheia escurecida; escondida por padrão (o LevelUpUI.cs mostra com style.display) -->
     <ui:VisualElement name="LevelUpRaiz" class="lv-raiz">
-        <ui:Label name="LevelUpTitulo" text="LEVEL UP — escolha um card" class="lv-titulo" />
+        <ui:Label name="LevelUpTitulo" text="WAVE CONCLUÍDA" class="lv-titulo" />
+        <ui:Label name="LevelUpSubtitulo" text="Escolha um card" class="lv-subtitulo" />
         <ui:Label name="LevelUpRestantes" text="" class="lv-restantes" />
 
         <!-- 3 cards. Cada botão tem ícone, raridade, nome e descrição (preenchidos pelo código) -->
@@ -26,5 +27,8 @@
                 <ui:Label name="CardDescricao" text="Descrição do card" class="lv-card-descricao" picking-mode="Ignore" />
             </ui:Button>
         </ui:VisualElement>
+
+        <!-- O clique no card só seleciona; a escolha vale ao confirmar (o LevelUpUI.cs habilita o botão) -->
+        <ui:Button name="LevelUpConfirmar" text="SELECIONE UM CARD" class="lv-confirmar" />
     </ui:VisualElement>
 </ui:UXML>
