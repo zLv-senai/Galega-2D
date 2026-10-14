@@ -1,0 +1,899 @@
+fileFormatVersion: 2
+guid: b3b1ad2d6aba0204ab8b4b13a7e3287c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3145002399667408566
+    second: SunColor_0
+  - first:
+      213: -456834942555835950
+    second: SunColor_1
+  - first:
+      213: 8329803203075124891
+    second: SunColor_2
+  - first:
+      213: -1342582117791742772
+    second: SunColor_3
+  - first:
+      213: -6752839568089294080
+    second: SunColor_4
+  - first:
+      213: 6330068835111723312
+    second: SunColor_5
+  - first:
+      213: -5274793576289935645
+    second: SunColor_6
+  - first:
+      213: 3196314244049253864
+    second: SunColor_7
+  - first:
+      213: -4840978488968776804
+    second: SunColor_8
+  - first:
+      213: -3411446519403606366
+    second: SunColor_9
+  - first:
+      213: 7726826542067337761
+    second: SunColor_10
+  - first:
+      213: 7921031828755282758
+    second: SunColor_11
+  - first:
+      213: 3623994787050181689
+    second: SunColor_12
+  - first:
+      213: -2856067071858884020
+    second: SunColor_13
+  - first:
+      213: 2238456220910729352
+    second: SunColor_14
+  - first:
+      213: -8972652837117725541
+    second: SunColor_15
+  - first:
+      213: 5885729240281159473
+    second: SunColor_16
+  - first:
+      213: 944674875466277410
+    second: SunColor_17
+  - first:
+      213: -1409215587492484438
+    second: SunColor_18
+  - first:
+      213: -8172795964280133764
+    second: SunColor_19
+  - first:
+      213: -2429522103852151336
+    second: SunColor_20
+  - first:
+      213: 8402451154729453909
+    second: SunColor_21
+  - first:
+      213: 3774985220170701372
+    second: SunColor_22
+  - first:
+      213: 4582354504113103717
+    second: SunColor_23
+  - first:
+      213: 6908356718243167151
+    second: SunColor_24
+  - first:
+      213: 555578516656485262
+    second: SunColor_25
+  - first:
+      213: -3053498441609946813
+    second: SunColor_26
+  - first:
+      213: -5922828053608580604
+    second: SunColor_27
+  - first:
+      213: 3745258237189793159
+    second: SunColor_28
+  - first:
+      213: 2453751768699613064
+    second: SunColor_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SunColor_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 465
+        width: 32
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a41b21efaf4ba54d0800000000000000
+      internalID: -3145002399667408566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_1
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 451
+        width: 42
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d139f74a0ff8a9f0800000000000000
+      internalID: -456834942555835950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_2
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 460
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9e243841e7699370800000000000000
+      internalID: 8329803203075124891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_3
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 396
+        width: 57
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc44b3b5da03e5de0800000000000000
+      internalID: -1342582117791742772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_4
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 460
+        width: 44
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00bd5ded0381942a0800000000000000
+      internalID: -6752839568089294080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_5
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 450
+        width: 59
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 031ea90411ce8d750800000000000000
+      internalID: 6330068835111723312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_6
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 460
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3eed9bd703b2cc6b0800000000000000
+      internalID: -5274793576289935645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 460
+        width: 66
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e5b313ced69b5c20800000000000000
+      internalID: 3196314244049253864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_8
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 448
+        width: 46
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9375bf76b361dcb0800000000000000
+      internalID: -4840978488968776804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_9
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 389
+        width: 40
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ae84b8177b18a0d0800000000000000
+      internalID: -3411446519403606366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 396
+        width: 52
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12acbf03dc33b3b60800000000000000
+      internalID: 7726826542067337761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_11
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 381
+        width: 60
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64b75871b782ded60800000000000000
+      internalID: 7921031828755282758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_12
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 396
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9345efdde040b4230800000000000000
+      internalID: 3623994787050181689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_13
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 393
+        width: 56
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c42492751263d58d0800000000000000
+      internalID: -2856067071858884020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_14
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 385
+        width: 49
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 888b5a4b218901f10800000000000000
+      internalID: 2238456220910729352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_15
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 396
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9472b6a8cbba7380800000000000000
+      internalID: -8972652837117725541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_16
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 56
+        height: 306
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13796136f8f4ea150800000000000000
+      internalID: 5885729240281159473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_17
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 325
+        width: 45
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 222676c4bc82c1d00800000000000000
+      internalID: 944674875466277410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_18
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 14
+        width: 119
+        height: 294
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aaa2197b3e5717ce0800000000000000
+      internalID: -1409215587492484438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_19
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 314
+        width: 66
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c77265f2f55649e80800000000000000
+      internalID: -8172795964280133764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_20
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 239
+        width: 49
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ddcee9c48a984ed0800000000000000
+      internalID: -2429522103852151336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_21
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 332
+        width: 48
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5594830aec08b9470800000000000000
+      internalID: 8402451154729453909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_22
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 3
+        width: 106
+        height: 305
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3adf989e01736430800000000000000
+      internalID: 3774985220170701372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_23
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 318
+        width: 76
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 563a294a42bc79f30800000000000000
+      internalID: 4582354504113103717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_24
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 266
+        width: 52
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fab319c45d96fdf50800000000000000
+      internalID: 6908356718243167151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_25
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 332
+        width: 46
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e83f522a7bfc5b700800000000000000
+      internalID: 555578516656485262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_26
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 1
+        width: 227
+        height: 311
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34951a1785bcf95d0800000000000000
+      internalID: -3053498441609946813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 316
+        width: 49
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40a31f60443edcda0800000000000000
+      internalID: -5922828053608580604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_28
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 294
+        width: 48
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 785adc30684d9f330800000000000000
+      internalID: 3745258237189793159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunColor_29
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 73
+        width: 97
+        height: 304
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88fa35cab3a7d0220800000000000000
+      internalID: 2453751768699613064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ea7d98f8fc2e7214fb4b72d59c0bb8c7
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SunColor_0: -3145002399667408566
+      SunColor_1: -456834942555835950
+      SunColor_10: 7726826542067337761
+      SunColor_11: 7921031828755282758
+      SunColor_12: 3623994787050181689
+      SunColor_13: -2856067071858884020
+      SunColor_14: 2238456220910729352
+      SunColor_15: -8972652837117725541
+      SunColor_16: 5885729240281159473
+      SunColor_17: 944674875466277410
+      SunColor_18: -1409215587492484438
+      SunColor_19: -8172795964280133764
+      SunColor_2: 8329803203075124891
+      SunColor_20: -2429522103852151336
+      SunColor_21: 8402451154729453909
+      SunColor_22: 3774985220170701372
+      SunColor_23: 4582354504113103717
+      SunColor_24: 6908356718243167151
+      SunColor_25: 555578516656485262
+      SunColor_26: -3053498441609946813
+      SunColor_27: -5922828053608580604
+      SunColor_28: 3745258237189793159
+      SunColor_29: 2453751768699613064
+      SunColor_3: -1342582117791742772
+      SunColor_4: -6752839568089294080
+      SunColor_5: 6330068835111723312
+      SunColor_6: -5274793576289935645
+      SunColor_7: 3196314244049253864
+      SunColor_8: -4840978488968776804
+      SunColor_9: -3411446519403606366
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

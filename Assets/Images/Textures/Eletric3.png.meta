@@ -1,0 +1,437 @@
+fileFormatVersion: 2
+guid: a86cdac07c739ff4789a5c7559176358
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9176521170637098094
+    second: Eletric3_0
+  - first:
+      213: -3207300762638196026
+    second: Eletric3_1
+  - first:
+      213: -6923474973082474019
+    second: Eletric3_2
+  - first:
+      213: -7951046566090100851
+    second: Eletric3_3
+  - first:
+      213: -2460043016686877295
+    second: Eletric3_4
+  - first:
+      213: 5934015297022348857
+    second: Eletric3_5
+  - first:
+      213: -4898759528275852034
+    second: Eletric3_6
+  - first:
+      213: 6240795802857170334
+    second: Eletric3_7
+  - first:
+      213: 4658827169446077825
+    second: Eletric3_8
+  - first:
+      213: -357668131680179803
+    second: Eletric3_9
+  - first:
+      213: 4782847988479833568
+    second: Eletric3_10
+  - first:
+      213: 1762602359060754465
+    second: Eletric3_11
+  - first:
+      213: -7059913990766613565
+    second: Eletric3_12
+  - first:
+      213: 6047604221198907739
+    second: Eletric3_13
+  - first:
+      213: -3814817143966943903
+    second: Eletric3_14
+  - first:
+      213: 2158951365419226698
+    second: Eletric3_15
+  - first:
+      213: -1620231429837822760
+    second: Eletric3_16
+  - first:
+      213: 6866908474422351768
+    second: Eletric3_17
+  - first:
+      213: 207885382807055801
+    second: Eletric3_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Eletric3_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 886
+        width: 216
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6c0da9a26d895f70800000000000000
+      internalID: 9176521170637098094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_1
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 847
+        width: 237
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c26c1b03f06d73d0800000000000000
+      internalID: -3207300762638196026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_2
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 818
+        width: 337
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd9ac12b130eaef90800000000000000
+      internalID: -6923474973082474019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_3
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 84
+        width: 200
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8f2c9b464538a190800000000000000
+      internalID: -7951046566090100851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_4
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 359
+        width: 168
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 195c23209eb2cddd0800000000000000
+      internalID: -2460043016686877295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_5
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 630
+        width: 199
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93e40ce097bd95250800000000000000
+      internalID: 5934015297022348857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_6
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 608
+        width: 237
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef4ce0de92c140cb0800000000000000
+      internalID: -4898759528275852034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_7
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 361
+        width: 230
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e95ec01b7b2cb9650800000000000000
+      internalID: 6240795802857170334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_12
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 111
+        width: 232
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cbab8361a5260e90800000000000000
+      internalID: -7059913990766613565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_13
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 59
+        width: 236
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b59b6b26ff76de350800000000000000
+      internalID: 6047604221198907739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eletric3_18
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 118
+        width: 172
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bde53c77ae82e200800000000000000
+      internalID: 207885382807055801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 757a48628eb4fb440a60987d9e384a77
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Eletric3_0: 9176521170637098094
+      Eletric3_1: -3207300762638196026
+      Eletric3_10: 4782847988479833568
+      Eletric3_11: 1762602359060754465
+      Eletric3_12: -7059913990766613565
+      Eletric3_13: 6047604221198907739
+      Eletric3_14: -3814817143966943903
+      Eletric3_15: 2158951365419226698
+      Eletric3_16: -1620231429837822760
+      Eletric3_17: 6866908474422351768
+      Eletric3_18: 207885382807055801
+      Eletric3_2: -6923474973082474019
+      Eletric3_3: -7951046566090100851
+      Eletric3_4: -2460043016686877295
+      Eletric3_5: 5934015297022348857
+      Eletric3_6: -4898759528275852034
+      Eletric3_7: 6240795802857170334
+      Eletric3_8: 4658827169446077825
+      Eletric3_9: -357668131680179803
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

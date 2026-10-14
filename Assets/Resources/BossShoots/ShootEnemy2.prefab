@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3619391839743800067}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.7035105, w: 0.7106849}
-  m_LocalPosition: {x: 7.053, y: -2.971, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7035125, w: 0.71068287}
+  m_LocalPosition: {x: 3.41, y: -2.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -745,7 +745,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 3373568495408583166, guid: 714bfd21b43ad174d891bdb51b8f83e7, type: 3}
+    - sprite: {fileID: -5274793576289935645, guid: b3b1ad2d6aba0204ab8b4b13a7e3287c, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -2414,7 +2414,6 @@ GameObject:
   m_Component:
   - component: {fileID: 122378218015249077}
   - component: {fileID: 5990514998383379361}
-  - component: {fileID: 8348935945103088437}
   m_Layer: 0
   m_Name: Trail
   m_TagString: Untagged
@@ -2556,18 +2555,3 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &8348935945103088437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6753535502588498736}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af8418d8103a05740ad6b0fc5d514edf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MovimentoParticula
-  speed: 0.5
-  zigZagAmplitude: 1.5
-  zigZagFrequency: 1

@@ -1,0 +1,1003 @@
+fileFormatVersion: 2
+guid: f7c81a1e4e9c20047b2bb4c72b861569
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5304188368420834664
+    second: EnergiBall_0
+  - first:
+      213: -242839772262356052
+    second: EnergiBall_1
+  - first:
+      213: 9118360525189705403
+    second: EnergiBall_2
+  - first:
+      213: -3980249113273538094
+    second: EnergiBall_3
+  - first:
+      213: 8736085268208332870
+    second: EnergiBall_4
+  - first:
+      213: -270373459424456381
+    second: EnergiBall_5
+  - first:
+      213: 6768521950659682284
+    second: EnergiBall_6
+  - first:
+      213: 4072941223636208110
+    second: EnergiBall_7
+  - first:
+      213: 4547088642424363479
+    second: EnergiBall_8
+  - first:
+      213: 7101628781992565944
+    second: EnergiBall_9
+  - first:
+      213: -1440347724074266081
+    second: EnergiBall_10
+  - first:
+      213: 3019086168151742489
+    second: EnergiBall_11
+  - first:
+      213: -7293971201216037752
+    second: EnergiBall_12
+  - first:
+      213: 4295727679205106928
+    second: EnergiBall_13
+  - first:
+      213: 8913880876058104461
+    second: EnergiBall_14
+  - first:
+      213: -6950242804901169637
+    second: EnergiBall_15
+  - first:
+      213: 1530241431493857699
+    second: EnergiBall_16
+  - first:
+      213: 3607001263633631839
+    second: EnergiBall_17
+  - first:
+      213: 7960428031076703250
+    second: EnergiBall_18
+  - first:
+      213: -3211988665346058243
+    second: EnergiBall_19
+  - first:
+      213: 2262511173081162820
+    second: EnergiBall_20
+  - first:
+      213: -7119356110695016815
+    second: EnergiBall_21
+  - first:
+      213: -2529697557256844855
+    second: EnergiBall_22
+  - first:
+      213: -9015360726197435284
+    second: EnergiBall_23
+  - first:
+      213: 508268058881877485
+    second: EnergiBall_24
+  - first:
+      213: 2154816917125765283
+    second: EnergiBall_25
+  - first:
+      213: -6897133198772333802
+    second: EnergiBall_26
+  - first:
+      213: -8862055346605947521
+    second: EnergiBall_27
+  - first:
+      213: 7117345093915554307
+    second: EnergiBall_28
+  - first:
+      213: -8939490771451126766
+    second: EnergiBall_29
+  - first:
+      213: -817777621881901044
+    second: EnergiBall_30
+  - first:
+      213: -8049674191414863734
+    second: EnergiBall_31
+  - first:
+      213: -3497097467537417336
+    second: EnergiBall_32
+  - first:
+      213: -8489662703572520304
+    second: EnergiBall_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: EnergiBall_0
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 469
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86d8b71e7334c9940800000000000000
+      internalID: 5304188368420834664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_1
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 432
+        width: 53
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cab27f4838241acf0800000000000000
+      internalID: -242839772262356052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 468
+        width: 57
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbe60e5269cea8e70800000000000000
+      internalID: 9118360525189705403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_3
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 475
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d964cd058053c8c0800000000000000
+      internalID: -3980249113273538094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_4
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 450
+        width: 25
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 640b413044fcc3970800000000000000
+      internalID: 8736085268208332870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_5
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 438
+        width: 35
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 341df4a65c07f3cf0800000000000000
+      internalID: -270373459424456381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_6
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 425
+        width: 63
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cef118b5ade9eed50800000000000000
+      internalID: 6768521950659682284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_7
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 462
+        width: 52
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee981e9a67ef58830800000000000000
+      internalID: 4072941223636208110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_8
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 467
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d9daed57018a1f30800000000000000
+      internalID: 4547088642424363479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_9
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 404
+        width: 26
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bc5b5d40cd0e8260800000000000000
+      internalID: 7101628781992565944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_10
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 403
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f12d281506bd20ce0800000000000000
+      internalID: -1440347724074266081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_11
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 364
+        width: 48
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 918daf6cfd2f5e920800000000000000
+      internalID: 3019086168151742489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_12
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 383
+        width: 40
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88cb69d66db96ca90800000000000000
+      internalID: -7293971201216037752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_13
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 399
+        width: 46
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f465d2809d7d9b30800000000000000
+      internalID: 4295727679205106928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_14
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 405
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d825793dd6774bb70800000000000000
+      internalID: 8913880876058104461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_15
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 397
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b16b62f2ef6cb8f90800000000000000
+      internalID: -6950242804901169637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_16
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 381
+        width: 51
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a1d6c079728c3510800000000000000
+      internalID: 1530241431493857699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_17
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 400
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5a844fd984ae0230800000000000000
+      internalID: 3607001263633631839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_18
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 309
+        width: 55
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21c936c3e1f197e60800000000000000
+      internalID: 7960428031076703250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_19
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 328
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df79773a359bc63d0800000000000000
+      internalID: -3211988665346058243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_20
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 323
+        width: 38
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 444ead3bced066f10800000000000000
+      internalID: 2262511173081162820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_21
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 311
+        width: 36
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19654885657f23d90800000000000000
+      internalID: -7119356110695016815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_22
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 317
+        width: 45
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c9488e7975b4ecd0800000000000000
+      internalID: -2529697557256844855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_23
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 333
+        width: 27
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c648ef85f2103e280800000000000000
+      internalID: -9015360726197435284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_24
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 3
+        width: 165
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de5e45c4b1bbd0700800000000000000
+      internalID: 508268058881877485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_25
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 356
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a89845c19277ed10800000000000000
+      internalID: 2154816917125765283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_26
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 238
+        width: 75
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6131f96f5e57840a0800000000000000
+      internalID: -6897133198772333802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_27
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 339
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7583bd8d97a30580800000000000000
+      internalID: -8862055346605947521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_28
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1
+        width: 201
+        height: 302
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 302b4b257a3e5c260800000000000000
+      internalID: 7117345093915554307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_29
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 123
+        width: 55
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21cd5ceb18c80f380800000000000000
+      internalID: -8939490771451126766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_30
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 259
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c00377ee59ba6a4f0800000000000000
+      internalID: -817777621881901044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_31
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 233
+        width: 30
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a88561fc8ffc94090800000000000000
+      internalID: -8049674191414863734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_32
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 1
+        width: 126
+        height: 302
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88b9386b160d77fc0800000000000000
+      internalID: -3497097467537417336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergiBall_33
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 273
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0927da250c8ae2a80800000000000000
+      internalID: -8489662703572520304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      EnergiBall_0: 5304188368420834664
+      EnergiBall_1: -242839772262356052
+      EnergiBall_10: -1440347724074266081
+      EnergiBall_11: 3019086168151742489
+      EnergiBall_12: -7293971201216037752
+      EnergiBall_13: 4295727679205106928
+      EnergiBall_14: 8913880876058104461
+      EnergiBall_15: -6950242804901169637
+      EnergiBall_16: 1530241431493857699
+      EnergiBall_17: 3607001263633631839
+      EnergiBall_18: 7960428031076703250
+      EnergiBall_19: -3211988665346058243
+      EnergiBall_2: 9118360525189705403
+      EnergiBall_20: 2262511173081162820
+      EnergiBall_21: -7119356110695016815
+      EnergiBall_22: -2529697557256844855
+      EnergiBall_23: -9015360726197435284
+      EnergiBall_24: 508268058881877485
+      EnergiBall_25: 2154816917125765283
+      EnergiBall_26: -6897133198772333802
+      EnergiBall_27: -8862055346605947521
+      EnergiBall_28: 7117345093915554307
+      EnergiBall_29: -8939490771451126766
+      EnergiBall_3: -3980249113273538094
+      EnergiBall_30: -817777621881901044
+      EnergiBall_31: -8049674191414863734
+      EnergiBall_32: -3497097467537417336
+      EnergiBall_33: -8489662703572520304
+      EnergiBall_4: 8736085268208332870
+      EnergiBall_5: -270373459424456381
+      EnergiBall_6: 6768521950659682284
+      EnergiBall_7: 4072941223636208110
+      EnergiBall_8: 4547088642424363479
+      EnergiBall_9: 7101628781992565944
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

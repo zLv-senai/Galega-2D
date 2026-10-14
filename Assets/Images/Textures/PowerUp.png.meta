@@ -1,0 +1,899 @@
+fileFormatVersion: 2
+guid: a6a9b7b48f1bc7242b05d694b5c2951b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7571401643613406209
+    second: PowerUp_0
+  - first:
+      213: 1933725852033448605
+    second: PowerUp_1
+  - first:
+      213: -7523910368627721671
+    second: PowerUp_2
+  - first:
+      213: -2051229442297355825
+    second: PowerUp_3
+  - first:
+      213: -3769386729268415729
+    second: PowerUp_4
+  - first:
+      213: -6222452102138856250
+    second: PowerUp_5
+  - first:
+      213: 809924322218894698
+    second: PowerUp_6
+  - first:
+      213: -8014377438261335591
+    second: PowerUp_7
+  - first:
+      213: -8589169047156043848
+    second: PowerUp_8
+  - first:
+      213: 1214408424982850014
+    second: PowerUp_9
+  - first:
+      213: 3005213472795284121
+    second: PowerUp_10
+  - first:
+      213: 7160778068531315948
+    second: PowerUp_11
+  - first:
+      213: 6093157418848685438
+    second: PowerUp_12
+  - first:
+      213: 3031434014518168626
+    second: PowerUp_13
+  - first:
+      213: 7501046814040632458
+    second: PowerUp_14
+  - first:
+      213: 2507845293269004322
+    second: PowerUp_15
+  - first:
+      213: 2591698644901478453
+    second: PowerUp_16
+  - first:
+      213: 541191743897242830
+    second: PowerUp_17
+  - first:
+      213: -5116267914532962078
+    second: PowerUp_18
+  - first:
+      213: -1658241211795598152
+    second: PowerUp_19
+  - first:
+      213: 3535604551998256668
+    second: PowerUp_20
+  - first:
+      213: 7174041242000089847
+    second: PowerUp_21
+  - first:
+      213: -475036229031139396
+    second: PowerUp_22
+  - first:
+      213: -502759035732147541
+    second: PowerUp_23
+  - first:
+      213: 2980672183535633506
+    second: PowerUp_24
+  - first:
+      213: -3003556602498662204
+    second: PowerUp_25
+  - first:
+      213: -5521904724079505431
+    second: PowerUp_26
+  - first:
+      213: -5034301505066634846
+    second: PowerUp_27
+  - first:
+      213: 4269903616739327099
+    second: PowerUp_28
+  - first:
+      213: 8072497399265537705
+    second: PowerUp_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PowerUp_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 467
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 104c26b0ea5031960800000000000000
+      internalID: 7571401643613406209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_1
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 388
+        width: 43
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9a7177ca69f5da10800000000000000
+      internalID: 1933725852033448605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_2
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 467
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93af0141263b59790800000000000000
+      internalID: -7523910368627721671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_3
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 455
+        width: 55
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc12b0ba0b19883e0800000000000000
+      internalID: -2051229442297355825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_4
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 459
+        width: 43
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0372e4adb270bbc0800000000000000
+      internalID: -3769386729268415729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_5
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 448
+        width: 43
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cc7124f7c865a9a0800000000000000
+      internalID: -6222452102138856250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_6
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 452
+        width: 46
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a656ec041ed6d3b00800000000000000
+      internalID: 809924322218894698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_7
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 459
+        width: 49
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d927809e2637c090800000000000000
+      internalID: -8014377438261335591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_8
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 447
+        width: 50
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bfcb7c42442dc880800000000000000
+      internalID: -8589169047156043848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_9
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 395
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed9285f37027ad010800000000000000
+      internalID: 1214408424982850014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_10
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 387
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9925e203bb9a4b920800000000000000
+      internalID: 3005213472795284121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_11
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 382
+        width: 55
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce48732c6b1306360800000000000000
+      internalID: 7160778068531315948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_12
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 395
+        width: 53
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7d0307b36e3f8450800000000000000
+      internalID: 6093157418848685438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_13
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 394
+        width: 44
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23c446bcc21d11a20800000000000000
+      internalID: 3031434014518168626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_14
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 390
+        width: 51
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8ca77ac552191860800000000000000
+      internalID: 7501046814040632458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_15
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 394
+        width: 49
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2203fe0d108adc220800000000000000
+      internalID: 2507845293269004322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 330
+        width: 58
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 530c636af2097f320800000000000000
+      internalID: 2591698644901478453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_17
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 266
+        width: 55
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecc8e521603b28700800000000000000
+      internalID: 541191743897242830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_18
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 17
+        width: 145
+        height: 292
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e0c88a507d5ff8b0800000000000000
+      internalID: -5116267914532962078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_19
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 330
+        width: 53
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b49203576ebcf8e0800000000000000
+      internalID: -1658241211795598152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_20
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 3
+        width: 125
+        height: 307
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c163c1c8b9df01130800000000000000
+      internalID: 3535604551998256668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_21
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 330
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f2ea69ff705f8360800000000000000
+      internalID: 7174041242000089847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_22
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 326
+        width: 54
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb7682901155869f0800000000000000
+      internalID: -475036229031139396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_23
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 266
+        width: 55
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba2419b1257d509f0800000000000000
+      internalID: -502759035732147541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_24
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 0
+        width: 252
+        height: 309
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26487830f897d5920800000000000000
+      internalID: 2980672183535633506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_25
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 330
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c0c94dfe293156d0800000000000000
+      internalID: -3003556602498662204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_26
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 266
+        width: 56
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ef80b5e8e04e53b0800000000000000
+      internalID: -5521904724079505431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_27
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 330
+        width: 52
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a1f94a3471922ab0800000000000000
+      internalID: -5034301505066634846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_28
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 314
+        width: 54
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7c37ec67beb14b30800000000000000
+      internalID: 4269903616739327099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PowerUp_29
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 218
+        width: 68
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9aeac7d5d95470070800000000000000
+      internalID: 8072497399265537705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2257434701c0bf7438498efc901738e0
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      PowerUp_0: 7571401643613406209
+      PowerUp_1: 1933725852033448605
+      PowerUp_10: 3005213472795284121
+      PowerUp_11: 7160778068531315948
+      PowerUp_12: 6093157418848685438
+      PowerUp_13: 3031434014518168626
+      PowerUp_14: 7501046814040632458
+      PowerUp_15: 2507845293269004322
+      PowerUp_16: 2591698644901478453
+      PowerUp_17: 541191743897242830
+      PowerUp_18: -5116267914532962078
+      PowerUp_19: -1658241211795598152
+      PowerUp_2: -7523910368627721671
+      PowerUp_20: 3535604551998256668
+      PowerUp_21: 7174041242000089847
+      PowerUp_22: -475036229031139396
+      PowerUp_23: -502759035732147541
+      PowerUp_24: 2980672183535633506
+      PowerUp_25: -3003556602498662204
+      PowerUp_26: -5521904724079505431
+      PowerUp_27: -5034301505066634846
+      PowerUp_28: 4269903616739327099
+      PowerUp_29: 8072497399265537705
+      PowerUp_3: -2051229442297355825
+      PowerUp_4: -3769386729268415729
+      PowerUp_5: -6222452102138856250
+      PowerUp_6: 809924322218894698
+      PowerUp_7: -8014377438261335591
+      PowerUp_8: -8589169047156043848
+      PowerUp_9: 1214408424982850014
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
