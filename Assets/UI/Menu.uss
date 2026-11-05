@@ -288,3 +288,26 @@
     background-color: rgb(238, 117, 222);
     border-color: rgb(255, 255, 255);
 }
+/* Toggle "Tela cheia": caixa do tamanho dos sliders, marcada em rosa. */
+.toggle-config {
+    flex-grow: 1;
+    margin: 0 18px;
+}
+
+.toggle-config .unity-toggle__input {
+    align-items: center;
+}
+
+.toggle-config .unity-toggle__checkmark {
+    width: 44px;
+    height: 44px;
+    background-color: rgba(30, 14, 46, 0.9);
+    border-color: rgb(193, 112, 207);
+    border-width: 3px;
+    border-radius: 10px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.toggle-config:checked .unity-toggle__checkmark {
+    background-color: rgb(238, 117, 222);
+}

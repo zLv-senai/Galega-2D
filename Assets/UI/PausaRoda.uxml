@@ -18,6 +18,10 @@
             <ui:Label text="Settings" name="TituloSettingsPausa" class="titulo-painel"/>
             <ui:VisualElement name="AreaConfigPausa" class="area-config">
                 <ui:VisualElement class="linha-config">
+                    <ui:Label text="Tela cheia" class="rotulo-config"/>
+                    <ui:Toggle name="Toggle_TelaCheia" class="toggle-config"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="linha-config">
                     <ui:Label text="Geral" class="rotulo-config"/>
                     <ui:SliderInt name="Slider_Geral" low-value="0" high-value="100" value="100" class="slider-config"/>
                     <ui:Label text="100" name="Valor_Geral" class="valor-config"/>

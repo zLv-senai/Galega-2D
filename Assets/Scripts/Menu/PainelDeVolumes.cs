@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-// Painel Settings: as 3 barras de volume (Geral, Música e Efeitos, de 0 a 100) com o número ao lado.
+// Painel Configurações: o toggle de tela cheia e as 3 barras de volume (Geral, Música e Efeitos, de 0 a 100) com o número ao lado.
 // Usado pelo menu principal (MenuManager) e pelo menu de pausa (MenuDePausa). Os dois UXML usam os mesmos
 // names: Slider_Geral/Valor_Geral, Slider_Musica/Valor_Musica e Slider_Efeitos/Valor_Efeitos.
 public sealed class PainelDeVolumes
@@ -15,12 +15,18 @@ public sealed class PainelDeVolumes
     private readonly LinhaDeVolume musica;
     private readonly LinhaDeVolume efeitos;
 
+    // Toggle "Tela cheia" (null se o UXML não tiver).
+    private readonly Toggle telaCheia;
+
     // Liga cada slider do UXML ao volume correspondente do ConfiguracaoDeAudio.
     public PainelDeVolumes(VisualElement root)
     {
         geral = LinhaDeVolume.Criar(root, "Slider_Geral", "Valor_Geral", volume => ConfiguracaoDeAudio.Geral = volume);
         musica = LinhaDeVolume.Criar(root, "Slider_Musica", "Valor_Musica", volume => ConfiguracaoDeAudio.Musica = volume);
         efeitos = LinhaDeVolume.Criar(root, "Slider_Efeitos", "Valor_Efeitos", volume => ConfiguracaoDeAudio.Efeitos = volume);
+
+        telaCheia = root.Q<Toggle>("Toggle_TelaCheia");
+        telaCheia?.RegisterValueChangedCallback(evt => ConfiguracaoDeTela.DefinirTelaCheia(evt.newValue));
     }
 
     // Coloca nas barras os volumes atuais (chamar ao abrir o painel).
@@ -29,6 +35,7 @@ public sealed class PainelDeVolumes
         geral?.Mostrar(ConfiguracaoDeAudio.Geral);
         musica?.Mostrar(ConfiguracaoDeAudio.Musica);
         efeitos?.Mostrar(ConfiguracaoDeAudio.Efeitos);
+        telaCheia?.SetValueWithoutNotify(ConfiguracaoDeTela.TelaCheia);
     }
 
     // Um slider (0 a 100) com o número ao lado, ligado a um volume do ConfiguracaoDeAudio.
