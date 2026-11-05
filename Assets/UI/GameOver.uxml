@@ -4,7 +4,7 @@
     <!-- Tela cheia escurecida; escondida por padrão (o GameOverUI.cs mostra quando o estado vira GameOver) -->
     <ui:VisualElement name="GameOverRaiz" class="go-raiz">
         <ui:VisualElement name="GameOverMoldura" class="go-moldura">
-            <ui:Label name="GameOverTitulo" text="GAME OVER" class="go-titulo" />
+            <ui:Label name="GameOverTitulo" text="FIM DE JOGO" class="go-titulo" />
             <ui:Label name="GameOverSubtitulo" text="Sua nave foi destruída." class="go-subtitulo" />
             <!-- Cards do resumo. O GameOverUI.cs preenche os números e esconde o card WAVE se não houver GerenciadorDeWaves. -->
             <ui:VisualElement name="GameOverResumo" class="go-resumo">

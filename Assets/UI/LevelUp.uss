@@ -17,7 +17,7 @@
 .lv-titulo {
     margin: 0 0 4px 0;
     max-width: 90%;
-    color: var(--amarelo);
+    color: rgb(255, 221, 87);
     font-size: 52px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
@@ -68,11 +68,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-color: var(--botao-fundo);
+    background-color: rgba(67, 25, 92, 0.85);
     border-width: 5px;
     border-radius: 18px;
-    border-color: var(--borda-botao);
-    color: var(--texto);
+    border-color: rgb(125, 38, 255);
+    color: rgb(255, 255, 255);
     -unity-text-align: upper-center;
     transition-property: scale, background-color;
     transition-duration: 0.12s;
@@ -81,7 +81,7 @@
 /* O :hover do card (fundo e escala) é do Tema.uss; a borda segue a cor da raridade. */
 .lv-cards .lv-card:active {
     scale: 0.98 0.98;
-    background-color: var(--botao-hover);
+    background-color: rgba(155, 60, 235, 0.95);
 }
 
 /* Card selecionado (aguardando Confirmar): destacado, maior e com borda grossa. Fica depois do :hover/:active para vencer. */
@@ -90,7 +90,7 @@
 .lv-cards .lv-card.lv-card-selecionado:active {
     scale: 1.1 1.1;
     border-width: 8px;
-    background-color: var(--botao-hover);
+    background-color: rgba(155, 60, 235, 0.95);
 }
 
 /* Botão Confirmar: layout; aparência, hover e estado desligado são do Tema.uss. */
@@ -118,7 +118,7 @@
 
 .lv-card-nome {
     margin: 0 0 14px 0;
-    color: var(--amarelo);
+    color: rgb(255, 221, 87);
     font-size: 32px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;

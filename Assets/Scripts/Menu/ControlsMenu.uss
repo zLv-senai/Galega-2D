@@ -7,8 +7,8 @@
     font-size: 65px;
     -unity-text-align: middle-center;
     -unity-font-style: bold;
-    color: var(--titulo);
+    color: rgb(193, 112, 207);
     -unity-text-outline-width: 3px;
-    -unity-text-outline-color: var(--sombra-titulo);
+    -unity-text-outline-color: rgb(153, 0, 178);
     letter-spacing: 10px;
 }

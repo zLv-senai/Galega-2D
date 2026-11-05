@@ -48,7 +48,7 @@
 
 .go-subtitulo {
     margin: 0 0 16px 0;
-    color: var(--lilas);
+    color: rgb(226, 160, 244);
     font-size: 28px;
     -unity-text-align: middle-center;
 }
@@ -83,7 +83,7 @@
 
 .go-rotulo {
     margin: 0;
-    color: var(--lilas);
+    color: rgb(226, 160, 244);
     font-size: 20px;
     letter-spacing: 4px;
     -unity-text-align: middle-center;
@@ -99,7 +99,7 @@
 }
 
 .go-ranking {
-    color: var(--amarelo);
+    color: rgb(255, 221, 87);
 }
 
 /* Linha com os 3 botões. */

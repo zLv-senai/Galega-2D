@@ -1,18 +1,18 @@
 /* Tema único das telas (menu, pausa, game over, vitória, level up e controles): paleta, moldura e estado dos botões.
-   Cada UXML importa este arquivo antes do seu próprio USS. */
+   Cada UXML importa este arquivo antes do seu próprio USS. 
 
-:root {
-    --roxo: rgba(125, 38, 255, 0.71);
-    --fundo-moldura: rgba(41, 28, 53, 0.88);
-    --botao-fundo: rgba(67, 25, 92, 0.85);
-    --botao-hover: rgba(155, 60, 235, 0.95);
-    --borda-botao: rgb(125, 38, 255);
-    --amarelo: rgb(255, 221, 87);
-    --lilas: rgb(226, 160, 244);
-    --titulo: rgb(193, 112, 207);
-    --sombra-titulo: rgb(153, 0, 178);
-    --texto: rgb(255, 255, 255);
-}
+   Paleta (valores usados literalmente nas USS; variáveis CSS não resolvem nestes painéis):
+   roxo: rgba(125, 38, 255, 0.71)
+   fundo-moldura: rgba(41, 28, 53, 0.88)
+   botao-fundo: rgba(67, 25, 92, 0.85)
+   botao-hover: rgba(155, 60, 235, 0.95)
+   borda-botao: rgb(125, 38, 255)
+   amarelo: rgb(255, 221, 87)
+   lilas: rgb(226, 160, 244)
+   titulo: rgb(193, 112, 207)
+   sombra-titulo: rgb(153, 0, 178)
+   texto: rgb(255, 255, 255) */
+
 
 /* ---- Moldura única ---- */
 
@@ -20,9 +20,9 @@
 .moldura-menu,
 .go-moldura,
 .vit-moldura {
-    color: var(--texto);
-    background-color: var(--fundo-moldura);
-    border-color: var(--roxo);
+    color: rgb(255, 255, 255);
+    background-color: rgba(41, 28, 53, 0.88);
+    border-color: rgba(125, 38, 255, 0.71);
     border-width: 10px;
     border-radius: 25px;
 }
@@ -36,10 +36,10 @@
 .unity-button.lv-confirmar,
 .unity-button.IniciarBtn,
 .unity-button.roda-item {
-    color: var(--texto);
-    background-color: var(--botao-fundo);
+    color: rgb(255, 255, 255);
+    background-color: rgba(67, 25, 92, 0.85);
     background-image: none;
-    border-color: var(--borda-botao);
+    border-color: rgb(125, 38, 255);
     border-width: 4px;
     border-radius: 18px;
     -unity-font-style: bold;
@@ -56,9 +56,9 @@
 .unity-button.lv-confirmar:hover,
 .unity-button.IniciarBtn:hover,
 .unity-button.roda-item--selecionado {
-    color: var(--amarelo);
-    background-color: var(--botao-hover);
-    border-color: var(--amarelo);
+    color: rgb(255, 221, 87);
+    background-color: rgba(155, 60, 235, 0.95);
+    border-color: rgb(255, 221, 87);
     scale: 1.04 1.04;
 }
 
@@ -67,9 +67,9 @@
 .unity-button.vit-botao:active,
 .unity-button.lv-confirmar:active,
 .unity-button.IniciarBtn:active {
-    color: var(--amarelo);
-    background-color: var(--botao-hover);
-    border-color: var(--amarelo);
+    color: rgb(255, 221, 87);
+    background-color: rgba(155, 60, 235, 0.95);
+    border-color: rgb(255, 221, 87);
     scale: 0.98 0.98;
 }
 
@@ -85,10 +85,10 @@
 
 .card-modo:hover,
 .lv-cards .lv-card:hover {
-    background-color: var(--botao-hover);
+    background-color: rgba(155, 60, 235, 0.95);
     scale: 1.04 1.04;
 }
 
 .card-modo:hover {
-    border-color: var(--amarelo);
+    border-color: rgb(255, 221, 87);
 }
