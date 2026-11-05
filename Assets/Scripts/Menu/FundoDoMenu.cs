@@ -70,6 +70,7 @@ public sealed class FundoDoMenu : MonoBehaviour
     private Vector3 escalaOriginalDoPlayer;
     private Vector3 posicaoOriginalDaCamera;
     private bool seguidorEstavaLigado;
+    private RastroEmPausa rastroDoPlayer;
     private bool estadoGuardado;
     private bool restaurado;
 
@@ -124,6 +125,7 @@ public sealed class FundoDoMenu : MonoBehaviour
             seguidor.enabled = false;
         }
 
+        rastroDoPlayer = new RastroEmPausa(player.gameObject);
         estadoGuardado = true;
     }
 
@@ -175,7 +177,7 @@ public sealed class FundoDoMenu : MonoBehaviour
         {
             player.SetPositionAndRotation(posicaoOriginalDoPlayer, rotacaoOriginalDoPlayer);
             player.localScale = escalaOriginalDoPlayer;
-            foreach (TrailRenderer rastro in player.GetComponentsInChildren<TrailRenderer>(true)) rastro.Clear();
+            rastroDoPlayer.Restaurar();
         }
 
         if (camera2D != null)
