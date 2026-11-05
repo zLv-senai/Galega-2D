@@ -3,11 +3,15 @@ using UnityEngine;
 // Padrões em que o boss alterna modos. Cada modelo tem o seu (campo "padrao" do prefab):
 //   Cacador (BOSS1): cerca o player e, de tempos em tempos, avisa e dá uma investida em linha reta.
 //   Serpente (BOSS2): desenha uma flor em volta do player e alterna com varreduras pelas bordas da tela.
-//   Espectro (BOSS3): orbita, some e reaparece atirando em círculo e, no fim do ciclo, dispara um laser.
+//   Espectro (BOSS3): orbita, some e reaparece atirando em círculo; no fim do ciclo teleporta para uma borda da tela,
+//   gira a base do cone para dentro e varre com um laser, que anda em coordenadas de mundo (não segue o player).
 // A câmera fica centrada no player, então "em volta do player" é o mesmo que "dentro da tela".
 public partial class BossController
 {
-    private enum Modo { Cruzeiro, Aviso, Investida, Recuperando, Varredura, Sumindo, Surgindo, Pausa, MiraLaser, Laser }
+    private enum Modo { Cruzeiro, Aviso, Investida, Recuperando, Varredura, Sumindo, Surgindo, Pausa, LaserAviso, LaserFino, LaserAbrindo, LaserVarrendo, LaserFechando }
+
+    // Para onde o Espectro vai ao reaparecer: o outro lado da tela, uma borda (laser) ou de volta à órbita.
+    private enum DestinoDoSalto { OutroLado, Borda, Orbita }
 
     // Geral: folga entre o boss e a borda da tela, tamanho de tela sem câmera e margem sobre a velocidade do player
     // (sem isso ele fugiria do boss correndo com buffs).
@@ -52,20 +56,31 @@ public partial class BossController
     private const float DuracaoPausaEntreSaltos = 0.5f;
     private const float DesvioDoSalto = 50f;
     private const int TirosEmCirculo = 12;
-    private const float DuracaoMiraLaser = 1f;
-    private const float DuracaoLaser = 2.6f;
-    private const float GiroDaMiraLaser = 150f; // graus por segundo
-    private const float GiroDoLaser = 40f;      // mais lento que o player na distância da órbita: dá para fugir
+    private const float DuracaoAvisoFeixe = 0.8f;
+    private const float DuracaoFinoFeixe = 0.15f;
+    private const float DuracaoAbrindoFeixe = 0.2f;
+    private const float DuracaoVarredura = 2.5f;
+    private const float DuracaoFechandoFeixe = 0.12f;
+    private const float VelocidadeVarredura = 3.5f; // unidades de mundo por segundo, ao longo da borda
+    private const float LarguraFinaFeixe = 0.08f;
+    private const float MargemDaBorda = 0.2f;
     private const float ComprimentoLaser = 30f;
-    private const float LarguraLaser = 0.55f;
     private const float RaioDoPlayerNoLaser = 0.35f;
     private const float IntervaloDanoLaser = 0.35f;
     private const int DanoLaserAlemDoTiro = 3;
+    private const float FracaoDaCamadaInterna = 0.42f;
+    private const float LarguraMinimaInterna = 0.05f;
+    private const float AlfaAvisoAceso = 0.34f;
+    private const float AlfaAvisoApagado = 0.1f;
+    private const float PiscadasPorSegundo = 12f;
 
-    // Linha de aviso (e o laser, que é a mesma linha mais grossa).
+    // Linha de aviso do Cacador.
     private const float LarguraAviso = 0.06f;
     private static readonly Color CorDoAviso = new Color(1f, 0.25f, 0.25f, 0.85f);
-    private static readonly Color CorDoLaser = new Color(1f, 0.35f, 0.9f, 1f);
+    private static readonly Color CorDoFeixe = new Color(238f / 255f, 117f / 255f, 222f / 255f, 1f);
+
+    // Direção do feixe (para dentro da tela) quando o boss está na borda: cima, baixo, esquerda, direita.
+    private static readonly Vector2[] DirecoesDoFeixe = { new Vector2(0f, -1f), new Vector2(0f, 1f), new Vector2(1f, 0f), new Vector2(-1f, 0f) };
 
     // Estado dos modos.
     private Modo modo = Modo.Cruzeiro;
@@ -77,6 +92,11 @@ public partial class BossController
     private float ladoDaVarredura = 1f;
     private int saltosRestantes;
     private float proximoDanoLaser;
+    private DestinoDoSalto destinoDoSalto;
+    private int ultimaBorda = -1;
+    private Vector2 direcaoDoFeixe;
+    private float sentidoDaVarredura = 1f;
+    private float posicaoDeVarredura; // eixo lateral da borda, em coordenadas de mundo
     private Vector3 ultimaPosicaoDoAlvo;
     private bool temPosicaoDoAlvo;
     private float velocidadeDoAlvo;
@@ -86,6 +106,9 @@ public partial class BossController
     private Collider2D meuCollider;
     private Color corOriginal = Color.white;
     private LineRenderer linha;
+    private LineRenderer linhaInterna; // só o Espectro: o miolo branco do laser
+    private float larguraDoFeixe;      // largura da base do cone
+    private float meiaAlturaDoBoss;    // do centro à base do cone
 
     // Quem usa Modo: os padrões antigos ficam sempre em Cruzeiro, e esta conta continua igual para eles.
     private bool PodeAtirarNoModo => modo == Modo.Cruzeiro || modo == Modo.Varredura;
@@ -103,23 +126,37 @@ public partial class BossController
 
         if (padrao == PadraoBoss.Cacador || padrao == PadraoBoss.Espectro)
         {
-            CriarLinha();
+            linha = CriarLinha("LinhaDoBoss", OrdemDaLinha);
+        }
+
+        if (padrao == PadraoBoss.Espectro && sprite != null && sprite.sprite != null)
+        {
+            // Medidas do cone antes de girar o boss: o feixe sai da base e tem a largura dela.
+            larguraDoFeixe = sprite.sprite.bounds.size.x * Mathf.Abs(transform.lossyScale.x);
+            meiaAlturaDoBoss = sprite.sprite.bounds.extents.y * Mathf.Abs(transform.lossyScale.y);
+
+            // O feixe fica atrás do sprite, na mesma sorting layer.
+            linha.sortingLayerID = sprite.sortingLayerID;
+            linha.sortingOrder = sprite.sortingOrder - 2;
+            linhaInterna = CriarLinha("LinhaInternaDoBoss", sprite.sortingOrder - 1);
+            linhaInterna.sortingLayerID = sprite.sortingLayerID;
         }
     }
 
-    private void CriarLinha()
+    private LineRenderer CriarLinha(string nome, int ordem)
     {
-        GameObject objeto = new GameObject("LinhaDoBoss");
+        GameObject objeto = new GameObject(nome);
         objeto.transform.SetParent(transform, false);
 
-        linha = objeto.AddComponent<LineRenderer>();
-        linha.useWorldSpace = true;
-        linha.positionCount = 2;
-        linha.numCapVertices = 4;
-        linha.sortingOrder = OrdemDaLinha;
+        LineRenderer nova = objeto.AddComponent<LineRenderer>();
+        nova.useWorldSpace = true;
+        nova.positionCount = 2;
+        nova.numCapVertices = 4;
+        nova.sortingOrder = ordem;
         // Usa o material do próprio sprite: ele já está na build, enquanto um Shader.Find poderia falhar nela.
-        linha.sharedMaterial = sprite != null ? sprite.sharedMaterial : null;
-        linha.enabled = false;
+        nova.sharedMaterial = sprite != null ? sprite.sharedMaterial : null;
+        nova.enabled = false;
+        return nova;
     }
 
     // Um frame dos padrões com modos. Sem alvo, o boss espera parado.
@@ -157,7 +194,7 @@ public partial class BossController
         modo = novo;
         tempoNoModo = 0f;
 
-        if (novo == Modo.Aviso || novo == Modo.MiraLaser)
+        if (novo == Modo.Aviso || novo == Modo.LaserAviso)
         {
             AoAvisarAtaque?.Invoke(this);
         }
@@ -282,6 +319,7 @@ public partial class BossController
                 if (tempoNoModo >= DuracaoOrbita)
                 {
                     saltosRestantes = SaltosPorCiclo;
+                    destinoDoSalto = DestinoDoSalto.OutroLado;
                     ComecarASumir();
                 }
                 break;
@@ -290,21 +328,23 @@ public partial class BossController
                 DefinirOpacidade(1f - tempoNoModo / DuracaoSumindo);
                 if (tempoNoModo >= DuracaoSumindo)
                 {
-                    SaltarParaOOutroLado();
+                    SaltarPara(destinoDoSalto);
                     TrocarModo(Modo.Surgindo);
                 }
                 break;
 
             case Modo.Surgindo:
                 DefinirOpacidade(tempoNoModo / DuracaoSurgindo);
+                if (destinoDoSalto == DestinoDoSalto.Borda)
+                {
+                    AtualizarPosicaoNaBorda();
+                }
+
                 if (tempoNoModo >= DuracaoSurgindo)
                 {
                     RestaurarCor();
                     AtivarCollider(true);
-                    DispararEmCirculo(TirosEmCirculo);
-                    saltosRestantes--;
-                    TrocarModo(saltosRestantes > 0 ? Modo.Pausa : Modo.MiraLaser);
-                    direcaoDoGolpe = ((Vector2)(target.position - transform.position)).normalized;
+                    TerminarDeSurgir();
                 }
                 break;
 
@@ -315,28 +355,12 @@ public partial class BossController
                 }
                 break;
 
-            case Modo.MiraLaser:
-                GirarFeixe(GiroDaMiraLaser);
-                MostrarLinha(direcaoDoGolpe, ComprimentoLaser, LarguraAviso, CorDoAviso);
-                PiscarPerigo();
-                if (tempoNoModo >= DuracaoMiraLaser)
-                {
-                    RestaurarCor();
-                    proximoDanoLaser = 0f;
-                    TrocarModo(Modo.Laser);
-                    AoDispararLaser?.Invoke(this);
-                }
-                break;
-
-            case Modo.Laser:
-                GirarFeixe(GiroDoLaser);
-                MostrarLinha(direcaoDoGolpe, ComprimentoLaser, LarguraLaser, CorDoLaser);
-                AplicarDanoDoLaser();
-                if (tempoNoModo >= DuracaoLaser)
-                {
-                    EsconderLinha();
-                    VoltarAoCruzeiro();
-                }
+            case Modo.LaserAviso:
+            case Modo.LaserFino:
+            case Modo.LaserAbrindo:
+            case Modo.LaserVarrendo:
+            case Modo.LaserFechando:
+                MoverLaser();
                 break;
         }
     }
@@ -346,6 +370,164 @@ public partial class BossController
         // Sem collider enquanto some e surge: não bate por contato nem leva tiro.
         AtivarCollider(false);
         TrocarModo(Modo.Sumindo);
+    }
+
+    private void SaltarPara(DestinoDoSalto destino)
+    {
+        switch (destino)
+        {
+            case DestinoDoSalto.Borda:
+                SaltarParaUmaBorda();
+                break;
+            case DestinoDoSalto.Orbita:
+                SaltarParaAOrbita();
+                break;
+            default:
+                SaltarParaOOutroLado();
+                break;
+        }
+    }
+
+    // Fim do Surgindo: o salto normal atira em círculo; ao lado da borda começa o laser; na órbita volta ao cruzeiro.
+    private void TerminarDeSurgir()
+    {
+        switch (destinoDoSalto)
+        {
+            case DestinoDoSalto.Borda:
+                TrocarModo(Modo.LaserAviso);
+                break;
+            case DestinoDoSalto.Orbita:
+                VoltarAoCruzeiro();
+                break;
+            default:
+                DispararEmCirculo(TirosEmCirculo);
+                saltosRestantes--;
+                if (saltosRestantes <= 0)
+                {
+                    destinoDoSalto = DestinoDoSalto.Borda;
+                }
+
+                TrocarModo(Modo.Pausa);
+                break;
+        }
+    }
+
+    // Sorteia uma borda (nunca a mesma da vez anterior), gira o boss para a base do cone apontar para dentro da tela
+    // e escolhe o sentido da varredura. A varredura começa metade do trajeto antes do player.
+    private void SaltarParaUmaBorda()
+    {
+        int borda;
+        do
+        {
+            borda = Random.Range(0, DirecoesDoFeixe.Length);
+        }
+        while (borda == ultimaBorda);
+
+        ultimaBorda = borda;
+        direcaoDoFeixe = DirecoesDoFeixe[borda];
+        // Atan2 e não FromToRotation: este degenera quando o giro é de 180 graus.
+        transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direcaoDoFeixe.x, -direcaoDoFeixe.y) * Mathf.Rad2Deg);
+
+        sentidoDaVarredura = Random.value < 0.5f ? -1f : 1f;
+        float eixoLateralDoAlvo = direcaoDoFeixe.x == 0f ? target.position.x : target.position.y;
+        posicaoDeVarredura = eixoLateralDoAlvo - sentidoDaVarredura * VelocidadeVarredura * DuracaoVarredura / 2f;
+        AtualizarPosicaoNaBorda();
+    }
+
+    private void SaltarParaAOrbita()
+    {
+        transform.rotation = Quaternion.identity;
+
+        // A ronda parte do ângulo sorteado (senão o Circular iria até o ângulo antigo, de antes do laser).
+        float angulo = Random.Range(0f, 2f * Mathf.PI);
+        anguloRondar = angulo;
+        rondaIniciada = true;
+
+        Vector2 limite = LimiteDaTela();
+        Vector3 destino = target.position + new Vector3(Mathf.Cos(angulo) * limite.x * EscalaDaOrbita, Mathf.Sin(angulo) * limite.y * EscalaDaOrbita, 0f);
+        destino.z = transform.position.z;
+        transform.position = destino;
+    }
+
+    // Eixo perpendicular à borda preso à câmera (que é o target) e eixo lateral na posição da varredura.
+    private void AtualizarPosicaoNaBorda()
+    {
+        Camera cam = Camera.main;
+        float meiaAltura = cam != null ? cam.orthographicSize : MeiaAlturaPadrao;
+        float aspecto = cam != null ? cam.aspect : AspectoPadrao;
+        bool feixeVertical = direcaoDoFeixe.x == 0f;
+
+        float distancia = (feixeVertical ? meiaAltura : meiaAltura * aspecto) - meiaAlturaDoBoss - MargemDaBorda;
+        Vector3 posicao = transform.position;
+        if (feixeVertical)
+        {
+            posicao.x = posicaoDeVarredura;
+            posicao.y = target.position.y - direcaoDoFeixe.y * distancia;
+        }
+        else
+        {
+            posicao.x = target.position.x - direcaoDoFeixe.x * distancia;
+            posicao.y = posicaoDeVarredura;
+        }
+
+        transform.position = posicao;
+    }
+
+    private void MoverLaser()
+    {
+        AtualizarPosicaoNaBorda();
+
+        switch (modo)
+        {
+            case Modo.LaserAviso:
+                float alfa = Mathf.FloorToInt(tempoNoModo * PiscadasPorSegundo) % 2 == 1 ? AlfaAvisoAceso : AlfaAvisoApagado;
+                MostrarFeixe(larguraDoFeixe, alfa, false);
+                if (tempoNoModo >= DuracaoAvisoFeixe)
+                {
+                    TrocarModo(Modo.LaserFino);
+                }
+                break;
+
+            case Modo.LaserFino:
+                MostrarFeixe(Mathf.Lerp(larguraDoFeixe, LarguraFinaFeixe, tempoNoModo / DuracaoFinoFeixe), 1f, false);
+                if (tempoNoModo >= DuracaoFinoFeixe)
+                {
+                    proximoDanoLaser = 0f;
+                    TrocarModo(Modo.LaserAbrindo);
+                    AoDispararLaser?.Invoke(this);
+                }
+                break;
+
+            case Modo.LaserAbrindo:
+                float larguraAbrindo = Mathf.Lerp(LarguraFinaFeixe, larguraDoFeixe, tempoNoModo / DuracaoAbrindoFeixe);
+                MostrarFeixe(larguraAbrindo, 1f, true);
+                AplicarDanoDoLaser(larguraAbrindo);
+                if (tempoNoModo >= DuracaoAbrindoFeixe)
+                {
+                    TrocarModo(Modo.LaserVarrendo);
+                }
+                break;
+
+            case Modo.LaserVarrendo:
+                posicaoDeVarredura += sentidoDaVarredura * VelocidadeVarredura * Time.deltaTime;
+                MostrarFeixe(larguraDoFeixe, 1f, true);
+                AplicarDanoDoLaser(larguraDoFeixe);
+                if (tempoNoModo >= DuracaoVarredura)
+                {
+                    TrocarModo(Modo.LaserFechando);
+                }
+                break;
+
+            case Modo.LaserFechando:
+                MostrarFeixe(Mathf.Lerp(larguraDoFeixe, 0f, tempoNoModo / DuracaoFechandoFeixe), 1f, true);
+                if (tempoNoModo >= DuracaoFechandoFeixe)
+                {
+                    EsconderLinha();
+                    destinoDoSalto = DestinoDoSalto.Orbita;
+                    ComecarASumir();
+                }
+                break;
+        }
     }
 
     private void SaltarParaOOutroLado()
@@ -359,30 +541,24 @@ public partial class BossController
         transform.position = destino;
     }
 
-    private void GirarFeixe(float grausPorSegundo)
+    // Origem do feixe: a base do cone.
+    private Vector2 OrigemDoFeixe()
     {
-        Vector2 paraOAlvo = target.position - transform.position;
-        if (paraOAlvo.sqrMagnitude < 0.0001f)
-        {
-            return;
-        }
-
-        direcaoDoGolpe = Vector3.RotateTowards(direcaoDoGolpe, paraOAlvo.normalized, grausPorSegundo * Mathf.Deg2Rad * Time.deltaTime, 0f);
+        return (Vector2)transform.position + direcaoDoFeixe * meiaAlturaDoBoss;
     }
 
-    // O dano segue exatamente o que aparece na tela: distância do player até o segmento do laser.
-    private void AplicarDanoDoLaser()
+    // O dano segue o que aparece na tela: o player precisa estar à frente da base e dentro da largura atual do feixe.
+    private void AplicarDanoDoLaser(float largura)
     {
         if (Time.time < proximoDanoLaser)
         {
             return;
         }
 
-        Vector2 inicio = transform.position;
-        Vector2 alvo = target.position;
-        float aoLongo = Mathf.Clamp(Vector2.Dot(alvo - inicio, direcaoDoGolpe), 0f, ComprimentoLaser);
-        float distancia = Vector2.Distance(alvo, inicio + direcaoDoGolpe * aoLongo);
-        if (distancia > LarguraLaser / 2f + RaioDoPlayerNoLaser)
+        Vector2 relativo = (Vector2)target.position - OrigemDoFeixe();
+        float aoLongo = Vector2.Dot(relativo, direcaoDoFeixe);
+        float distanciaDaLinha = Mathf.Abs(relativo.x * direcaoDoFeixe.y - relativo.y * direcaoDoFeixe.x);
+        if (aoLongo < 0f || aoLongo > ComprimentoLaser || distanciaDaLinha > largura / 2f + RaioDoPlayerNoLaser)
         {
             return;
         }
@@ -472,11 +648,49 @@ public partial class BossController
         linha.enabled = true;
     }
 
+    // Laser do Espectro: a camada externa rosa e, opcionalmente, o miolo branco. Sem ponta redonda, para sair reto da base.
+    private void MostrarFeixe(float largura, float alfa, bool comCamadaInterna)
+    {
+        if (linha == null || linhaInterna == null)
+        {
+            return;
+        }
+
+        Color cor = CorDoFeixe;
+        cor.a = alfa;
+        DesenharCamada(linha, largura, cor);
+
+        linhaInterna.enabled = false;
+        if (comCamadaInterna)
+        {
+            DesenharCamada(linhaInterna, Mathf.Min(largura, Mathf.Max(LarguraMinimaInterna, largura * FracaoDaCamadaInterna)), Color.white);
+        }
+    }
+
+    private void DesenharCamada(LineRenderer camada, float largura, Color cor)
+    {
+        Vector3 inicio = OrigemDoFeixe();
+        inicio.z = transform.position.z;
+        camada.numCapVertices = 0;
+        camada.SetPosition(0, inicio);
+        camada.SetPosition(1, inicio + (Vector3)(direcaoDoFeixe * ComprimentoLaser));
+        camada.startWidth = largura;
+        camada.endWidth = largura;
+        camada.startColor = cor;
+        camada.endColor = cor;
+        camada.enabled = true;
+    }
+
     private void EsconderLinha()
     {
         if (linha != null)
         {
             linha.enabled = false;
+        }
+
+        if (linhaInterna != null)
+        {
+            linhaInterna.enabled = false;
         }
     }
 
