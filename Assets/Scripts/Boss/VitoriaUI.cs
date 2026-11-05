@@ -17,6 +17,10 @@ public class VitoriaUI : MonoBehaviour
     // Se a tela deve aparecer no estado atual do jogo (reaplicado quando a UI recarrega).
     private bool visivel;
 
+    // Ignora clique logo ao abrir (unscaled: o jogo fica parado): o clique do tiro não deve cair em 'Jogar de novo'.
+    private const float TempoAntesDeAceitarClique = 0.5f;
+    private float aceitaCliqueEm;
+
     // Total de bosses, para o subtítulo ("Você derrotou os 3 chefes"). Vem do ControladorDeBoss da cena.
     private int totalBosses = 3;
 
@@ -108,6 +112,7 @@ public class VitoriaUI : MonoBehaviour
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
         visivel = estado == GameManager.GameState.Vitoria;
+        aceitaCliqueEm = Time.unscaledTime + TempoAntesDeAceitarClique;
         Renderizar();
 
         if (visivel && raiz != null)
@@ -153,6 +158,11 @@ public class VitoriaUI : MonoBehaviour
     // Clique no botão: pede ao GameManager para jogar de novo (recarrega a cena).
     private void OnJogarDeNovoClicked(ClickEvent evt)
     {
+        if (Time.unscaledTime < aceitaCliqueEm)
+        {
+            return;
+        }
+
         if (GameManager.Instance == null)
         {
             Debug.LogWarning("VitoriaUI: não há GameManager na cena para reiniciar.");
