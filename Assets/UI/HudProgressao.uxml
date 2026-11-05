@@ -2,8 +2,13 @@
     <Style src="HudProgressao.uss" />
     <ui:VisualElement name="HudRaiz" class="hud-raiz" picking-mode="Ignore">
 
+        <!-- Alerta de vida baixa (atrás de tudo; o HudProgressao.cs controla a opacidade): vinheta nas bordas e flash de tela cheia -->
+        <ui:VisualElement name="AlertaVinheta" class="alerta-tela alerta-vinheta" picking-mode="Ignore" />
+        <ui:VisualElement name="AlertaFlash" class="alerta-tela alerta-flash" picking-mode="Ignore" />
+
         <!-- Canto superior esquerdo: level, barra de XP, vida e escudo -->
         <ui:VisualElement name="PainelStatus" class="painel-status" picking-mode="Ignore">
+            <ui:VisualElement name="AlertaPainel" class="alerta-painel" picking-mode="Ignore" />
             <ui:Label name="LevelLabel" text="Nível 1" class="hud-texto hud-level" picking-mode="Ignore" />
             <ui:VisualElement name="XpFundo" class="xp-fundo" picking-mode="Ignore">
                 <ui:VisualElement name="XpPreenchimento" class="xp-preenchimento" picking-mode="Ignore" />

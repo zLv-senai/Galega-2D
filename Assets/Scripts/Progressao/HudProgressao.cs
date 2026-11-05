@@ -89,6 +89,26 @@ public class HudProgressao : MonoBehaviour
     private int ultimaVida = int.MinValue;
     private int ultimaVidaMax = int.MinValue;
 
+    // Alerta de vida baixa (flash, painel piscando e vinheta). Limites em fração da vida máxima, comparados com <=.
+    private const float LimiteDeAlerta = 0.2f;
+    private const float LimiteCritico = 0.1f;
+    private const float DuracaoFlash = 0.6f;
+    private const int PulsosFlash = 2;
+    private const float OpacidadeMaxFlash = 0.4f;
+    private const float PiscadasPorSegundoPainel = 2f;
+    private const float PeriodoVinheta = 1.6f;
+    private const float OpacidadeMinVinheta = 0.55f;
+    private const float OpacidadeMaxVinheta = 0.9f;
+    private const float FadeVinheta = 0.5f;
+
+    private VisualElement alertaFlash;
+    private VisualElement alertaPainel;
+    private VisualElement alertaVinheta;
+    private bool alertaAnterior;
+    private bool alertaEstilosLigados;
+    private float inicioFlash = -1f;
+    private float vinhetaFade;
+
     // Acha o PanelRenderer e o Player e registra o callback que pega os elementos a cada reload da UI.
     private void Awake()
     {
@@ -223,6 +243,7 @@ public class HudProgressao : MonoBehaviour
     private void Update()
     {
         AtualizarVida();
+        AtualizarAlertaDeVida();
         AtualizarBoss();
         AtualizarWaves();
 
@@ -319,6 +340,10 @@ public class HudProgressao : MonoBehaviour
         levelUpNivel = root.Q<Label>("LevelUpNivel");
         powerUpAviso = root.Q<Label>("PowerUpAviso");
         powerUpsAtivos = root.Q<VisualElement>("PowerUpsAtivos");
+        alertaFlash = root.Q<VisualElement>("AlertaFlash");
+        alertaPainel = root.Q<VisualElement>("AlertaPainel");
+        alertaVinheta = root.Q<VisualElement>("AlertaVinheta");
+        alertaEstilosLigados = true; // força zerar/reaplicar os estilos na árvore nova
 
         // Integração (boss)
         ameacaBloco = root.Q<VisualElement>("AmeacaBloco");
@@ -460,6 +485,67 @@ public class HudProgressao : MonoBehaviour
         ultimaVida = vida;
         ultimaVidaMax = vidaMax;
         vidaLabel.text = "Vida " + vida + "/" + vidaMax;
+    }
+
+    // Alerta de vida baixa: flash de tela ao cruzar para <= 20%, painel piscando enquanto <= 20% e vinheta enquanto <= 10%.
+    // Só mexe nos estilos enquanto há alerta ativo (ou fading); ao sair, zera tudo uma vez.
+    private void AtualizarAlertaDeVida()
+    {
+        float fracao = -1f;
+        if (playerMove != null && playerStats != null && playerStats.VidaMax > 0)
+        {
+            fracao = Mathf.Max(0, playerMove.vida) / (float)playerStats.VidaMax;
+        }
+
+        bool emAlerta = fracao >= 0f && fracao <= LimiteDeAlerta;
+        bool emCritico = fracao >= 0f && fracao <= LimiteCritico;
+        float agora = Time.unscaledTime;
+
+        if (emAlerta && !alertaAnterior)
+        {
+            inicioFlash = agora;
+        }
+
+        alertaAnterior = emAlerta;
+
+        bool flashAtivo = inicioFlash >= 0f && agora - inicioFlash < DuracaoFlash;
+        float alvoVinheta = emCritico ? 1f : 0f;
+        vinhetaFade = Mathf.MoveTowards(vinhetaFade, alvoVinheta, Time.unscaledDeltaTime / FadeVinheta);
+
+        if (!emAlerta && !flashAtivo && vinhetaFade <= 0f)
+        {
+            if (alertaEstilosLigados)
+            {
+                alertaEstilosLigados = false;
+                inicioFlash = -1f;
+                AplicarOpacidade(alertaFlash, 0f);
+                AplicarOpacidade(alertaPainel, 0f);
+                AplicarOpacidade(alertaVinheta, 0f);
+            }
+
+            return;
+        }
+
+        alertaEstilosLigados = true;
+
+        float opacidadeFlash = flashAtivo
+            ? OpacidadeMaxFlash * Mathf.Abs(Mathf.Sin(Mathf.PI * (agora - inicioFlash) / (DuracaoFlash / PulsosFlash)))
+            : 0f;
+        AplicarOpacidade(alertaFlash, opacidadeFlash);
+
+        float ondaPainel = 0.5f + 0.5f * Mathf.Sin(2f * Mathf.PI * PiscadasPorSegundoPainel * agora);
+        AplicarOpacidade(alertaPainel, emAlerta ? Mathf.Lerp(0.2f, 1f, ondaPainel) : 0f);
+
+        float ondaVinheta = 0.5f + 0.5f * Mathf.Sin(2f * Mathf.PI * agora / PeriodoVinheta);
+        AplicarOpacidade(alertaVinheta, vinhetaFade * Mathf.Lerp(OpacidadeMinVinheta, OpacidadeMaxVinheta, ondaVinheta));
+    }
+
+    private static void AplicarOpacidade(VisualElement elemento, float opacidade)
+    {
+        if (elemento != null)
+        {
+            elemento.style.opacity = opacidade;
+        }
     }
 
     // Integração (boss): sem ControladorDeBoss, esconde tudo do boss. Com ele, o AtualizarBoss controla o resto.

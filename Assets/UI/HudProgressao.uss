@@ -230,3 +230,35 @@
     height: 44px;
     transform-origin: center;
 }
+
+/* Alerta de vida baixa: camadas atrás do HUD, sem clique, invisíveis até o HudProgressao.cs ligar a opacidade */
+.alerta-tela {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+}
+
+.alerta-flash {
+    background-color: rgb(220, 20, 30);
+}
+
+.alerta-vinheta {
+    background-image: url("project://database/Assets/Images/Hud/vinheta-vermelha.png");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+/* Fundo em gradiente dentro do painel de status (primeiro filho, atrás dos textos) */
+.alerta-painel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background-image: url("project://database/Assets/Images/Hud/fundo-vida-baixa.png");
+    -unity-background-scale-mode: stretch-to-fill;
+    opacity: 0;
+}
