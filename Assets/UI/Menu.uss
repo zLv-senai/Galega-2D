@@ -357,3 +357,10 @@
     color: var(--lilas);
     font-size: 26px;
 }
+
+/* Dica solta, para a pausa em roda (que não tem rodapé). */
+.roda-dica-solta {
+    position: absolute;
+    left: 70px;
+    bottom: 40px;
+}

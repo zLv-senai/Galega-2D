@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 // Roda de opções do menu principal e da pausa: os botões ficam em arco ao lado de uma bola grande (parte fora da
@@ -17,6 +18,9 @@ public sealed class RodaDeOpcoes
     private const float PerdaDeEscalaPorPasso = 0.11f;
     private const float OpacidadeMinima = 0.22f;
 
+    // O scroll muda no máximo 1 passo por intervalo (a roda do mouse dispara vários eventos por clique).
+    private const float IntervaloDoScroll = 0.13f;
+
     private const string ClasseItem = "roda-item";
     private const string ClasseSelecionado = "roda-item--selecionado";
 
@@ -25,6 +29,7 @@ public sealed class RodaDeOpcoes
     private readonly Label rotuloDescricao;
     private readonly float centroY;
     private int selecionado;
+    private float proximoScroll;
 
     // botoes na ordem da roda; descricoes (opcional) e rotuloDescricao mostram o texto da opção selecionada.
     public RodaDeOpcoes(List<Button> botoes, string[] descricoes, Label rotuloDescricao, float centroY)
@@ -59,6 +64,37 @@ public sealed class RodaDeOpcoes
 
         Aplicar(novo);
         GerenciadorDeSom.TocarNavegacao();
+    }
+
+    // Setas, W/S e scroll do mouse mudam a opção (quem chama decide quando a roda pode ouvir as teclas).
+    public void LerNavegacao()
+    {
+        Keyboard teclado = Keyboard.current;
+        if (teclado != null)
+        {
+            if (teclado.downArrowKey.wasPressedThisFrame || teclado.sKey.wasPressedThisFrame)
+            {
+                Passo(1);
+            }
+            else if (teclado.upArrowKey.wasPressedThisFrame || teclado.wKey.wasPressedThisFrame)
+            {
+                Passo(-1);
+            }
+        }
+
+        Mouse mouse = Mouse.current;
+        float scroll = mouse != null ? mouse.scroll.ReadValue().y : 0f;
+        if (scroll != 0f && Time.unscaledTime >= proximoScroll)
+        {
+            proximoScroll = Time.unscaledTime + IntervaloDoScroll;
+            Passo(scroll < 0f ? 1 : -1);
+        }
+    }
+
+    // Volta para a primeira opção sem tocar som (ao reabrir o menu de pausa).
+    public void Reiniciar()
+    {
+        Aplicar(0);
     }
 
     public void Passo(int direcao)

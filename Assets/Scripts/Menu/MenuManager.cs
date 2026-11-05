@@ -42,8 +42,6 @@ public class MenuManager : MonoBehaviour
     // Menu em roda (MenuRoda.uxml): só existe se o UXML tiver o elemento "RodaOpcoes"; sem ele (MainMenu.uxml) tudo
     // funciona como antes, só pelos cliques.
     private RodaDeOpcoes roda;
-    private float proximoScrollDaRoda;
-    private const float IntervaloScrollDaRoda = 0.13f;
     private const float CentroYDaRoda = 425f;   // meio da área acima do rodapé, na referência 1920x1080
     private static readonly string[] DescricoesDaRoda =
     {
@@ -113,22 +111,7 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        if (teclado.downArrowKey.wasPressedThisFrame || teclado.sKey.wasPressedThisFrame)
-        {
-            roda.Passo(1);
-        }
-        else if (teclado.upArrowKey.wasPressedThisFrame || teclado.wKey.wasPressedThisFrame)
-        {
-            roda.Passo(-1);
-        }
-
-        Mouse mouse = Mouse.current;
-        float scroll = mouse != null ? mouse.scroll.ReadValue().y : 0f;
-        if (scroll != 0f && Time.unscaledTime >= proximoScrollDaRoda)
-        {
-            proximoScrollDaRoda = Time.unscaledTime + IntervaloScrollDaRoda;
-            roda.Passo(scroll < 0f ? 1 : -1);
-        }
+        roda.LerNavegacao();
 
         if (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame)
         {

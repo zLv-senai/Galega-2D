@@ -3,16 +3,19 @@
     <Style src="project://database/Assets/UI/Menu.uss?fileID=7433441132597879392&amp;guid=abef5d96a7eebb3419759bb589f9e0c4&amp;type=3#Menu"/>
     <!-- Menu de pausa (MenuDePausa.cs): escondido até o jogo entrar no estado Pause. O fundo escurece o jogo por trás. -->
     <ui:VisualElement name="PausaRaiz" style="flex-grow: 1; align-items: center; justify-content: center; display: none; background-color: rgba(8, 4, 14, 0.6);">
-        <!-- Mesmo visual do containerMenu do menu principal (Wagner), com o título "Pausa". -->
-        <ui:GroupBox name="ContainerPausa" class="moldura-tema" style="flex-grow: 1; flex-shrink: 0; min-width: 50%; min-height: 50%; max-height: 70%; max-width: 70%;">
-            <ui:Label text="Pausa" name="TituloPausa" style="color: rgb(193, 112, 207); font-size: 180px; -unity-text-align: middle-center; flex-shrink: 1; -unity-font-style: bold; flex-direction: column; -unity-text-outline-width: 8px; -unity-text-outline-color: rgb(153, 0, 178); letter-spacing: 8px; text-shadow: -18px 10px 0 rgb(197, 126, 221); -unity-text-auto-size: best-fit 100px 180px; padding-top: 25px; padding-bottom: 25px; padding-left: 10px; padding-right: 10px; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0;"/>
-            <ui:GroupBox name="ContainerBotoesPausa" style="padding-left: 0; padding-bottom: 0; margin-top: 40px; margin-bottom: 40px; margin-left: 20px; margin-right: 20px; padding-top: 0; align-self: auto; justify-content: center; align-items: center; align-content: flex-start; flex-direction: column; height: auto; flex-grow: 1; backdrop-filter: none;">
-                <ui:Button text="Continuar" name="Continuar_btt" class="button"/>
-                <ui:Button text="Configurações" name="SettingsPausa_btt" class="button"/>
-                <ui:Button text="Menu" name="MenuPausa_btt" class="button"/>
-                <ui:Button text="Sair" name="SairPausa_btt" class="button"/>
-            </ui:GroupBox>
-        </ui:GroupBox>
+        <!-- Pausa em roda, igual à do menu principal (RodaDeOpcoes.cs), centrada na altura da tela e sem rodapé. -->
+        <ui:VisualElement name="ContainerPausa" class="roda-raiz">
+            <ui:VisualElement name="BolaPausa" class="roda-bola" style="top: -85px;" picking-mode="Ignore"/>
+            <ui:VisualElement name="FaixaPausa" class="roda-faixa" style="top: 477px;" picking-mode="Ignore"/>
+            <ui:Label text="Pausa" name="TituloPausa" class="roda-titulo" picking-mode="Ignore"/>
+            <ui:VisualElement name="RodaOpcoes" class="roda-opcoes" picking-mode="Ignore">
+                <ui:Button text="Continuar" name="Continuar_btt"/>
+                <ui:Button text="Configurações" name="SettingsPausa_btt"/>
+                <ui:Button text="Menu" name="MenuPausa_btt"/>
+                <ui:Button text="Sair" name="SairPausa_btt"/>
+            </ui:VisualElement>
+            <ui:Label text="Setas ou W/S, ou o scroll, mudam. Enter ou clique confirmam." class="roda-dica roda-dica-solta" picking-mode="Ignore"/>
+        </ui:VisualElement>
 
         <!-- Settings: os mesmos volumes do menu principal (mesmos names, ligados pelo PainelDeVolumes.cs). -->
         <ui:VisualElement name="PainelSettingsPausa" class="moldura-menu">

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -26,6 +27,11 @@ public class MenuDePausa : MonoBehaviour
     // Até quando Menu e Exit ignoram clique, e a versão da UI já ligada (evita registrar os cliques duas vezes).
     private float aceitaCliqueEm;
     private int versaoUi = -1;
+
+    // Pausa em roda: só existe se o UXML tiver "RodaOpcoes". frameDaPausa guarda o frame em que a pausa abriu.
+    private RodaDeOpcoes roda;
+    private int frameDaPausa;
+    private const float CentroYDaRoda = 540f;   // meio da tela na referência 1920x1080 (sem rodapé)
 
     // Acha o PanelRenderer e registra o OnUIReload, que monta o menu quando a UI carrega.
     private void Awake()
@@ -74,6 +80,11 @@ public class MenuDePausa : MonoBehaviour
     // O Update roda mesmo com Time.timeScale em 0, então a mesma tecla também despausa.
     private void Update()
     {
+        if (TratarEntradaDaRoda())
+        {
+            return;
+        }
+
         if (!TeclaDePausaApertada())
         {
             return;
@@ -93,6 +104,53 @@ public class MenuDePausa : MonoBehaviour
         {
             Continuar();
         }
+    }
+
+    // Pausa em roda (PausaRoda.uxml): com o menu principal da pausa à mostra, setas, W/S e scroll mudam a opção e Enter
+    // confirma a selecionada (não despausa direto). Devolve true se o Enter foi usado. Não age no frame em que a pausa abriu,
+    // para o mesmo Enter que pausou não confirmar a primeira opção.
+    private bool TratarEntradaDaRoda()
+    {
+        Keyboard teclado = Keyboard.current;
+        if (roda == null || !visivel || teclado == null || Time.frameCount <= frameDaPausa
+            || painelPrincipal.resolvedStyle.display == DisplayStyle.None)
+        {
+            return false;
+        }
+
+        roda.LerNavegacao();
+
+        if (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame)
+        {
+            roda.Confirmar();
+            return true;
+        }
+
+        return false;
+    }
+
+    // Monta a roda se o UXML tiver o "RodaOpcoes"; devolve null no Pausa.uxml.
+    private static RodaDeOpcoes CriarRoda(VisualElement root)
+    {
+        if (root.Q<VisualElement>("RodaOpcoes") == null)
+        {
+            return null;
+        }
+
+        List<Button> botoes = new List<Button>();
+        foreach (string nome in new[] { "Continuar_btt", "SettingsPausa_btt", "MenuPausa_btt", "SairPausa_btt" })
+        {
+            Button botao = root.Q<Button>(nome);
+            if (botao == null)
+            {
+                Debug.LogWarning("MenuDePausa: botão  + nome +  não encontrado, a roda da pausa não foi criada.");
+                return null;
+            }
+
+            botoes.Add(botao);
+        }
+
+        return new RodaDeOpcoes(botoes, null, null, CentroYDaRoda);
     }
 
     // True no frame em que ESC, P ou Enter foi apertado (precisa de teclado conectado).
@@ -135,6 +193,7 @@ public class MenuDePausa : MonoBehaviour
         LigarClique(root, "MenuPausa_btt", OnMenuClicked);
         LigarClique(root, "SairPausa_btt", OnExitClicked);
 
+        roda = CriarRoda(root);
         SomDeInterface.Ligar(root);
 
         volumes = new PainelDeVolumes(root);
@@ -163,6 +222,8 @@ public class MenuDePausa : MonoBehaviour
         visivel = estado == GameManager.GameState.Pause;
         if (visivel)
         {
+            frameDaPausa = Time.frameCount;
+            roda?.Reiniciar();
             aceitaCliqueEm = Time.unscaledTime + TempoAntesDeAceitarClique;
         }
 
