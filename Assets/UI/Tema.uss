@@ -92,3 +92,52 @@
 .card-modo:hover {
     border-color: rgb(255, 221, 87);
 }
+
+/* ---- Animação de abertura das janelas (AnimacaoDeJanela.cs) ----
+   O código adiciona "anim-transicao" e uma classe "anim-ini-*" (estado de partida); ao tirar a "anim-ini-*", a transição leva
+   o elemento ao estado normal. "anim-transicao" sai ao fim, para não atrapalhar hover e o giro da bola.
+   Os seletores compostos vencem o transition-property de .roda-bola, dos cards e do botão Confirmar (mais fortes). */
+
+.anim-transicao,
+.roda-bola.anim-transicao,
+.card-modo.anim-transicao,
+.lv-cards .lv-card.anim-transicao,
+.unity-button.lv-confirmar.anim-transicao {
+    transition-property: opacity, translate, scale, rotate;
+    transition-duration: 0.28s;
+    transition-timing-function: ease-out-cubic;
+}
+
+/* Ajustes de duração e curva (classeExtra do Tocar), depois da regra acima para vencer. */
+.anim-transicao.anim-rapida,
+.roda-bola.anim-transicao.anim-rapida {
+    transition-duration: 0.18s;
+}
+
+.anim-transicao.anim-lenta,
+.roda-bola.anim-transicao.anim-lenta {
+    transition-duration: 0.5s;
+}
+
+.anim-transicao.anim-back-media {
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out-back;
+}
+
+.anim-transicao.anim-back,
+.lv-cards .lv-card.anim-transicao.anim-back {
+    transition-timing-function: ease-out-back;
+}
+
+/* Estados de partida */
+.anim-ini-fade { opacity: 0; }
+.anim-ini-bola { translate: -400px 0; opacity: 0; }
+.anim-ini-direita { translate: 160px 0; opacity: 0; }
+.anim-ini-esquerda { translate: -160px 0; opacity: 0; }
+.anim-ini-sobe60 { translate: 0 60px; opacity: 0; }
+.anim-ini-sobe80 { translate: 0 80px; opacity: 0; }
+.anim-ini-sobe120 { translate: 0 120px; opacity: 0; }
+.anim-ini-cai { translate: 0 -80px; opacity: 0; }
+.anim-ini-pop { scale: 0.9 0.9; opacity: 0; }
+.anim-ini-pop-grande { scale: 0.6 0.6; opacity: 0; }
+.anim-ini-zoom { scale: 1.12 1.12; opacity: 0; }

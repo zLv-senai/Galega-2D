@@ -168,6 +168,32 @@ public class GameOverUI : MonoBehaviour
         visivel = estado == GameManager.GameState.GameOver;
         aceitaCliqueEm = Time.unscaledTime + TempoAntesDeAceitarClique;
         Renderizar();
+
+        if (visivel)
+        {
+            AnimarAbertura();
+        }
+    }
+
+    // O título cai de cima, os cards do resumo sobem em sequência e os botões aparecem por último
+    // (o fade da tela inteira continua sendo o da classe go-raiz--visivel).
+    private void AnimarAbertura()
+    {
+        if (raiz == null)
+        {
+            return;
+        }
+
+        AnimacaoDeJanela.Tocar(raiz.Q<VisualElement>("GameOverTitulo"), "anim-ini-cai", 0, "anim-back");
+
+        int ordem = 0;
+        foreach (VisualElement card in raiz.Query<VisualElement>(className: "go-stat").ToList())
+        {
+            AnimacaoDeJanela.Tocar(card, "anim-ini-sobe60", 40 + ordem * 70L);
+            ordem++;
+        }
+
+        AnimacaoDeJanela.Tocar(raiz.Q<VisualElement>("GameOverBotoes"), "anim-ini-fade", 280);
     }
 
     private void ContarAbate(EnemyMove inimigo)

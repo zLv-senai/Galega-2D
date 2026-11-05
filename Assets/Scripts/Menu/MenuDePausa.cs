@@ -221,6 +221,24 @@ public class MenuDePausa : MonoBehaviour
         }
 
         Renderizar();
+
+        if (visivel && raiz != null)
+        {
+            AnimacaoDeJanela.Tocar(raiz, "anim-ini-fade", 0, "anim-rapida");
+            AnimarBotoes();
+        }
+    }
+
+    // Os botões da pausa deslizam da esquerda.
+    private void AnimarBotoes()
+    {
+        AnimacaoDeJanela.Tocar(BotoesDaPausa(), "anim-ini-esquerda");
+    }
+
+    // A roda (PausaRoda.uxml) ou o painel de botões do Pausa.uxml.
+    private VisualElement BotoesDaPausa()
+    {
+        return raiz.Q<VisualElement>("RodaOpcoes") ?? raiz.Q<VisualElement>("ContainerBotoesPausa");
     }
 
     // Toda vez que pausa, abre na tela principal da pausa (não no Settings que ficou aberto antes).
@@ -263,6 +281,7 @@ public class MenuDePausa : MonoBehaviour
     {
         volumes?.Mostrar();
         MostrarPainel(painelSettings);
+        AnimacaoDeJanela.Tocar(painelSettings, "anim-ini-pop");
     }
 
     // Grava os volumes e volta para a tela principal da pausa.
@@ -270,6 +289,9 @@ public class MenuDePausa : MonoBehaviour
     {
         ConfiguracaoDeAudio.Salvar();
         MostrarPainel(painelPrincipal);
+
+        // Volta da Settings: só um fade rápido dos botões, sem refazer a entrada da pausa.
+        AnimacaoDeJanela.Tocar(BotoesDaPausa(), "anim-ini-fade", 0, "anim-rapida");
     }
 
     // Volta ao menu principal recarregando a cena (o GameManager começa no Menu). A partida em andamento

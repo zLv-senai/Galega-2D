@@ -109,6 +109,11 @@ public class VitoriaUI : MonoBehaviour
     {
         visivel = estado == GameManager.GameState.Vitoria;
         Renderizar();
+
+        if (visivel && raiz != null)
+        {
+            AnimacaoDeJanela.Tocar(raiz.Q<VisualElement>("VitoriaMoldura"), "anim-ini-pop-grande", 0, "anim-back-media");
+        }
     }
 
     // Atualiza o subtítulo e mostra ou esconde a tela conforme 'visivel'.

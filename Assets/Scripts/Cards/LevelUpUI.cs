@@ -159,6 +159,24 @@ public class LevelUpUI : MonoBehaviour
         pendentes = escolhasPendentes;
         selecionado = -1; // oferta nova: ninguém selecionado ainda
         Renderizar();
+        AnimarAbertura();
+    }
+
+    // Fundo em fade, cards subindo um a um (com leve "pulo") e o botão Confirmar por último.
+    private void AnimarAbertura()
+    {
+        if (raiz == null)
+        {
+            return;
+        }
+
+        AnimacaoDeJanela.Tocar(raiz, "anim-ini-fade", 0, "anim-rapida");
+        for (int i = 0; i < botoes.Length; i++)
+        {
+            AnimacaoDeJanela.Tocar(botoes[i], "anim-ini-sobe80", i * 90L, "anim-back");
+        }
+
+        AnimacaoDeJanela.Tocar(confirmarBotao, "anim-ini-fade", 270);
     }
 
     // A escolha terminou: limpa a oferta, o que esconde a tela.

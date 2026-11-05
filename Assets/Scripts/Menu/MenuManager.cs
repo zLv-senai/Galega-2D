@@ -76,6 +76,39 @@ public class MenuManager : MonoBehaviour
         versaoUiControles = version;
         SomDeInterface.Ligar(root);
         LigarClique(root, BotaoIniciar, iniciarEvt => ComecarDepoisDosControles());
+        AnimacaoDeJanela.Tocar(root.Q<VisualElement>("MenuGroup"), "anim-ini-zoom");
+    }
+
+    // Menu principal em roda: a bola entra da esquerda e o resto aparece em fade (só no MenuRoda.uxml).
+    private void AnimarIntroDoMenu()
+    {
+        if (roda == null)
+        {
+            return;
+        }
+
+        AnimacaoDeJanela.Tocar(raizDoMenu.Q<VisualElement>("BolaMenu"), "anim-ini-bola", 0, "anim-lenta");
+        foreach (string nome in new[] { "FaixaMenu", "RodaOpcoes", "Title", "RodaRodape" })
+        {
+            AnimacaoDeJanela.Tocar(raizDoMenu.Q<VisualElement>(nome), "anim-ini-fade", 150);
+        }
+    }
+
+    // Voltar de um subpainel para a roda: só um fade rápido, sem reanimar a bola.
+    private void AnimarVoltaParaARoda()
+    {
+        if (roda != null)
+        {
+            AnimacaoDeJanela.Tocar(painelPrincipal.Q<VisualElement>("RodaOpcoes"), "anim-ini-fade", 0, "anim-rapida");
+        }
+    }
+
+    // Escolha do modo: o painel desliza da direita e os dois cards sobem em sequência.
+    private void AnimarPainelModo()
+    {
+        AnimacaoDeJanela.Tocar(painelModo, "anim-ini-direita");
+        AnimacaoDeJanela.Tocar(painelModo.Q<VisualElement>("Card_Campanha"), "anim-ini-sobe60", 80);
+        AnimacaoDeJanela.Tocar(painelModo.Q<VisualElement>("Card_Infinito"), "anim-ini-sobe60", 160);
     }
 
     // Na tela de controles: Enter começa a partida e ESC volta para a escolha do modo.
@@ -230,6 +263,7 @@ public class MenuManager : MonoBehaviour
 
         // A árvore nova começa no menu principal.
         MostrarPainel(painelPrincipal);
+        AnimarIntroDoMenu();
     }
 
     // Registra o clique em um botão ou card pelo name do UXML (avisa no Console se não existir).
@@ -319,6 +353,7 @@ public class MenuManager : MonoBehaviour
     private void OnPlayClicked(ClickEvent playEvt)
     {
         MostrarPainel(painelModo);
+        AnimarPainelModo();
     }
 
     // Atualiza a lista do ranking e abre o painel do Leaderboard.
@@ -326,6 +361,7 @@ public class MenuManager : MonoBehaviour
     {
         RenderizarLeaderboard();
         MostrarPainel(painelLeaderboard);
+        AnimacaoDeJanela.Tocar(painelLeaderboard, "anim-ini-sobe120");
     }
 
     // Botão "Reset_btt" (texto "Settings"): era um stub, agora abre os volumes.
@@ -333,12 +369,14 @@ public class MenuManager : MonoBehaviour
     {
         volumes?.Mostrar();
         MostrarPainel(painelSettings);
+        AnimacaoDeJanela.Tocar(painelSettings, "anim-ini-pop");
     }
 
     // Volta para o menu principal (botões Voltar da escolha de modo e do ranking).
     private void OnVoltarClicked(ClickEvent voltarEvt)
     {
         MostrarPainel(painelPrincipal);
+        AnimarVoltaParaARoda();
     }
 
     // Os sliders só mexem na memória enquanto arrastam; ao voltar, grava os volumes em disco.
@@ -346,6 +384,7 @@ public class MenuManager : MonoBehaviour
     {
         ConfiguracaoDeAudio.Salvar();
         MostrarPainel(painelPrincipal);
+        AnimarVoltaParaARoda();
     }
 
     // Escolhe o modo Campanha e mostra os controles.
@@ -388,6 +427,7 @@ public class MenuManager : MonoBehaviour
         telaDeControles.SetActive(false);
         raizDoMenu.style.display = DisplayStyle.Flex;
         MostrarPainel(painelModo);
+        AnimarPainelModo();
         CriarFundo();
     }
 
