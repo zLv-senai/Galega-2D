@@ -6,7 +6,7 @@
         <!-- Pausa em roda, igual à do menu principal (RodaDeOpcoes.cs), centrada na altura da tela e sem rodapé. -->
         <ui:VisualElement name="ContainerPausa" class="roda-raiz">
             <ui:VisualElement name="BolaPausa" class="roda-bola" style="top: -85px;" picking-mode="Ignore"/>
-            <ui:VisualElement name="FaixaPausa" class="roda-faixa" style="top: 477px;" picking-mode="Ignore"/>
+            <ui:VisualElement name="FaixaPausa" class="roda-faixa" style="top: 476px;" picking-mode="Ignore"/>
             <ui:Label text="Pausa" name="TituloPausa" class="roda-titulo" picking-mode="Ignore"/>
             <ui:VisualElement name="RodaOpcoes" class="roda-opcoes" picking-mode="Ignore">
                 <ui:Button text="Continuar" name="Continuar_btt"/>

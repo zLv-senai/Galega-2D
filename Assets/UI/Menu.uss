@@ -280,18 +280,15 @@
     -unity-background-scale-mode: scale-to-fit;
 }
 
-/* Faixa horizontal atrás da opção selecionada (centro em y = 425). */
+/* Faixa suave atrás da opção selecionada (centro em y = 425): gradiente da borda da bola (x = 500) até x = 1100. */
 .roda-faixa {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 362px;
-    height: 125px;
-    background-color: rgba(238, 117, 222, 0.30);
-    border-top-width: 5px;
-    border-bottom-width: 5px;
-    border-top-color: rgb(255, 221, 87);
-    border-bottom-color: rgb(255, 221, 87);
+    left: 500px;
+    width: 600px;
+    top: 361px;
+    height: 128px;
+    background-image: url("project://database/Assets/Images/Menu/faixa-selecao.png");
+    -unity-background-scale-mode: stretch-to-fill;
 }
 
 .roda-titulo {
@@ -320,39 +317,43 @@
     position: absolute;
     left: 0;
     top: 0;
-    width: 640px;
+    width: 400px;
     height: 110px;
     margin: 0;
-    padding: 0 0 0 44px;
-    font-size: 52px;
+    padding: 0 0 0 30px;
+    font-size: 46px;
     -unity-text-align: middle-left;
     transition-property: translate, scale, opacity, background-color, border-color, color;
     transition-duration: 0.18s;
 }
 
+/* Caixa compacta centralizada embaixo (860x110, a 30 do fundo). */
 .roda-rodape {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 230px;
-    padding: 28px 70px 0 70px;
+    left: 50%;
+    margin-left: -430px;
+    width: 860px;
+    height: 110px;
+    bottom: 30px;
+    padding: 8px 24px 0 24px;
+    justify-content: center;
     background-color: rgba(41, 28, 53, 0.88);
-    border-top-width: 10px;
-    border-top-color: rgba(125, 38, 255, 0.71);
+    border-width: 4px;
+    border-color: rgba(125, 38, 255, 0.71);
+    border-radius: 18px;
 }
 
 .roda-descricao {
-    margin: 0 0 14px 0;
+    margin: 0 0 4px 0;
     color: rgb(255, 255, 255);
-    font-size: 40px;
+    font-size: 30px;
     white-space: normal;
 }
 
 .roda-dica {
     margin: 0;
     color: rgb(226, 160, 244);
-    font-size: 26px;
+    font-size: 18px;
 }
 
 /* Dica solta, para a pausa em roda (que não tem rodapé). */
