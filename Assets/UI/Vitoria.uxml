@@ -5,7 +5,7 @@
     <ui:VisualElement name="VitoriaRaiz" class="vit-raiz">
         <ui:VisualElement name="VitoriaMoldura" class="vit-moldura">
             <ui:Label name="VitoriaTitulo" text="VITÓRIA!" class="vit-titulo" />
-            <ui:Label name="VitoriaSubtitulo" text="Você derrotou os 3 bosses" class="vit-subtitulo" />
+            <ui:Label name="VitoriaSubtitulo" text="Você derrotou os 3 chefes" class="vit-subtitulo" />
             <ui:Button name="VitoriaJogarDeNovo" text="Jogar de novo" class="vit-botao" />
         </ui:VisualElement>
     </ui:VisualElement>

@@ -251,7 +251,7 @@ public class LevelUpUI : MonoBehaviour
         {
             bool temSelecao = selecionado >= 0;
             confirmarBotao.SetEnabled(temSelecao);
-            confirmarBotao.text = temSelecao ? "CONFIRMAR" : "SELECIONE UM CARD";
+            confirmarBotao.text = temSelecao ? "CONFIRMAR" : "SELECIONE UMA CARTA";
         }
     }
 

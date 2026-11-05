@@ -18,8 +18,8 @@ public class HudProgressao : MonoBehaviour
     // Integração (boss): enfeite do alerta. O "⚠" pode não existir na fonte padrão do UI Toolkit (vira um quadradinho),
     // por isso "!!". Se a fonte do projeto tiver o glifo, troque aqui.
     private const string IconeAlerta = "!!";
-    private const string TextoAlertaBoss = IconeAlerta + " BOSS SE APROXIMANDO " + IconeAlerta;
-    private const string TextoAlertaBossFinal = IconeAlerta + " BOSS FINAL " + IconeAlerta;
+    private const string TextoAlertaBoss = IconeAlerta + " CHEFE SE APROXIMANDO " + IconeAlerta;
+    private const string TextoAlertaBossFinal = IconeAlerta + " CHEFE FINAL " + IconeAlerta;
 
     // Integração (boss): o alerta pisca (1 ciclo = PeriodoPiscar segundos, aceso na primeira parte do ciclo).
     private const float PeriodoPiscar = 0.8f;
@@ -432,7 +432,7 @@ public class HudProgressao : MonoBehaviour
     {
         if (levelLabel != null)
         {
-            levelLabel.text = "Level " + level;
+            levelLabel.text = "Nível " + level;
         }
 
         if (xpPreenchimento != null)
@@ -508,8 +508,8 @@ public class HudProgressao : MonoBehaviour
             ultimaWave = wave;
             ultimoTotalWaves = total;
             waveLabel.text = total > 0
-                ? "Wave " + wave + "/" + total
-                : "Wave " + wave + "  Recorde " + GerenciadorDeWaves.Recorde;
+                ? "Onda " + wave + "/" + total
+                : "Onda " + wave + "  Recorde " + GerenciadorDeWaves.Recorde;
         }
 
         int inimigos = waves.Restantes;
@@ -538,7 +538,7 @@ public class HudProgressao : MonoBehaviour
             {
                 ultimoAnuncio = wave;
                 ultimoAnuncioBoss = ehBoss;
-                waveAnuncio.text = ehBoss ? "WAVE " + wave + " - BOSS" : "WAVE " + wave;
+                waveAnuncio.text = ehBoss ? "ONDA " + wave + " - CHEFE" : "ONDA " + wave;
                 waveAnuncio.EnableInClassList("wave-anuncio-boss", ehBoss);
             }
         }
@@ -595,7 +595,7 @@ public class HudProgressao : MonoBehaviour
         {
             ultimoNumeroBoss = numero;
             ultimoTotalBoss = total;
-            bossTitulo.text = total > 0 ? "BOSS " + numero + "/" + total : "BOSS " + numero;
+            bossTitulo.text = total > 0 ? "CHEFE " + numero + "/" + total : "CHEFE " + numero;
         }
 
         float fracao = boss.VidaMaxima > 0 ? Mathf.Clamp01(boss.vida / (float)boss.VidaMaxima) : 0f;
@@ -622,7 +622,7 @@ public class HudProgressao : MonoBehaviour
     {
         if (levelUpNivel != null)
         {
-            levelUpNivel.text = "Level " + novoLevel;
+            levelUpNivel.text = "Nível " + novoLevel;
         }
 
         Mostrar(levelUpPainel, true);

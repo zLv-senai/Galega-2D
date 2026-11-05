@@ -252,10 +252,10 @@ public class GameOverUI : MonoBehaviour
         int faltam = waves.TotalDeWaves - waves.WaveAtual;
         if (faltam <= 0)
         {
-            return "Você caiu diante do boss final. Foi por pouco!";
+            return "Você caiu diante do chefe final. Foi por pouco!";
         }
 
-        return faltam == 1 ? "Faltou só 1 wave para o boss final." : "Faltaram " + faltam + " waves para o boss final.";
+        return faltam == 1 ? "Faltou só 1 onda para o chefe final." : "Faltaram " + faltam + " ondas para o chefe final.";
     }
 
     // Integração (waves): wave alcançada (card "WAVE") e, só no Infinito, "Recorde: R".
@@ -284,7 +284,7 @@ public class GameOverUI : MonoBehaviour
             recordeLabel.style.display = infinito ? DisplayStyle.Flex : DisplayStyle.None;
             if (infinito)
             {
-                recordeLabel.text = "Recorde: wave " + GerenciadorDeWaves.Recorde;
+                recordeLabel.text = "Recorde: onda " + GerenciadorDeWaves.Recorde;
             }
         }
 

@@ -400,7 +400,7 @@ public class GerenciadorDeWaves : MonoBehaviour
             return;
         }
 
-        levelUpManager.OferecerCartas(IniciarProximaWave, "WAVE " + WaveAtual + " CONCLUÍDA");
+        levelUpManager.OferecerCartas(IniciarProximaWave, "ONDA " + WaveAtual + " CONCLUÍDA");
     }
 
     // True se a wave que acabou de terminar dá cards: toda wave de boss sempre, e as demais com a

@@ -10,11 +10,11 @@
             <ui:VisualElement name="GameOverResumo" class="go-resumo">
                 <ui:VisualElement class="go-stat">
                     <ui:Label name="GameOverWave" text="1" class="go-valor" />
-                    <ui:Label text="WAVE" class="go-rotulo" />
+                    <ui:Label text="ONDA" class="go-rotulo" />
                 </ui:VisualElement>
                 <ui:VisualElement class="go-stat">
                     <ui:Label name="GameOverLevel" text="1" class="go-valor" />
-                    <ui:Label text="LEVEL" class="go-rotulo" />
+                    <ui:Label text="NÍVEL" class="go-rotulo" />
                 </ui:VisualElement>
                 <ui:VisualElement class="go-stat">
                     <ui:Label name="GameOverAbates" text="0" class="go-valor" />
@@ -26,7 +26,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <!-- Só no Infinito: o recorde sempre, e o ranking quando a partida entrou no top 5 -->
-            <ui:Label name="GameOverRecorde" text="Recorde: wave 1" class="go-linha" />
+            <ui:Label name="GameOverRecorde" text="Recorde: onda 1" class="go-linha" />
             <ui:Label name="GameOverRanking" text="Você entrou no ranking em Nº 1" class="go-linha go-ranking" />
             <!-- Botões da tela: o GameOverUI.cs liga os 3 pelo name. Voltar ao menu e Sair são opcionais no código. -->
             <ui:VisualElement name="GameOverBotoes" class="go-botoes">

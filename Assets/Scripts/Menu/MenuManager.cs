@@ -340,7 +340,7 @@ public class MenuManager : MonoBehaviour
         for (int i = 0; i < entradas.Count; i++)
         {
             EntradaDeRanking entrada = entradas[i];
-            string texto = (i + 1) + ". " + entrada.nome + " - Wave " + entrada.wave + " - " + entrada.DataFormatada();
+            string texto = (i + 1) + ". " + entrada.nome + " - Onda " + entrada.wave + " - " + entrada.DataFormatada();
             AdicionarLinhaDoRanking(texto, i == 0 ? "linha-ranking-topo" : null);
         }
     }
