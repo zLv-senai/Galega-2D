@@ -95,11 +95,12 @@ public class MenuDePausa : MonoBehaviour
         }
     }
 
-    // True no frame em que ESC ou P foi apertado (precisa de teclado conectado).
+    // True no frame em que ESC, P ou Enter foi apertado (precisa de teclado conectado).
     private static bool TeclaDePausaApertada()
     {
         Keyboard teclado = Keyboard.current;
-        return teclado != null && (teclado.escapeKey.wasPressedThisFrame || teclado.pKey.wasPressedThisFrame);
+        return teclado != null && (teclado.escapeKey.wasPressedThisFrame || teclado.pKey.wasPressedThisFrame
+            || teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame);
     }
 
     // Roda quando a UI é criada ou recriada: busca os painéis, liga os botões (Continuar, Settings, Menu e Exit)

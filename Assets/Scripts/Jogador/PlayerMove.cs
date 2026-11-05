@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerStats))] // PlayerStats: player sempre precisa dos stats
 public class PlayerMove : MonoBehaviour, IDamageable
 {
+    private const float DuracaoPiscaDano = 0.1f;
+    private const string NomeDoEscudo = "Shield";
+    private const float TamanhoDaExplosaoDeMorte = 1.5f;
+    private const float CuraAoDerrotarBoss = 0.35f; // fração da vida máxima
+    private const float CuraAoLimparWave = 0.1f;    // fração da vida máxima
+    private static readonly Color CorDoPiscaDano = new Color(1f, 0.35f, 0.35f, 1f);
+
+    // Avisa o som que o player levou dano de verdade (o escudo pode ter bloqueado). Evento estático: cancelar no OnDisable.
+    public static event Action AoLevarDano;
+
     // Vida atual (começa cheia pelo VidaMax dos stats, no Awake).
     public int vida = 100;
     public int level = 1; // PlayerStats: level/XP agora vivem em PlayerXp; campo mantido para não quebrar o Inspector.
@@ -22,6 +33,10 @@ public class PlayerMove : MonoBehaviour, IDamageable
     private PlayerStats stats;
     private float proximoTiro;
 
+    private SpriteRenderer sprite;
+    private Color corOriginal = Color.white;
+    private Coroutine piscaDano;
+
     void Awake()
     {
         // PlayerStats: pega o componente e começa com a vida cheia conforme o VidaMax atual.
@@ -33,6 +48,45 @@ public class PlayerMove : MonoBehaviour, IDamageable
         }
 
         vida = stats.VidaMax;
+
+        // O sprite da nave fica num filho; o outro SpriteRenderer do prefab é o do escudo.
+        foreach (SpriteRenderer candidato in GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            if (candidato.name != NomeDoEscudo)
+            {
+                sprite = candidato;
+                corOriginal = candidato.color;
+                break;
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        BossController.AoMorrer += CurarAoDerrotarBoss;
+        GerenciadorDeWaves.AoWaveLimpa += CurarAoLimparWave;
+    }
+
+    private void OnDisable()
+    {
+        BossController.AoMorrer -= CurarAoDerrotarBoss;
+        GerenciadorDeWaves.AoWaveLimpa -= CurarAoLimparWave;
+    }
+
+    private void CurarAoDerrotarBoss(BossController boss)
+    {
+        Curar(CuraAoDerrotarBoss);
+    }
+
+    private void CurarAoLimparWave(int wave)
+    {
+        Curar(CuraAoLimparWave);
+    }
+
+    // Recompensas: a Campanha não tem o power-up de Reparo, então sem isso o dano acumulado nas waves nunca volta.
+    private void Curar(float fracaoDaVidaMaxima)
+    {
+        vida = Mathf.Min(stats.VidaMax, vida + Mathf.RoundToInt(stats.VidaMax * fracaoDaVidaMaxima));
     }
 
     // A cada frame, com o jogo rodando, o player atira e se move.
@@ -63,10 +117,13 @@ public class PlayerMove : MonoBehaviour, IDamageable
         }
 
         vida -= dano;
+        AoLevarDano?.Invoke();
 
         if (vida <= 0)
         {
             morto = true;
+
+            EfeitoDeExplosao.Criar(transform.position, TamanhoDaExplosaoDeMorte);
 
             GameManager gm = ObterGameManager();
             if (gm != null)
@@ -75,7 +132,34 @@ public class PlayerMove : MonoBehaviour, IDamageable
             }
 
             gameObject.SetActive(false);
+            return;
         }
+
+        PiscarDano();
+    }
+
+    // Reinicia o pisca a cada golpe, para a cor original nunca ficar perdida no meio de dois golpes.
+    private void PiscarDano()
+    {
+        if (sprite == null)
+        {
+            return;
+        }
+
+        if (piscaDano != null)
+        {
+            StopCoroutine(piscaDano);
+        }
+
+        piscaDano = StartCoroutine(RotinaDoPisca());
+    }
+
+    private IEnumerator RotinaDoPisca()
+    {
+        sprite.color = CorDoPiscaDano;
+        yield return new WaitForSeconds(DuracaoPiscaDano);
+        sprite.color = corOriginal;
+        piscaDano = null;
     }
 
     // gameManager pode não estar arrastado no Inspector; usa o singleton como fallback.

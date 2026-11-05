@@ -82,8 +82,10 @@ Shader "Custom/ProceduralStarfield_URP"
                     
                     if(rand > 0.98)
                     {
-                        float brightness = (sin(_Time.y * 2.0 + rand * 100.0) * 0.5 + 0.5) * _MaxBrightness;
-                        float baseSize = lerp(_MinSize, _MaxSize, rand);
+                        // rand so chega aqui acima de 0.98: reescala para 0..1, senao todas pulsam juntas e tem o mesmo tamanho.
+                        float variacao = (rand - 0.98) / 0.02;
+                        float brightness = (sin(_Time.y * 2.0 + variacao * 6.2832) * 0.5 + 0.5) * _MaxBrightness;
+                        float baseSize = lerp(_MinSize, _MaxSize, variacao);
                         float starSize = baseSize / j;
                         
                         float2 trailVector = _CamVelocity.xy * _TrailLength * 0.01 / j;

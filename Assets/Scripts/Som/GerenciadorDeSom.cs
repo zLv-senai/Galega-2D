@@ -14,6 +14,9 @@ public class GerenciadorDeSom : MonoBehaviour
     [SerializeField] private AudioClip waveLimpa;
     [SerializeField] private AudioClip powerUp;
     [SerializeField] private AudioClip gameOver;
+    [SerializeField] private AudioClip danoNoPlayer;
+    [SerializeField] private AudioClip explosaoPlayer;
+    [SerializeField] private AudioClip cliqueMenu;
 
     // Integração (boss): alerta quando a ameaça enche, explosão quando um boss morre e música de vitória.
     [Header("Boss")]
@@ -33,11 +36,16 @@ public class GerenciadorDeSom : MonoBehaviour
 
     // Com muitos inimigos atirando juntos, o som vira ruído: limita a 1 por intervalo.
     [SerializeField] private float intervaloMinimoTiroInimigo = 0.08f;
+    [SerializeField] private float intervaloMinimoDanoNoPlayer = 0.12f;
 
     // As duas AudioSources (efeitos e música) e a hora liberada para o próximo som de tiro inimigo.
     private AudioSource fonteEfeitos;
     private AudioSource fonteMusica;
     private float proximoTiroInimigo;
+    private float proximoDanoNoPlayer;
+
+    // As telas chamam TocarClique sem precisar achar este objeto.
+    private static GerenciadorDeSom instancia;
 
     // Player e power-ups cujos eventos este script ouve (achados no Start).
     private PlayerXp playerXp;
@@ -73,6 +81,11 @@ public class GerenciadorDeSom : MonoBehaviour
         ConfiguracaoDeAudio.AoMudar += AtualizarVolumeMusica;
         AtualizarVolumeMusica();
 
+        instancia = this;
+        PlayerMove.AoLevarDano += TocarDanoNoPlayer;
+        BossController.AoAtirar += TocarTiroBoss;
+        BossController.AoAvisarAtaque += TocarAvisoDeAtaque;
+        BossController.AoDispararLaser += TocarLaser;
         PadraoDeTiro.AoDisparar += TocarTiroPlayer;
         EnemyMove.AoAtirar += TocarTiroInimigo;
         EnemyMove.AoMorrer += TocarExplosaoInimigo;
@@ -87,6 +100,15 @@ public class GerenciadorDeSom : MonoBehaviour
     {
         ConfiguracaoDeAudio.AoMudar -= AtualizarVolumeMusica;
 
+        if (instancia == this)
+        {
+            instancia = null;
+        }
+
+        PlayerMove.AoLevarDano -= TocarDanoNoPlayer;
+        BossController.AoAtirar -= TocarTiroBoss;
+        BossController.AoAvisarAtaque -= TocarAvisoDeAtaque;
+        BossController.AoDispararLaser -= TocarLaser;
         PadraoDeTiro.AoDisparar -= TocarTiroPlayer;
         EnemyMove.AoAtirar -= TocarTiroInimigo;
         EnemyMove.AoMorrer -= TocarExplosaoInimigo;
@@ -142,6 +164,44 @@ public class GerenciadorDeSom : MonoBehaviour
             // Integração (Settings): o slider "Efeitos" multiplica o volume de todo efeito.
             fonteEfeitos.PlayOneShot(clip, volume * ConfiguracaoDeAudio.Efeitos);
         }
+    }
+
+    // Clique nos botões das telas. Sem este objeto na cena (cenas de teste) não faz nada.
+    public static void TocarClique()
+    {
+        if (instancia != null)
+        {
+            instancia.Tocar(instancia.cliqueMenu, instancia.volumeEfeitos);
+        }
+    }
+
+    // Som de dano no player, limitado a um por intervalo (vários tiros podem acertar no mesmo instante).
+    private void TocarDanoNoPlayer()
+    {
+        if (Time.unscaledTime < proximoDanoNoPlayer)
+        {
+            return;
+        }
+
+        proximoDanoNoPlayer = Time.unscaledTime + intervaloMinimoDanoNoPlayer;
+        Tocar(danoNoPlayer, volumeEfeitos);
+    }
+
+    // O boss atira em rajadas espaçadas: pode tocar mais alto que o tiro de inimigo comum.
+    private void TocarTiroBoss(BossController boss)
+    {
+        Tocar(tiroInimigo, volumeEfeitos);
+    }
+
+    // Aviso de que o boss vai dar a investida ou o laser.
+    private void TocarAvisoDeAtaque(BossController boss)
+    {
+        Tocar(alertaBoss, volumeEfeitos);
+    }
+
+    private void TocarLaser(BossController boss)
+    {
+        Tocar(explosaoInimigo, volumeEfeitos);
     }
 
     // Som do tiro do player.
@@ -206,6 +266,7 @@ public class GerenciadorDeSom : MonoBehaviour
             fonteMusica.Stop();
             // Corta efeitos em andamento (explosão do boss, wave limpa) para o som de fim tocar limpo.
             fonteEfeitos.Stop();
+            Tocar(explosaoPlayer, volumeEfeitos);
             Tocar(gameOver, volumeEfeitos);
         }
         else if (estado == GameManager.GameState.Vitoria)

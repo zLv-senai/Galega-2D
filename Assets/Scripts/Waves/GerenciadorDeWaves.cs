@@ -24,6 +24,8 @@ public class GerenciadorDeWaves : MonoBehaviour
 
     // Intervalo mínimo aceito entre spawns, para um valor errado no Inspector não spawnar todo frame.
     private const float IntervaloMinimoDeSpawn = 0.05f;
+    // Balanceamento: teto da velocidade e da cadência por wave, para o Infinito não virar impossível de desviar.
+    private const float FatorMaximoPorWave = 2f;
 
     // Dano usado nos testes para matar de uma vez.
     private const int DanoDeTeste = 999999;
@@ -51,6 +53,9 @@ public class GerenciadorDeWaves : MonoBehaviour
     [SerializeField] private float intervaloEntreSpawns = 0.6f;
     [SerializeField] private int maxVivos = 40;
     [SerializeField] private int wavesPorBonusDeVida = 3;    // a cada quantas waves os inimigos ganham +1 de vida
+    [SerializeField] private int wavesPorDanoDeTiro = 10;    // a cada quantas waves o tiro dos inimigos ganha +1 de dano
+    [SerializeField] private float velocidadePorWave = 0.02f;  // inimigos: velocidade extra por wave (0.02 = +2%)
+    [SerializeField] private float cadenciaPorWave = 0.015f;   // inimigos: tiros por segundo extras por wave (0.015 = +1,5%)
 
     // ---- Eventos (estáticos) ----
 
@@ -71,6 +76,9 @@ public class GerenciadorDeWaves : MonoBehaviour
     private float tempoAnuncio;
     private int aSpawnar;          // inimigos da wave que ainda não nasceram
     private int bonusDeVida;
+    private int danoDeTiroDaWave = 1;
+    private float fatorVelocidadeDaWave = 1f;
+    private float fatorCadenciaDaWave = 1f;
     private float proximoSpawn;
     private bool bossPendente;     // o boss da wave ainda não morreu
     private int ultimosRestantes = -1;
@@ -241,6 +249,9 @@ public class GerenciadorDeWaves : MonoBehaviour
         WaveAtual = numero;
         ehBoss = numero % WavesPorBoss == 0;
         bonusDeVida = (numero - 1) / Mathf.Max(1, wavesPorBonusDeVida);
+        danoDeTiroDaWave = 1 + (numero - 1) / Mathf.Max(1, wavesPorDanoDeTiro);
+        fatorVelocidadeDaWave = Mathf.Min(FatorMaximoPorWave, 1f + velocidadePorWave * (numero - 1));
+        fatorCadenciaDaWave = Mathf.Min(FatorMaximoPorWave, 1f + cadenciaPorWave * (numero - 1));
 
         // Na wave de boss os inimigos comuns são as escoltas: metade da contagem normal.
         bool temBoss = ehBoss && controladorBoss != null;
@@ -330,8 +341,8 @@ public class GerenciadorDeWaves : MonoBehaviour
             return;
         }
 
-        // Dificuldade: +1 de vida a cada "wavesPorBonusDeVida" waves.
-        inimigo.vida += bonusDeVida;
+        // Dificuldade: vida, dano do tiro, velocidade e cadência sobem com a wave (ver IniciarWave).
+        inimigo.AplicarDificuldade(bonusDeVida, danoDeTiroDaWave, fatorVelocidadeDaWave, fatorCadenciaDaWave);
         vivos.Add(inimigo);
     }
 

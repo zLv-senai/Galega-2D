@@ -2,20 +2,37 @@
     <Style src="GameOver.uss" />
     <!-- Tela cheia escurecida; escondida por padrão (o GameOverUI.cs mostra quando o estado vira GameOver) -->
     <ui:VisualElement name="GameOverRaiz" class="go-raiz">
-        <ui:Label name="GameOverTitulo" text="GAME OVER" class="go-titulo" />
-        <ui:VisualElement name="GameOverResumo" class="go-resumo">
-            <ui:Label name="GameOverLevel" text="Level alcançado: 1" class="go-level" />
-            <!-- Waves: escondidos pelo GameOverUI.cs se não houver GerenciadorDeWaves; o recorde só aparece no Infinito -->
-            <ui:Label name="GameOverWave" text="Wave alcançada: 1" class="go-level" />
-            <ui:Label name="GameOverRecorde" text="Recorde: 1" class="go-level" />
-            <!-- Ranking local: o GameOverUI.cs só mostra no Infinito, quando a partida entrou no top 5 -->
-            <ui:Label name="GameOverRanking" text="Você entrou no ranking em Nº 1" class="go-level go-ranking" />
-        </ui:VisualElement>
-        <!-- Botões da tela: o GameOverUI.cs liga os 3 pelo name. Voltar ao menu e Sair são opcionais no código. -->
-        <ui:VisualElement name="GameOverBotoes" class="go-botoes">
-            <ui:Button name="JogarDeNovo" text="Jogar novamente" class="go-botao" />
-            <ui:Button name="VoltarAoMenu" text="Voltar ao menu principal" class="go-botao go-botao-secundario" />
-            <ui:Button name="Sair" text="Sair" class="go-botao go-botao-sair" />
+        <ui:VisualElement name="GameOverMoldura" class="go-moldura">
+            <ui:Label name="GameOverTitulo" text="GAME OVER" class="go-titulo" />
+            <ui:Label name="GameOverSubtitulo" text="Sua nave foi destruída." class="go-subtitulo" />
+            <!-- Cards do resumo. O GameOverUI.cs preenche os números e esconde o card WAVE se não houver GerenciadorDeWaves. -->
+            <ui:VisualElement name="GameOverResumo" class="go-resumo">
+                <ui:VisualElement class="go-stat">
+                    <ui:Label name="GameOverWave" text="1" class="go-valor" />
+                    <ui:Label text="WAVE" class="go-rotulo" />
+                </ui:VisualElement>
+                <ui:VisualElement class="go-stat">
+                    <ui:Label name="GameOverLevel" text="1" class="go-valor" />
+                    <ui:Label text="LEVEL" class="go-rotulo" />
+                </ui:VisualElement>
+                <ui:VisualElement class="go-stat">
+                    <ui:Label name="GameOverAbates" text="0" class="go-valor" />
+                    <ui:Label text="ABATES" class="go-rotulo" />
+                </ui:VisualElement>
+                <ui:VisualElement class="go-stat">
+                    <ui:Label name="GameOverTempo" text="00:00" class="go-valor" />
+                    <ui:Label text="TEMPO" class="go-rotulo" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <!-- Só no Infinito: o recorde sempre, e o ranking quando a partida entrou no top 5 -->
+            <ui:Label name="GameOverRecorde" text="Recorde: wave 1" class="go-linha" />
+            <ui:Label name="GameOverRanking" text="Você entrou no ranking em Nº 1" class="go-linha go-ranking" />
+            <!-- Botões da tela: o GameOverUI.cs liga os 3 pelo name. Voltar ao menu e Sair são opcionais no código. -->
+            <ui:VisualElement name="GameOverBotoes" class="go-botoes">
+                <ui:Button name="JogarDeNovo" text="Jogar novamente" class="go-botao" />
+                <ui:Button name="VoltarAoMenu" text="Menu principal" class="go-botao go-botao-secundario" />
+                <ui:Button name="Sair" text="Sair" class="go-botao go-botao-sair" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

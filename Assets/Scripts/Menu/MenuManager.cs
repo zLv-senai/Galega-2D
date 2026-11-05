@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 // Menu principal (Wagner): Play, Leaderboard, Settings e Exit.
@@ -16,6 +17,15 @@ public class MenuManager : MonoBehaviour
 
     // Painéis do MainMenu.uxml: só um fica visível por vez.
     private VisualElement[] paineis;
+
+    // Integração: tela de controles (objeto GameControls da cena, começa desativado). Aparece depois de escolher o modo.
+    // O "Jogar novamente" não passa pelo menu, então ela não aparece de novo.
+    [SerializeField] private GameObject telaDeControles;
+    private const string BotaoIniciar = "Iniciar";
+    private ModoDeJogo modoEscolhido;
+    private int versaoUiControles = -1;
+    private VisualElement raizDoMenu;
+
     private VisualElement painelPrincipal;   // o "containerMenu" do Wagner
     private VisualElement painelModo;
     private VisualElement painelLeaderboard;
@@ -34,6 +44,43 @@ public class MenuManager : MonoBehaviour
     {
         GetComponent<PanelRenderer>().RegisterUIReloadCallback(OnUIReload);
 
+        PanelRenderer painelDeControles = telaDeControles != null ? telaDeControles.GetComponent<PanelRenderer>() : null;
+        if (painelDeControles != null)
+        {
+            painelDeControles.RegisterUIReloadCallback(OnControlesReload);
+        }
+    }
+
+    // A tela de controles é recriada ao ser ativada: liga o botão Iniciar da árvore nova.
+    private void OnControlesReload(PanelRenderer panel, VisualElement root, int version)
+    {
+        if (version == versaoUiControles)
+        {
+            return;
+        }
+
+        versaoUiControles = version;
+        LigarClique(root, BotaoIniciar, iniciarEvt => ComecarDepoisDosControles());
+    }
+
+    // Na tela de controles: Enter começa a partida e ESC volta para a escolha do modo.
+    // É LateUpdate para o mesmo Enter não pausar o jogo: o MenuDePausa já rodou neste frame, ainda sem partida.
+    private void LateUpdate()
+    {
+        Keyboard teclado = Keyboard.current;
+        if (teclado == null || telaDeControles == null || !telaDeControles.activeSelf)
+        {
+            return;
+        }
+
+        if (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame)
+        {
+            ComecarDepoisDosControles();
+        }
+        else if (teclado.escapeKey.wasPressedThisFrame)
+        {
+            VoltarDosControles();
+        }
     }
 
     // Roda quando a UI é criada ou recriada: busca os painéis, liga os botões e volta para o menu principal.
@@ -50,6 +97,7 @@ public class MenuManager : MonoBehaviour
         }
 
         versaoUi = version;
+        raizDoMenu = root;
 
         painelPrincipal = root.Q<VisualElement>("containerMenu");
         painelModo = root.Q<VisualElement>("PainelModo");
@@ -97,7 +145,11 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        alvo.RegisterCallback(aoClicar);
+        alvo.RegisterCallback<ClickEvent>(cliqueEvt =>
+        {
+            GerenciadorDeSom.TocarClique();
+            aoClicar(cliqueEvt);
+        });
     }
 
     // Campo "Seu nome": máximo de 10 caracteres, começa com o último nome usado. "Piloto" fica só de fundo
@@ -199,16 +251,45 @@ public class MenuManager : MonoBehaviour
         MostrarPainel(painelPrincipal);
     }
 
-    // Começa uma partida no modo Campanha.
+    // Escolhe o modo Campanha e mostra os controles.
     private void OnCampanhaClicked(ClickEvent campanhaEvt)
     {
-        IniciarPartida(ModoDeJogo.Campanha);
+        EscolherModo(ModoDeJogo.Campanha);
     }
 
-    // Começa uma partida no modo Infinito.
+    // Escolhe o modo Infinito e mostra os controles.
     private void OnInfinitoClicked(ClickEvent infinitoEvt)
     {
-        IniciarPartida(ModoDeJogo.Infinito);
+        EscolherModo(ModoDeJogo.Infinito);
+    }
+
+    // Guarda o modo, esconde os painéis do menu e abre a tela de controles. Sem a tela na cena, começa direto.
+    private void EscolherModo(ModoDeJogo modo)
+    {
+        modoEscolhido = modo;
+
+        if (telaDeControles == null)
+        {
+            IniciarPartida(modo);
+            return;
+        }
+
+        // Esconde a raiz inteira, não só os painéis: ela ocupa a tela toda e ficaria com os cliques do botão Iniciar.
+        raizDoMenu.style.display = DisplayStyle.None;
+        telaDeControles.SetActive(true);
+    }
+
+    private void ComecarDepoisDosControles()
+    {
+        telaDeControles.SetActive(false);
+        IniciarPartida(modoEscolhido);
+    }
+
+    private void VoltarDosControles()
+    {
+        telaDeControles.SetActive(false);
+        raizDoMenu.style.display = DisplayStyle.Flex;
+        MostrarPainel(painelModo);
     }
 
     // Integração: guarda o nome e o modo escolhidos (o GerenciadorDeWaves lê ao entrar em OnPlay) e começa o jogo.

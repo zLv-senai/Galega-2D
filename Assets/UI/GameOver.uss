@@ -1,6 +1,7 @@
-/* Tela de Game Over: fundo escuro, título vermelho, level alcançado e botão para reiniciar. */
+/* Tela de Game Over no estilo arcade do menu: moldura roxa, título com sombra deslocada e botões de cantos opostos arredondados.
+   Tamanhos pensados para a resolução de referência do painel (1200 de largura, cerca de 675 de altura em 16:9). */
 
-/* Tela cheia escurecida. Fica escondida até o código mostrar (style.display = flex). */
+/* Tela cheia escurecida. Fica escondida até o código mostrar (style.display = flex); entra com fade. */
 .go-raiz {
     display: none;
     position: absolute;
@@ -10,95 +11,165 @@
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: rgba(12, 0, 6, 0.85);
+    background-color: rgba(12, 0, 18, 0.72);
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+.go-moldura {
+    width: 86%;
+    max-height: 94%;
+    padding: 12px 28px 22px 28px;
+    align-items: center;
+    background-color: rgba(41, 28, 53, 0.88);
+    border-color: rgba(125, 38, 255, 0.71);
+    border-width: 10px;
+    border-radius: 25px;
+    translate: 0 30px;
+    transition: translate 0.4s ease-out;
+}
+
+/* Adicionada pelo GameOverUI.cs um frame depois de a tela aparecer. */
+.go-raiz--visivel {
+    opacity: 1;
+}
+
+.go-raiz--visivel .go-moldura {
+    translate: 0 0;
 }
 
 .go-titulo {
-    margin: 0 0 12px 0;
-    color: rgb(255, 60, 90);
-    font-size: 120px;
+    margin: 0;
+    color: rgb(255, 70, 120);
+    font-size: 96px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
     -unity-text-outline-width: 3px;
-    -unity-text-outline-color: rgb(90, 0, 20);
-    text-shadow: 0 6px 14px rgba(0, 0, 0, 0.9);
+    -unity-text-outline-color: rgb(120, 0, 60);
+    letter-spacing: 6px;
+    text-shadow: -8px 6px 0 rgb(125, 25, 85);
 }
 
-/* Integração: agrupa as linhas do resumo (level, wave, recorde). A margem de baixo que era do .go-level (48px) passou para cá. */
+.go-subtitulo {
+    margin: 0 0 16px 0;
+    color: rgb(226, 160, 244);
+    font-size: 28px;
+    -unity-text-align: middle-center;
+}
+
+/* Linha com os cards do resumo. */
 .go-resumo {
-    margin: 0 0 40px 0;
-    align-items: center;
+    flex-direction: row;
+    align-self: stretch;
+    margin: 0 0 14px 0;
 }
 
-.go-level {
-    margin: 0 0 8px 0;
+.go-stat {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin: 0 8px;
+    padding: 8px 6px 10px 6px;
+    align-items: center;
+    background-color: rgba(20, 10, 32, 0.75);
+    border-color: rgba(193, 112, 207, 0.65);
+    border-width: 3px;
+    border-bottom-width: 7px;
+    border-radius: 14px;
+}
+
+.go-valor {
+    margin: 0;
     color: rgb(255, 255, 255);
-    font-size: 44px;
+    font-size: 50px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 }
 
-/* Ranking local (Infinito): destaque em dourado. Vem depois do .go-level, então a cor e o tamanho daqui valem. */
-.go-ranking {
-    color: rgb(255, 215, 90);
-    font-size: 38px;
+.go-rotulo {
+    margin: 0;
+    color: rgb(226, 160, 244);
+    font-size: 20px;
+    letter-spacing: 4px;
+    -unity-text-align: middle-center;
 }
 
-/* Coluna com os 3 botões (Jogar novamente, Voltar ao menu principal, Sair). */
+/* Recorde e ranking (só no Infinito). */
+.go-linha {
+    margin: 0 0 6px 0;
+    color: rgb(255, 255, 255);
+    font-size: 28px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.go-ranking {
+    color: rgb(255, 215, 90);
+}
+
+/* Linha com os 3 botões. */
 .go-botoes {
-    align-items: center;
+    flex-direction: row;
+    align-self: stretch;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 /* O seletor ".go-raiz .go-botao" é mais forte que o estilo padrão do botão (inclusive no :hover). */
 .go-raiz .go-botao {
-    width: 520px;
-    padding: 18px 24px;
-    margin: 0 0 16px 0;
-    font-size: 38px;
+    flex-grow: 1;
+    flex-basis: 0;
+    margin: 0 8px;
+    padding: 14px 10px;
+    font-size: 30px;
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
-    background-color: rgb(40, 110, 200);
-    border-width: 4px;
-    border-radius: 14px;
-    border-color: rgb(120, 190, 255);
+    background-color: rgb(125, 38, 200);
+    border-color: rgb(227, 75, 247);
+    border-top-width: 3px;
+    border-right-width: 6px;
+    border-bottom-width: 10px;
+    border-left-width: 6px;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 28px;
+    border-bottom-left-radius: 0;
 }
 
 .go-raiz .go-botao:hover {
-    background-color: rgb(60, 140, 235);
-    border-color: rgb(190, 225, 255);
+    background-color: rgb(155, 60, 235);
+    border-color: rgb(245, 160, 255);
 }
 
 .go-raiz .go-botao:active {
-    background-color: rgb(30, 85, 160);
+    background-color: rgb(95, 25, 160);
 }
 
-/* Voltar ao menu principal: cinza-azulado, para o "Jogar novamente" continuar sendo o botão principal. */
+/* Menu principal: discreto, para o "Jogar novamente" continuar sendo o botão principal. */
 .go-raiz .go-botao-secundario {
-    background-color: rgb(52, 60, 92);
-    border-color: rgb(150, 160, 205);
+    background-color: rgb(70, 55, 95);
+    border-color: rgb(170, 150, 205);
 }
 
 .go-raiz .go-botao-secundario:hover {
-    background-color: rgb(72, 82, 126);
-    border-color: rgb(200, 208, 240);
+    background-color: rgb(95, 76, 128);
+    border-color: rgb(215, 200, 240);
 }
 
 .go-raiz .go-botao-secundario:active {
-    background-color: rgb(40, 46, 74);
+    background-color: rgb(52, 40, 74);
 }
 
 /* Sair: vermelho escuro. */
 .go-raiz .go-botao-sair {
-    margin-bottom: 0;
-    background-color: rgb(140, 36, 52);
-    border-color: rgb(255, 130, 150);
+    background-color: rgb(140, 36, 62);
+    border-color: rgb(255, 130, 160);
 }
 
 .go-raiz .go-botao-sair:hover {
-    background-color: rgb(180, 50, 70);
-    border-color: rgb(255, 185, 198);
+    background-color: rgb(180, 50, 82);
+    border-color: rgb(255, 185, 205);
 }
 
 .go-raiz .go-botao-sair:active {
-    background-color: rgb(104, 26, 38);
+    background-color: rgb(104, 26, 46);
 }

@@ -21,6 +21,8 @@ public class EnemyMove : MonoBehaviour, IDamageable
     public int vida =2;
     // Segundos de espera entre um tiro e o próximo.
     public float fireHate  = 1.0f;
+    // Integração (waves): dano do tiro deste inimigo, definido por AplicarDificuldade. 0 = usa o valor do prefab do tiro.
+    private int danoDoTiro;
 
     // Opcionais: se ficarem vazios, o tiro vem do Resources e a arma é procurada nos filhos.
     [SerializeField] private GameObject tiroPrefab;
@@ -328,6 +330,15 @@ public class EnemyMove : MonoBehaviour, IDamageable
         return duracao > 0f ? duracao : DuracaoPadraoExplosao;
     }
 
+    // Integração (waves): chamado pelo GerenciadorDeWaves logo depois de o inimigo nascer.
+    public void AplicarDificuldade(int bonusDeVida, int danoDeTiro, float fatorVelocidade, float fatorCadencia)
+    {
+        vida += bonusDeVida;
+        danoDoTiro = danoDeTiro;
+        velocidade *= fatorVelocidade;
+        fireHate /= fatorCadencia;
+    }
+
     // Atira um tiro na direção do player (se há alvo, prefab e arma) e depois espera fireHate para poder atirar de novo.
        IEnumerator Shoot()
     {
@@ -350,6 +361,10 @@ public class EnemyMove : MonoBehaviour, IDamageable
             if (shot != null)
             {
                 shot.Configurar(TagInimigo, false);
+                if (danoDoTiro > 0)
+                {
+                    shot.dano = danoDoTiro;
+                }
             }
 
             AoAtirar?.Invoke(this);

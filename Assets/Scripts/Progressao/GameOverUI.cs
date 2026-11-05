@@ -20,6 +20,8 @@ public class GameOverUI : MonoBehaviour
     // Tempo (unscaled, o jogo está parado) em que os botões ignoram clique depois de a tela abrir:
     // evita escolher sem querer por causa de clique rápido do tiro.
     private const float TempoAntesDeAceitarClique = 0.5f;
+    // Classe que dispara a entrada animada da tela (transição definida no GameOver.uss).
+    private const string ClasseVisivel = "go-raiz--visivel";
     private float aceitaCliqueEm;
 
     // Integração (waves): "Wave alcançada" e, no Infinito, "Recorde". Sem GerenciadorDeWaves ficam escondidos.
@@ -27,6 +29,14 @@ public class GameOverUI : MonoBehaviour
     private Label recordeLabel;
     private Label rankingLabel;   // "Você entrou no ranking em Nº X" (só no Infinito, se entrou no top 5)
     private GerenciadorDeWaves waves;
+
+    // Resumo da partida: frase de fechamento, abates e tempo jogado (Time.time não anda nas pausas, então elas não contam).
+    private Label subtituloLabel;
+    private Label abatesLabel;
+    private Label tempoLabel;
+    private int abates;
+    private float inicioDaPartida = -1f;
+    private float tempoDePartida;
 
     // Se a tela deve aparecer no estado atual do jogo (reaplicado quando a UI recarrega).
     private bool visivel;
@@ -66,6 +76,8 @@ public class GameOverUI : MonoBehaviour
         // Evento estático: precisa cancelar no OnDisable.
         GameManager.AoMudarEstado += TratarMudancaDeEstado;
         Leaderboard.AoRegistrar += TratarRankingRegistrado;
+        EnemyMove.AoMorrer += ContarAbate;
+        BossController.AoMorrer += ContarAbate;
     }
 
     // Cancela o que foi assinado no OnEnable.
@@ -73,6 +85,8 @@ public class GameOverUI : MonoBehaviour
     {
         GameManager.AoMudarEstado -= TratarMudancaDeEstado;
         Leaderboard.AoRegistrar -= TratarRankingRegistrado;
+        EnemyMove.AoMorrer -= ContarAbate;
+        BossController.AoMorrer -= ContarAbate;
     }
 
     // Guarda o PlayerXp e acha o GerenciadorDeWaves (opcional) para mostrar a wave e o recorde.
@@ -119,6 +133,9 @@ public class GameOverUI : MonoBehaviour
         waveLabel = root.Q<Label>("GameOverWave");
         recordeLabel = root.Q<Label>("GameOverRecorde");
         rankingLabel = root.Q<Label>("GameOverRanking");
+        subtituloLabel = root.Q<Label>("GameOverSubtitulo");
+        abatesLabel = root.Q<Label>("GameOverAbates");
+        tempoLabel = root.Q<Label>("GameOverTempo");
 
         if (raiz == null || levelLabel == null || jogarDeNovo == null)
         {
@@ -137,9 +154,29 @@ public class GameOverUI : MonoBehaviour
     // A tela só fica visível quando o estado do jogo é GameOver.
     private void TratarMudancaDeEstado(GameManager.GameState estado)
     {
+        if (estado == GameManager.GameState.OnPlay && inicioDaPartida < 0f)
+        {
+            inicioDaPartida = Time.time;
+        }
+
+        if (estado == GameManager.GameState.GameOver && inicioDaPartida >= 0f)
+        {
+            tempoDePartida = Time.time - inicioDaPartida;
+        }
+
         visivel = estado == GameManager.GameState.GameOver;
         aceitaCliqueEm = Time.unscaledTime + TempoAntesDeAceitarClique;
         Renderizar();
+    }
+
+    private void ContarAbate(EnemyMove inimigo)
+    {
+        abates++;
+    }
+
+    private void ContarAbate(BossController boss)
+    {
+        abates++;
     }
 
     // A ordem entre este script e o GerenciadorDeWaves no Game Over não é garantida: se o ranking só for
@@ -162,18 +199,65 @@ public class GameOverUI : MonoBehaviour
 
         if (visivel && levelLabel != null)
         {
-            levelLabel.text = playerXp != null ? "Level alcançado: " + playerXp.level : "Fim de jogo";
+            levelLabel.text = playerXp != null ? playerXp.level.ToString() : "-";
         }
 
         if (visivel)
         {
             RenderizarWaves();
+            RenderizarResumo();
         }
 
         raiz.style.display = visivel ? DisplayStyle.Flex : DisplayStyle.None;
+
+        // A classe entra no frame seguinte ao display: é a mudança de valor que faz a transição do USS rodar.
+        if (!visivel)
+        {
+            raiz.RemoveFromClassList(ClasseVisivel);
+        }
+        else if (!raiz.ClassListContains(ClasseVisivel))
+        {
+            raiz.schedule.Execute(() => raiz.AddToClassList(ClasseVisivel));
+        }
     }
 
-    // Integração (waves): "Wave alcançada: N" e, só no Infinito, "Recorde: R".
+    // Abates, tempo jogado (mm:ss) e a frase de fechamento.
+    private void RenderizarResumo()
+    {
+        if (abatesLabel != null)
+        {
+            abatesLabel.text = abates.ToString();
+        }
+
+        if (tempoLabel != null)
+        {
+            int segundos = Mathf.FloorToInt(tempoDePartida);
+            tempoLabel.text = (segundos / 60).ToString("00") + ":" + (segundos % 60).ToString("00");
+        }
+
+        if (subtituloLabel != null)
+        {
+            subtituloLabel.text = FraseDeFechamento();
+        }
+    }
+
+    private string FraseDeFechamento()
+    {
+        if (waves == null || waves.TotalDeWaves == 0)
+        {
+            return "Sua nave foi destruída.";
+        }
+
+        int faltam = waves.TotalDeWaves - waves.WaveAtual;
+        if (faltam <= 0)
+        {
+            return "Você caiu diante do boss final. Foi por pouco!";
+        }
+
+        return faltam == 1 ? "Faltou só 1 wave para o boss final." : "Faltaram " + faltam + " waves para o boss final.";
+    }
+
+    // Integração (waves): wave alcançada (card "WAVE") e, só no Infinito, "Recorde: R".
     private void RenderizarWaves()
     {
         if (waves == null)
@@ -186,10 +270,11 @@ public class GameOverUI : MonoBehaviour
 
         if (waveLabel != null)
         {
-            waveLabel.style.display = temWaves ? DisplayStyle.Flex : DisplayStyle.None;
+            // Esconde o card inteiro, não só o número.
+            waveLabel.parent.style.display = temWaves ? DisplayStyle.Flex : DisplayStyle.None;
             if (temWaves)
             {
-                waveLabel.text = "Wave alcançada: " + waves.WaveAtual;
+                waveLabel.text = waves.TotalDeWaves > 0 ? waves.WaveAtual + "/" + waves.TotalDeWaves : waves.WaveAtual.ToString();
             }
         }
 
@@ -198,7 +283,7 @@ public class GameOverUI : MonoBehaviour
             recordeLabel.style.display = infinito ? DisplayStyle.Flex : DisplayStyle.None;
             if (infinito)
             {
-                recordeLabel.text = "Recorde: " + GerenciadorDeWaves.Recorde;
+                recordeLabel.text = "Recorde: wave " + GerenciadorDeWaves.Recorde;
             }
         }
 
@@ -229,6 +314,7 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
+        GerenciadorDeSom.TocarClique();
         GameManager.Instance.JogarDeNovo();
     }
 
@@ -246,6 +332,7 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
+        GerenciadorDeSom.TocarClique();
         GameManager.Instance.VoltarAoMenu();
     }
 

@@ -1,11 +1,11 @@
 using UnityEngine;
 
 // Jeitos de o boss se mover: Oscilar (balança em volta de onde nasceu), Seguir (persegue o player)
-// e Rondar (gira em volta dele).
-// Integração: Rondar foi adicionado NO FIM do enum (o padrão é salvo como número nas cenas).
-public enum PadraoBoss { Oscilar, Seguir, Rondar }
+// e Rondar (gira em volta dele). Cacador, Serpente e Espectro alternam modos: ver BossController.Movimentos.cs.
+// Integração: valores novos sempre NO FIM do enum (o padrão é salvo como número nas cenas e prefabs).
+public enum PadraoBoss { Oscilar, Seguir, Rondar, Cacador, Serpente, Espectro }
 
-public class BossController : MonoBehaviour, IDamageable
+public partial class BossController : MonoBehaviour, IDamageable
 // Este script controla o comportamento do boss, incluindo movimento, tiro e vida. Ele implementa a interface IDamageable para receber dano de tiros.
 {
     // Integração: tag dos inimigos (a mesma do EnemyMove). O Shot ignora quem tem a mesma tag de quem atirou,
@@ -23,9 +23,17 @@ public class BossController : MonoBehaviour, IDamageable
     private const float IntervaloTiroMinimo = 0.3f;
     private const int QuantidadeTirosMaxima = 15;
 
+    private const float TamanhoDaExplosaoCentral = 2.5f;
+    private const float TamanhoDasExplosoesLaterais = 1.5f;
+    private static readonly Vector3 DesvioDaExplosaoLateral = new Vector3(0.8f, 0.4f, 0f);
+
     // Integração: avisado quando QUALQUER boss morre (ControladorDeBoss, GerenciadorDeSom). Evento estático:
     // quem assinar precisa cancelar no OnDisable.
     public static event System.Action<BossController> AoMorrer;
+    // Avisos para o som: o boss atirou, vai dar um ataque forte (investida ou laser) e disparou o laser. Mesmas regras do AoMorrer.
+    public static event System.Action<BossController> AoAtirar;
+    public static event System.Action<BossController> AoAvisarAtaque;
+    public static event System.Action<BossController> AoDispararLaser;
 
     [Header("Referências")]
     // Integração: mantido por compatibilidade com a cena do Samuel. O estado do jogo agora vem de EstadoDoJogo.
@@ -57,6 +65,8 @@ public class BossController : MonoBehaviour, IDamageable
     public float anguloBase = 0f;
     // Integração: true = o leque de tiros é centrado na direção do player; false = usa a rotação da arma (como antes).
     public bool mirarNoPlayer = true;
+    // Dano de cada tiro do boss (o que vale é este, não o do prefab do tiro). O Fortalecer soma 1 a cada 2 bosses.
+    public int danoDoTiro = 2;
 
     // Onde o boss nasceu (centro do Oscilar), relógio do movimento e cronômetro até o próximo disparo.
     private Vector3 posicaoInicial;
@@ -69,6 +79,7 @@ public class BossController : MonoBehaviour, IDamageable
     private float intervaloTiroBase;
     private int quantidadeTirosBase;
     private float velocidadeBase;
+    private int danoDoTiroBase;
 
     // Integração: estado do padrão Rondar, da busca do alvo e da morte.
     private float anguloRondar;
@@ -87,6 +98,9 @@ public class BossController : MonoBehaviour, IDamageable
         intervaloTiroBase = intervaloTiro;
         quantidadeTirosBase = quantidadeTiros;
         velocidadeBase = velocidade;
+        danoDoTiroBase = danoDoTiro;
+
+        PrepararModos();
     }
 
     // Guarda onde o boss nasceu, procura o player e usa o próprio boss como arma se não houver 'gun'.
@@ -126,8 +140,9 @@ public class BossController : MonoBehaviour, IDamageable
         // Integração (waves/Infinito): limites para os bosses não ficarem impossíveis. Se o valor de fábrica já
         // passa do limite, ele é mantido (o Fortalecer nunca deixa o boss mais fraco que o prefab).
         intervaloTiro = Mathf.Max(Mathf.Min(IntervaloTiroMinimo, intervaloTiroBase), intervaloTiroBase * Mathf.Pow(0.8f, indice));
-        quantidadeTiros = Mathf.Min(Mathf.Max(QuantidadeTirosMaxima, quantidadeTirosBase), quantidadeTirosBase + 2 * indice);
+        quantidadeTiros = Mathf.Min(Mathf.Max(QuantidadeTirosMaxima, quantidadeTirosBase), quantidadeTirosBase + indice);
         velocidade = velocidadeBase * (1f + 0.1f * indice);
+        danoDoTiro = danoDoTiroBase + indice / 2;
     }
 
     // Se ainda não há alvo, usa o player da cena.
@@ -197,6 +212,12 @@ public class BossController : MonoBehaviour, IDamageable
 
                 Rondar();
                 break;
+
+            case PadraoBoss.Cacador:
+            case PadraoBoss.Serpente:
+            case PadraoBoss.Espectro:
+                MoverComModos();
+                break;
                 // Se quiser adicionar mais padrões de movimento, é só colocar mais cases aqui.
         }
     }
@@ -205,12 +226,7 @@ public class BossController : MonoBehaviour, IDamageable
     // (assim ele chega do lugar onde nasceu, sem pular para outro lado).
     void Rondar()
     {
-        if (!rondaIniciada)
-        {
-            Vector2 relativa = transform.position - target.position;
-            anguloRondar = relativa.sqrMagnitude > 0.0001f ? Mathf.Atan2(relativa.y, relativa.x) : 0f;
-            rondaIniciada = true;
-        }
+        IniciarAnguloDaRonda();
 
         float raio = Mathf.Max(0.1f, distanciaRondar);
 
@@ -232,14 +248,14 @@ public class BossController : MonoBehaviour, IDamageable
     {
         // Integração: só conta o tempo do tiro com o boss dentro da tela
         // (ele nasce fora da câmera e não deve atirar de onde o player não vê).
-        if (!EstaNaTela())
+        if (!EstaNaTela() || !PodeAtirarNoModo)
         {
             return;
         }
 
         timerTiro += Time.deltaTime;
 
-        if (timerTiro >= intervaloTiro)
+        if (timerTiro >= intervaloTiro * FatorDoIntervaloDeTiro)
         {
             timerTiro = 0f;
             Disparar();
@@ -294,16 +310,23 @@ public class BossController : MonoBehaviour, IDamageable
             float angulo = anguloInicial + (i * anguloEntreTiros) + anguloBase;
 
             // Multiplicar rotações = gira a mira por mais este ângulo.
-            Quaternion rotacao = mira * Quaternion.Euler(0, 0, angulo);
-            GameObject tiro = Instantiate(tiroPrefab, gun.position, rotacao);
-          //Isso faz com que o tiro seja instanciado na posição da arma, com a rotação da mira mais o ângulo calculado para cada tiro do leque.
+            CriarTiro(mira * Quaternion.Euler(0, 0, angulo));
+        }
 
-            // Integração: tiro de inimigo (não acerta inimigos nem explode minas), igual ao EnemyMove.
-            Shot shot = tiro.GetComponent<Shot>();
-            if (shot != null)
-            {
-                shot.Configurar(TagInimigo, false);
-            }
+        AoAtirar?.Invoke(this);
+    }
+
+    // Cria um tiro na posição da arma, com a rotação pedida.
+    void CriarTiro(Quaternion rotacao)
+    {
+        GameObject tiro = Instantiate(tiroPrefab, gun.position, rotacao);
+
+        // Integração: tiro de inimigo (não acerta inimigos nem explode minas), igual ao EnemyMove.
+        Shot shot = tiro.GetComponent<Shot>();
+        if (shot != null)
+        {
+            shot.Configurar(TagInimigo, false);
+            shot.dano = danoDoTiro;
         }
     }
 
@@ -320,6 +343,7 @@ public class BossController : MonoBehaviour, IDamageable
         if (vida < 1)
         {
             morreu = true;
+            CriarExplosaoDeMorte();
 
             // try/finally: o Destroy acontece mesmo se um assinante de AoMorrer lançar exceção (igual ao EnemyMove).
             try
@@ -332,5 +356,12 @@ public class BossController : MonoBehaviour, IDamageable
             }
         }
     }
+    private void CriarExplosaoDeMorte()
+    {
+        EfeitoDeExplosao.Criar(transform.position, TamanhoDaExplosaoCentral);
+        EfeitoDeExplosao.Criar(transform.position + DesvioDaExplosaoLateral, TamanhoDasExplosoesLaterais);
+        EfeitoDeExplosao.Criar(transform.position - DesvioDaExplosaoLateral, TamanhoDasExplosoesLaterais);
+    }
+
     // O método TakeDamage é chamado quando o boss leva dano. Ele diminui a vida do boss e, se a vida chegar a zero, destrói o objeto do boss.
 }

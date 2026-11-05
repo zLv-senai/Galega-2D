@@ -139,8 +139,8 @@ MonoBehaviour:
   target: {fileID: 0}
   tiroPrefab: {fileID: 960047798959333541, guid: 4ef4f9e849b48f8438d5c68b67a86003, type: 3}
   gun: {fileID: 4578828424817124381}
-  vida: 60
-  padrao: 2
+  vida: 200
+  padrao: 4
   velocidade: 2
   amplitudeX: 3
   amplitudeY: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   anguloEntreTiros: 15
   anguloBase: 0
   mirarNoPlayer: 1
+  danoDoTiro: 2
 --- !u!114 &7468028467482735376
 MonoBehaviour:
   m_ObjectHideFlags: 0
