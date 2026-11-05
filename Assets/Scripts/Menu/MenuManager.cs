@@ -157,7 +157,7 @@ public class MenuManager : MonoBehaviour
     {
         if (fundo != null)
         {
-            Destroy(fundo.gameObject);
+            fundo.Encerrar();
         }
     }
 
@@ -466,6 +466,7 @@ public class MenuManager : MonoBehaviour
     // Integração: guarda o nome e o modo escolhidos (o GerenciadorDeWaves lê ao entrar em OnPlay) e começa o jogo.
     private void IniciarPartida(ModoDeJogo modo)
     {
+        DestruirFundo();
         // Nas cenas em que o campo não foi arrastado no Inspector, usa o GameManager da cena.
         GameManager gm = gameManager != null ? gameManager : GameManager.Instance;
         if (gm == null)
