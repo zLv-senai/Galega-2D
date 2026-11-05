@@ -283,6 +283,15 @@
     transition-timing-function: ease-out-cubic;
 }
 
+/* Entrada da nave (EntradaDaNave.cs): o planeta sai pela esquerda. O seletor com .roda-raiz vence o
+   .roda-bola.anim-transicao do Tema.uss (transition-property e duração). */
+.roda-raiz .roda-bola.roda-bola--saindo {
+    translate: -1400px 0;
+    transition-property: translate;
+    transition-duration: 0.6s;
+    transition-timing-function: ease-in-cubic;
+}
+
 /* Faixa suave atrás da opção selecionada (centro em y = 425): gradiente da borda da bola (x = 500) até x = 1100. */
 .roda-faixa {
     position: absolute;

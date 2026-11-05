@@ -44,6 +44,9 @@ public class MenuManager : MonoBehaviour
     private RodaDeOpcoes roda;
     // Gameplay decorativa de fundo (só com a roda): criada com o menu e destruída ao começar a partida.
     private FundoDoMenu fundo;
+    // True durante a entrada da nave (depois dos controles, antes do jogo): a roda não ouve teclado nem mouse.
+    private bool entrandoEmCena;
+    private const string ClasseDeSaidaDoPlaneta = "roda-bola--saindo";
     private const float CentroYDaRoda = 425f;   // meio da área acima do rodapé, na referência 1920x1080
     private static readonly string[] DescricoesDaRoda =
     {
@@ -162,7 +165,7 @@ public class MenuManager : MonoBehaviour
     // mudam a opção; Enter ou botão esquerdo confirmam. Com um subpainel aberto a roda não ouve nada (o campo de nome recebe texto).
     private void LerEntradaDaRoda()
     {
-        if (roda == null || !PainelPrincipalVisivel())
+        if (roda == null || entrandoEmCena || !PainelPrincipalVisivel())
         {
             return;
         }
@@ -419,7 +422,36 @@ public class MenuManager : MonoBehaviour
     private void ComecarDepoisDosControles()
     {
         telaDeControles.SetActive(false);
-        IniciarPartida(modoEscolhido);
+        if (roda == null)
+        {
+            IniciarPartida(modoEscolhido);
+            return;
+        }
+
+        // Com a roda: só o planeta fica à mostra e a nave real sai de trás dele; o jogo começa quando ela chega.
+        DestruirFundo();
+        MostrarSoOPlaneta();
+        entrandoEmCena = true;
+        EntradaDaNave.Iniciar(raizDoMenu.Q<VisualElement>("BolaMenu"), () =>
+        {
+            entrandoEmCena = false;
+            IniciarPartida(modoEscolhido);
+        });
+    }
+
+    // Raiz e painel principal visíveis, mas sem a roda, a faixa, o título, o rodapé e os subpainéis.
+    private void MostrarSoOPlaneta()
+    {
+        raizDoMenu.style.display = DisplayStyle.Flex;
+        MostrarPainel(painelPrincipal);
+        foreach (string nome in new[] { "FaixaMenu", "RodaOpcoes", "Title", "RodaRodape" })
+        {
+            VisualElement elemento = raizDoMenu.Q<VisualElement>(nome);
+            if (elemento != null)
+            {
+                elemento.style.display = DisplayStyle.None;
+            }
+        }
     }
 
     private void VoltarDosControles()
@@ -452,6 +484,13 @@ public class MenuManager : MonoBehaviour
         // Sem o campo (UXML antigo), o nome vira o padrão "Piloto".
         ConfiguracaoDePartida.DefinirNome(campoNome != null ? campoNome.value : null);
         ConfiguracaoDePartida.Modo = modo;
+
+        // Esconde tudo o que restou do menu, inclusive o planeta (e tira a classe de saída, para não ficar presa).
+        if (roda != null)
+        {
+            raizDoMenu.style.display = DisplayStyle.None;
+            raizDoMenu.Q<VisualElement>("BolaMenu")?.RemoveFromClassList(ClasseDeSaidaDoPlaneta);
+        }
 
         gm.SetGameState(GameManager.GameState.OnPlay);
     }
