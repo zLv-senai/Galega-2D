@@ -32,7 +32,7 @@ Material:
     - _ParallaxStrength: 4
     - _TrailLength: 1
     m_Colors:
-    - _CamPos: {r: 24.55595, g: -2.3989809, b: -10, a: 0}
+    - _CamPos: {r: 23.974583, g: -18.12537, b: -10, a: 0}
     - _CamVelocity: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

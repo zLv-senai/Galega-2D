@@ -68,10 +68,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-color: rgb(20, 24, 52);
+    background-color: #00002F;
     border-width: 5px;
     border-radius: 16px;
-    border-color: rgb(160, 160, 170);
+    border-color: #FF00EC;
     color: rgb(255, 255, 255);
     -unity-text-align: upper-center;
     transition-property: scale, background-color;
@@ -80,12 +80,12 @@
 
 .lv-cards .lv-card:hover {
     scale: 1.06 1.06;
-    background-color: rgb(34, 40, 82);
+    background-color: #071561;
 }
 
 .lv-cards .lv-card:active {
     scale: 0.98 0.98;
-    background-color: rgb(46, 54, 104);
+    background-color: #0e3063;
 }
 
 /* Card selecionado (aguardando Confirmar): destacado, maior e com borda grossa. Fica depois do :hover/:active para vencer. */
@@ -94,7 +94,7 @@
 .lv-cards .lv-card.lv-card-selecionado:active {
     scale: 1.1 1.1;
     border-width: 8px;
-    background-color: rgb(52, 62, 120);
+    background-color: #0e3063;
 }
 
 /* Botão Confirmar: verde quando habilitado, apagado enquanto nenhum card foi selecionado. */
@@ -105,15 +105,15 @@
     font-size: 34px;
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
-    background-color: rgb(36, 150, 76);
+    background-color: #bcbcbc05;
     border-width: 4px;
     border-radius: 14px;
-    border-color: rgb(130, 235, 160);
+    border-color: #42BCB8;
 }
 
 .lv-raiz .lv-confirmar:hover {
-    background-color: rgb(50, 185, 96);
-    border-color: rgb(190, 250, 205);
+    background-color: #42e5eb96;
+    border-color: #33c5a6;
 }
 
 .lv-raiz .lv-confirmar:active {
@@ -143,7 +143,9 @@
 
 .lv-card-nome {
     margin: 0 0 14px 0;
-    color: rgb(255, 255, 255);
+    color: #C92AAD;
+    border: 1px;
+    border-color: #42BCB8;
     font-size: 32px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
