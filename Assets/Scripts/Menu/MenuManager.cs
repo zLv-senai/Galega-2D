@@ -173,7 +173,7 @@ public class MenuManager : MonoBehaviour
             botoes.Add(botao);
         }
 
-        return new RodaDeOpcoes(botoes, DescricoesDaRoda, root.Q<Label>("RodaDescricao"), CentroYDaRoda);
+        return new RodaDeOpcoes(botoes, DescricoesDaRoda, root.Q<Label>("RodaDescricao"), CentroYDaRoda, root.Q<VisualElement>("BolaMenu"));
     }
 
     // Roda quando a UI é criada ou recriada: busca os painéis, liga os botões e volta para o menu principal.

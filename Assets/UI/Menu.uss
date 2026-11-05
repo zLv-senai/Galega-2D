@@ -278,6 +278,9 @@
     height: 1250px;
     background-image: url("project://database/Assets/Images/Menu/bola-menu.png");
     -unity-background-scale-mode: scale-to-fit;
+    transition-property: rotate;
+    transition-duration: 0.35s;
+    transition-timing-function: ease-out-cubic;
 }
 
 /* Faixa suave atrás da opção selecionada (centro em y = 425): gradiente da borda da bola (x = 500) até x = 1100. */

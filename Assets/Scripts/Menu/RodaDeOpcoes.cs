@@ -21,6 +21,9 @@ public sealed class RodaDeOpcoes
     // O scroll muda no máximo 1 passo por intervalo (a roda do mouse dispara vários eventos por clique).
     private const float IntervaloDoScroll = 0.13f;
 
+    // Giro do planeta por passo da roda (acumulado: a volta circular das opções não inverte o sentido).
+    private const float GrausPorPasso = 30f;
+
     private const string ClasseItem = "roda-item";
     private const string ClasseSelecionado = "roda-item--selecionado";
 
@@ -28,12 +31,15 @@ public sealed class RodaDeOpcoes
     private readonly string[] descricoes;
     private readonly Label rotuloDescricao;
     private readonly float centroY;
+    private readonly VisualElement bola;
+    private float anguloDaBola;
     private int selecionado;
     private float proximoScroll;
 
     // botoes na ordem da roda; descricoes (opcional) e rotuloDescricao mostram o texto da opção selecionada.
-    public RodaDeOpcoes(List<Button> botoes, string[] descricoes, Label rotuloDescricao, float centroY)
+    public RodaDeOpcoes(List<Button> botoes, string[] descricoes, Label rotuloDescricao, float centroY, VisualElement bola = null)
     {
+        this.bola = bola;
         this.botoes = botoes;
         this.descricoes = descricoes;
         this.rotuloDescricao = rotuloDescricao;
@@ -113,9 +119,16 @@ public sealed class RodaDeOpcoes
         Aplicar(0);
     }
 
+    // direcao +1 = opção de baixo (planeta gira no sentido horário), -1 = opção de cima (anti-horário).
     public void Passo(int direcao)
     {
+        int antes = selecionado;
         Selecionar(selecionado + direcao);
+        if (bola != null && selecionado != antes)
+        {
+            anguloDaBola += Mathf.Sign(direcao) * GrausPorPasso;
+            bola.style.rotate = new Rotate(new Angle(anguloDaBola, AngleUnit.Degree));
+        }
     }
 
     // Dispara o clique do botão selecionado, como se o jogador tivesse clicado nele.

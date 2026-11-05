@@ -143,7 +143,7 @@ public class MenuDePausa : MonoBehaviour
             botoes.Add(botao);
         }
 
-        return new RodaDeOpcoes(botoes, null, null, CentroYDaRoda);
+        return new RodaDeOpcoes(botoes, null, null, CentroYDaRoda, root.Q<VisualElement>("BolaMenu"));
     }
 
     // True no frame em que ESC, P ou Enter foi apertado (precisa de teclado conectado).
