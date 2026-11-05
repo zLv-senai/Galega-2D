@@ -39,6 +39,20 @@ public class MenuManager : MonoBehaviour
     private PainelDeVolumes volumes;
     private int versaoUi = -1;
 
+    // Menu em roda (MenuRoda.uxml): só existe se o UXML tiver o elemento "RodaOpcoes"; sem ele (MainMenu.uxml) tudo
+    // funciona como antes, só pelos cliques.
+    private RodaDeOpcoes roda;
+    private float proximoScrollDaRoda;
+    private const float IntervaloScrollDaRoda = 0.13f;
+    private const float CentroYDaRoda = 425f;   // meio da área acima do rodapé, na referência 1920x1080
+    private static readonly string[] DescricoesDaRoda =
+    {
+        "Escolha o modo e comece a partida.",
+        "Veja as maiores ondas do modo Infinito.",
+        "Ajuste os volumes e a tela cheia.",
+        "Fecha o jogo.",
+    };
+
     // Registra o OnUIReload, que monta o menu quando o PanelRenderer carrega o UXML.
     private void Awake()
     {
@@ -69,8 +83,14 @@ public class MenuManager : MonoBehaviour
     private void LateUpdate()
     {
         Keyboard teclado = Keyboard.current;
-        if (teclado == null || telaDeControles == null || !telaDeControles.activeSelf)
+        if (teclado == null)
         {
+            return;
+        }
+
+        if (telaDeControles == null || !telaDeControles.activeSelf)
+        {
+            LerEntradaDaRoda(teclado);
             return;
         }
 
@@ -82,6 +102,76 @@ public class MenuManager : MonoBehaviour
         {
             VoltarDosControles();
         }
+    }
+
+    // Menu em roda: com o painel principal à mostra (sem subpainel e sem tela de controles), as setas, W/S e o scroll
+    // mudam a opção e Enter confirma. Com um subpainel aberto as teclas não mexem na roda (o campo de nome recebe texto).
+    private void LerEntradaDaRoda(Keyboard teclado)
+    {
+        if (roda == null || !PainelPrincipalVisivel())
+        {
+            return;
+        }
+
+        if (teclado.downArrowKey.wasPressedThisFrame || teclado.sKey.wasPressedThisFrame)
+        {
+            roda.Passo(1);
+        }
+        else if (teclado.upArrowKey.wasPressedThisFrame || teclado.wKey.wasPressedThisFrame)
+        {
+            roda.Passo(-1);
+        }
+
+        Mouse mouse = Mouse.current;
+        float scroll = mouse != null ? mouse.scroll.ReadValue().y : 0f;
+        if (scroll != 0f && Time.unscaledTime >= proximoScrollDaRoda)
+        {
+            proximoScrollDaRoda = Time.unscaledTime + IntervaloScrollDaRoda;
+            roda.Passo(scroll < 0f ? 1 : -1);
+        }
+
+        if (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame)
+        {
+            roda.Confirmar();
+        }
+    }
+
+    // True no estado Menu, com o painel principal visível (os outros painéis e a tela de controles fechados).
+    private bool PainelPrincipalVisivel()
+    {
+        GameManager gm = gameManager != null ? gameManager : GameManager.Instance;
+        if (gm != null && gm.gameState != GameManager.GameState.Menu)
+        {
+            return false;
+        }
+
+        return painelPrincipal != null && raizDoMenu != null
+            && raizDoMenu.resolvedStyle.display != DisplayStyle.None
+            && painelPrincipal.resolvedStyle.display != DisplayStyle.None;
+    }
+
+    // Monta a roda se o UXML tiver o "RodaOpcoes"; devolve null no MainMenu.uxml.
+    private static RodaDeOpcoes CriarRoda(VisualElement root)
+    {
+        if (root.Q<VisualElement>("RodaOpcoes") == null)
+        {
+            return null;
+        }
+
+        List<Button> botoes = new List<Button>();
+        foreach (string nome in new[] { "Play_btt", "Leaderboard_btt", "Reset_btt", "Quit_btt" })
+        {
+            Button botao = root.Q<Button>(nome);
+            if (botao == null)
+            {
+                Debug.LogWarning("MenuManager: botão  + nome +  não encontrado, a roda do menu não foi criada.");
+                return null;
+            }
+
+            botoes.Add(botao);
+        }
+
+        return new RodaDeOpcoes(botoes, DescricoesDaRoda, root.Q<Label>("RodaDescricao"), CentroYDaRoda);
     }
 
     // Roda quando a UI é criada ou recriada: busca os painéis, liga os botões e volta para o menu principal.
@@ -132,6 +222,7 @@ public class MenuManager : MonoBehaviour
         volumes = new PainelDeVolumes(root);
         LigarClique(root, "VoltarSettings_btt", OnVoltarSettingsClicked);
 
+        roda = CriarRoda(root);
         SomDeInterface.Ligar(root);
 
         // A árvore nova começa no menu principal.

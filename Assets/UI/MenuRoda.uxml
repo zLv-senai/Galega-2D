@@ -2,16 +2,23 @@
     <Style src="project://database/Assets/UI/Tema.uss?fileID=7433441132597879392&amp;guid=f9dbec2f11f65c7caf30d098af8936ce&amp;type=3#Tema"/>
     <Style src="project://database/Assets/UI/Menu.uss?fileID=7433441132597879392&amp;guid=abef5d96a7eebb3419759bb589f9e0c4&amp;type=3#Menu"/>
     <ui:VisualElement name="MainMenu" style="flex-grow: 1; align-items: center; justify-content: center; display: flex;">
-        <!-- Menu principal (Wagner): Play, Leaderboard, Settings, Exit. "Reset_btt" é o nome antigo do botão, hoje abre o Settings. -->
-        <ui:GroupBox name="containerMenu" class="moldura-tema" style="flex-grow: 1; flex-shrink: 0; min-width: 50%; min-height: 50%; max-height: 70%; max-width: 70%;">
-            <ui:Label text="Menu" name="Title" style="color: rgb(193, 112, 207); font-size: 180px; -unity-text-align: middle-center; flex-shrink: 1; -unity-font-style: bold; flex-direction: column; -unity-text-outline-width: 8px; -unity-text-outline-color: rgb(153, 0, 178); letter-spacing: 8px; text-shadow: -18px 10px 0 rgb(197, 126, 221); -unity-text-auto-size: best-fit 100px 180px; padding-top: 25px; padding-bottom: 25px; padding-left: 10px; padding-right: 10px; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0;"/>
-            <ui:GroupBox name="containerButons" style="padding-left: 0; padding-bottom: 0; margin-top: 40px; margin-bottom: 40px; margin-left: 20px; margin-right: 20px; padding-top: 0; align-self: auto; justify-content: center; align-items: center; align-content: flex-start; flex-direction: column; height: auto; flex-grow: 1; backdrop-filter: none;">
-                <ui:Button text="Jogar" name="Play_btt" class="button"/>
-                <ui:Button text="Ranking" name="Leaderboard_btt" class="button"/>
-                <ui:Button text="Configurações" name="Reset_btt" class="button"/>
-                <ui:Button text="Sair" name="Quit_btt" class="button"/>
-            </ui:GroupBox>
-        </ui:GroupBox>
+        <!-- Menu principal em roda: bola grande à esquerda, opções em arco (posicionadas pelo RodaDeOpcoes.cs), faixa de destaque e rodapé
+             com a descrição. "Reset_btt" é o nome antigo do botão, hoje abre as Configurações. O lado direito fica livre para o fundo animado. -->
+        <ui:VisualElement name="containerMenu" class="roda-raiz">
+            <ui:VisualElement name="BolaMenu" class="roda-bola" picking-mode="Ignore"/>
+            <ui:VisualElement name="FaixaMenu" class="roda-faixa" picking-mode="Ignore"/>
+            <ui:Label text="Menu Principal" name="Title" class="roda-titulo" picking-mode="Ignore"/>
+            <ui:VisualElement name="RodaOpcoes" class="roda-opcoes" picking-mode="Ignore">
+                <ui:Button text="Jogar" name="Play_btt"/>
+                <ui:Button text="Ranking" name="Leaderboard_btt"/>
+                <ui:Button text="Configurações" name="Reset_btt"/>
+                <ui:Button text="Sair" name="Quit_btt"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="RodaRodape" class="roda-rodape" picking-mode="Ignore">
+                <ui:Label text="" name="RodaDescricao" class="roda-descricao" picking-mode="Ignore"/>
+                <ui:Label text="Setas ou W/S, ou o scroll, mudam. Enter ou clique confirmam." class="roda-dica" picking-mode="Ignore"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
 
         <!-- Play: escolha do modo (escondido; o MenuManager.cs troca os painéis por style.display) -->
         <ui:VisualElement name="PainelModo" class="moldura-menu">

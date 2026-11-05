@@ -258,3 +258,102 @@
 .toggle-config:checked .unity-toggle__checkmark {
     background-color: var(--amarelo);
 }
+
+/* ================================================================================================
+   Roda de opções (MenuRoda.uxml e PausaRoda.uxml), na resolução de referência 1920x1080.
+   Quem posiciona os itens (translate, scale e opacity) é o RodaDeOpcoes.cs; aqui ficam o visual e a transição.
+   ================================================================================================ */
+
+.roda-raiz {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Bola grande, metade fora da tela; a arte provisória pode ser trocada mantendo o caminho do arquivo. */
+.roda-bola {
+    position: absolute;
+    left: -750px;
+    top: -200px;
+    width: 1250px;
+    height: 1250px;
+    background-image: url("project://database/Assets/Images/Menu/bola-menu.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* Faixa horizontal atrás da opção selecionada (centro em y = 425). */
+.roda-faixa {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 362px;
+    height: 125px;
+    background-color: rgba(238, 117, 222, 0.30);
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-top-color: var(--amarelo);
+    border-bottom-color: var(--amarelo);
+}
+
+.roda-titulo {
+    position: absolute;
+    left: 60px;
+    top: 30px;
+    margin: 0;
+    color: var(--titulo);
+    font-size: 72px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 4px;
+    -unity-text-outline-color: var(--sombra-titulo);
+    letter-spacing: 4px;
+}
+
+.roda-opcoes {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Item da roda: botão posicionado por código a partir do canto superior esquerdo. */
+.unity-button.roda-item {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 640px;
+    height: 110px;
+    margin: 0;
+    padding: 0 0 0 44px;
+    font-size: 52px;
+    -unity-text-align: middle-left;
+    transition-property: translate, scale, opacity, background-color, border-color, color;
+    transition-duration: 0.18s;
+}
+
+.roda-rodape {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 230px;
+    padding: 28px 70px 0 70px;
+    background-color: var(--fundo-moldura);
+    border-top-width: 10px;
+    border-top-color: var(--roxo);
+}
+
+.roda-descricao {
+    margin: 0 0 14px 0;
+    color: var(--texto);
+    font-size: 40px;
+    white-space: normal;
+}
+
+.roda-dica {
+    margin: 0;
+    color: var(--lilas);
+    font-size: 26px;
+}

@@ -34,7 +34,8 @@
 .unity-button.go-botao,
 .unity-button.vit-botao,
 .unity-button.lv-confirmar,
-.unity-button.IniciarBtn {
+.unity-button.IniciarBtn,
+.unity-button.roda-item {
     color: var(--texto);
     background-color: var(--botao-fundo);
     background-image: none;
