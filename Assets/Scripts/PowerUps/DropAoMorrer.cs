@@ -13,6 +13,9 @@ public class DropAoMorrer : MonoBehaviour
     [SerializeField] private int waveDoFatorFinal = 15;
     [SerializeField] private PowerUpPickup pickupPrefab;
     [SerializeField] private TabelaDePowerUps tabela;
+    // Distância (em unidades) do ponto da morte onde o power-up nasce, em direção aleatória: a gema de XP nasce no
+    // ponto exato e, sem o deslocamento, a estrela do power-up aparecia dentro do anel da gema.
+    [SerializeField] private float distanciaDoDrop = 0.9f;
 
     private GerenciadorDeWaves waves;
 
@@ -46,7 +49,7 @@ public class DropAoMorrer : MonoBehaviour
     }
 
     // A cada inimigo morto, sorteia a chance; se passar, cria um pickup de power-up sorteado
-    // onde ele morreu.
+    // perto de onde ele morreu (deslocado, para não ficar em cima da gema de XP).
     private void TentarSoltar(EnemyMove inimigo)
     {
         if (inimigo == null || Random.value >= ChanceAtual())
@@ -66,7 +69,8 @@ public class DropAoMorrer : MonoBehaviour
             return;
         }
 
-        PowerUpPickup pickup = Instantiate(pickupPrefab, inimigo.transform.position, Quaternion.identity);
+        Vector3 posicao = inimigo.transform.position + (Vector3)(Random.insideUnitCircle.normalized * distanciaDoDrop);
+        PowerUpPickup pickup = Instantiate(pickupPrefab, posicao, Quaternion.identity);
         pickup.Configurar(sorteado);
     }
 }
