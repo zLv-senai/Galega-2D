@@ -17,6 +17,9 @@ public class GerenciadorDeSom : MonoBehaviour
     [SerializeField] private AudioClip danoNoPlayer;
     [SerializeField] private AudioClip explosaoPlayer;
     [SerializeField] private AudioClip cliqueMenu;
+    // Menus em roda: som ao mudar a seleção e ao confirmar (vazios = usa o cliqueMenu).
+    [SerializeField] private AudioClip navegarMenu;
+    [SerializeField] private AudioClip confirmarMenu;
 
     // Integração (boss): alerta quando a ameaça enche, explosão quando um boss morre e música de vitória.
     [Header("Boss")]
@@ -43,6 +46,7 @@ public class GerenciadorDeSom : MonoBehaviour
     private AudioSource fonteMusica;
     private float proximoTiroInimigo;
     private float proximoDanoNoPlayer;
+    private float proximaNavegacao;
 
     // As telas chamam TocarClique sem precisar achar este objeto.
     private static GerenciadorDeSom instancia;
@@ -171,8 +175,20 @@ public class GerenciadorDeSom : MonoBehaviour
     {
         if (instancia != null)
         {
-            instancia.Tocar(instancia.cliqueMenu, instancia.volumeEfeitos);
+            instancia.Tocar(instancia.confirmarMenu != null ? instancia.confirmarMenu : instancia.cliqueMenu, instancia.volumeEfeitos);
         }
+    }
+
+    // Som de passar de uma opção para outra; no máximo 1 a cada 0.04 s (o scroll e o mouse disparam rápido).
+    public static void TocarNavegacao()
+    {
+        if (instancia == null || instancia.navegarMenu == null || Time.unscaledTime < instancia.proximaNavegacao)
+        {
+            return;
+        }
+
+        instancia.proximaNavegacao = Time.unscaledTime + 0.04f;
+        instancia.Tocar(instancia.navegarMenu, instancia.volumeEfeitos);
     }
 
     // Som de dano no player, limitado a um por intervalo (vários tiros podem acertar no mesmo instante).
