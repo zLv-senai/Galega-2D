@@ -143,6 +143,7 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
+        SomDeInterface.Ligar(root);
         jogarDeNovo.RegisterCallback<ClickEvent>(OnJogarDeNovoClicked);
 
         // Opcionais: se o UXML não tiver esses botões, a tela continua funcionando só com o "Jogar novamente".
@@ -350,6 +351,7 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
+        GerenciadorDeSom.TocarClique();
         GameManager.Instance.Sair();
     }
 }

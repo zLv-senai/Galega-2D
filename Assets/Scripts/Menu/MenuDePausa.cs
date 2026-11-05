@@ -135,6 +135,8 @@ public class MenuDePausa : MonoBehaviour
         LigarClique(root, "MenuPausa_btt", OnMenuClicked);
         LigarClique(root, "SairPausa_btt", OnExitClicked);
 
+        SomDeInterface.Ligar(root);
+
         volumes = new PainelDeVolumes(root);
         LigarClique(root, "VoltarSettingsPausa_btt", OnVoltarSettingsClicked);
 

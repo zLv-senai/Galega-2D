@@ -124,6 +124,7 @@ public class LevelUpUI : MonoBehaviour
         subtituloLabel = root.Q<Label>("LevelUpSubtitulo");
         restantesLabel = root.Q<Label>("LevelUpRestantes");
         confirmarBotao = root.Q<Button>("LevelUpConfirmar");
+        SomDeInterface.Ligar(root);
 
         if (confirmarBotao != null)
         {
@@ -176,6 +177,7 @@ public class LevelUpUI : MonoBehaviour
             return;
         }
 
+        GerenciadorDeSom.TocarClique();
         selecionado = indice;
         Renderizar();
     }
@@ -188,6 +190,7 @@ public class LevelUpUI : MonoBehaviour
             return;
         }
 
+        GerenciadorDeSom.TocarClique();
         manager.Escolher(ofertaAtual[selecionado]);
     }
 

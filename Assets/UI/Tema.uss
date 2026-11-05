@@ -1,0 +1,93 @@
+/* Tema único das telas (menu, pausa, game over, vitória, level up e controles): paleta, moldura e estado dos botões.
+   Cada UXML importa este arquivo antes do seu próprio USS. */
+
+:root {
+    --roxo: rgba(125, 38, 255, 0.71);
+    --fundo-moldura: rgba(41, 28, 53, 0.88);
+    --botao-fundo: rgba(67, 25, 92, 0.85);
+    --botao-hover: rgba(155, 60, 235, 0.95);
+    --borda-botao: rgb(125, 38, 255);
+    --amarelo: rgb(255, 221, 87);
+    --lilas: rgb(226, 160, 244);
+    --titulo: rgb(193, 112, 207);
+    --sombra-titulo: rgb(153, 0, 178);
+    --texto: rgb(255, 255, 255);
+}
+
+/* ---- Moldura única ---- */
+
+.moldura-tema,
+.moldura-menu,
+.go-moldura,
+.vit-moldura {
+    color: var(--texto);
+    background-color: var(--fundo-moldura);
+    border-color: var(--roxo);
+    border-width: 10px;
+    border-radius: 25px;
+}
+
+/* ---- Botões: um estado só para todos ----
+   Os seletores com .unity-button (mais fortes que o estilo padrão do botão) vencem inclusive no :hover e no :active. */
+
+.unity-button.button,
+.unity-button.go-botao,
+.unity-button.vit-botao,
+.unity-button.lv-confirmar,
+.unity-button.IniciarBtn {
+    color: var(--texto);
+    background-color: var(--botao-fundo);
+    background-image: none;
+    border-color: var(--borda-botao);
+    border-width: 4px;
+    border-radius: 18px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 0;
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    scale: 1 1;
+    transition-property: scale, background-color, border-color, color;
+    transition-duration: 0.12s;
+}
+
+.unity-button.button:hover,
+.unity-button.go-botao:hover,
+.unity-button.vit-botao:hover,
+.unity-button.lv-confirmar:hover,
+.unity-button.IniciarBtn:hover,
+.unity-button.roda-item--selecionado {
+    color: var(--amarelo);
+    background-color: var(--botao-hover);
+    border-color: var(--amarelo);
+    scale: 1.04 1.04;
+}
+
+.unity-button.button:active,
+.unity-button.go-botao:active,
+.unity-button.vit-botao:active,
+.unity-button.lv-confirmar:active,
+.unity-button.IniciarBtn:active {
+    color: var(--amarelo);
+    background-color: var(--botao-hover);
+    border-color: var(--amarelo);
+    scale: 0.98 0.98;
+}
+
+/* Botão desligado (Confirmar do level up antes de escolher um card). */
+.unity-button.lv-confirmar:disabled {
+    color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(41, 28, 53, 0.7);
+    border-color: rgba(125, 38, 255, 0.45);
+    scale: 1 1;
+}
+
+/* ---- Cards (escolha do modo e level up): mesma linguagem de hover dos botões ---- */
+
+.card-modo:hover,
+.lv-cards .lv-card:hover {
+    background-color: var(--botao-hover);
+    scale: 1.04 1.04;
+}
+
+.card-modo:hover {
+    border-color: var(--amarelo);
+}

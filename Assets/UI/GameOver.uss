@@ -1,5 +1,5 @@
 /* Tela de Game Over no estilo arcade do menu: moldura roxa, título com sombra deslocada e botões de cantos opostos arredondados.
-   Tamanhos pensados para a resolução de referência do painel (1200 de largura, cerca de 675 de altura em 16:9). */
+   Cores, moldura e estado dos botões vêm do Tema.uss. Tamanhos pensados para a resolução de referência do painel (1920x1080). */
 
 /* Tela cheia escurecida. Fica escondida até o código mostrar (style.display = flex); entra com fade. */
 .go-raiz {
@@ -21,10 +21,6 @@
     max-height: 94%;
     padding: 12px 28px 22px 28px;
     align-items: center;
-    background-color: rgba(41, 28, 53, 0.88);
-    border-color: rgba(125, 38, 255, 0.71);
-    border-width: 10px;
-    border-radius: 25px;
     translate: 0 30px;
     transition: translate 0.4s ease-out;
 }
@@ -52,7 +48,7 @@
 
 .go-subtitulo {
     margin: 0 0 16px 0;
-    color: rgb(226, 160, 244);
+    color: var(--lilas);
     font-size: 28px;
     -unity-text-align: middle-center;
 }
@@ -87,7 +83,7 @@
 
 .go-rotulo {
     margin: 0;
-    color: rgb(226, 160, 244);
+    color: var(--lilas);
     font-size: 20px;
     letter-spacing: 4px;
     -unity-text-align: middle-center;
@@ -103,7 +99,7 @@
 }
 
 .go-ranking {
-    color: rgb(255, 215, 90);
+    color: var(--amarelo);
 }
 
 /* Linha com os 3 botões. */
@@ -114,62 +110,11 @@
     margin-top: 10px;
 }
 
-/* O seletor ".go-raiz .go-botao" é mais forte que o estilo padrão do botão (inclusive no :hover). */
+/* Layout dos botões; a aparência (cores, borda e hover) é do Tema.uss. */
 .go-raiz .go-botao {
     flex-grow: 1;
     flex-basis: 0;
     margin: 0 8px;
     padding: 14px 10px;
     font-size: 30px;
-    -unity-font-style: bold;
-    color: rgb(255, 255, 255);
-    background-color: rgb(125, 38, 200);
-    border-color: rgb(227, 75, 247);
-    border-top-width: 3px;
-    border-right-width: 6px;
-    border-bottom-width: 10px;
-    border-left-width: 6px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 28px;
-    border-bottom-left-radius: 0;
-}
-
-.go-raiz .go-botao:hover {
-    background-color: rgb(155, 60, 235);
-    border-color: rgb(245, 160, 255);
-}
-
-.go-raiz .go-botao:active {
-    background-color: rgb(95, 25, 160);
-}
-
-/* Menu principal: discreto, para o "Jogar novamente" continuar sendo o botão principal. */
-.go-raiz .go-botao-secundario {
-    background-color: rgb(70, 55, 95);
-    border-color: rgb(170, 150, 205);
-}
-
-.go-raiz .go-botao-secundario:hover {
-    background-color: rgb(95, 76, 128);
-    border-color: rgb(215, 200, 240);
-}
-
-.go-raiz .go-botao-secundario:active {
-    background-color: rgb(52, 40, 74);
-}
-
-/* Sair: vermelho escuro. */
-.go-raiz .go-botao-sair {
-    background-color: rgb(140, 36, 62);
-    border-color: rgb(255, 130, 160);
-}
-
-.go-raiz .go-botao-sair:hover {
-    background-color: rgb(180, 50, 82);
-    border-color: rgb(255, 185, 205);
-}
-
-.go-raiz .go-botao-sair:active {
-    background-color: rgb(104, 26, 46);
 }

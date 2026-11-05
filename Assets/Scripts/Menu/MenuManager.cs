@@ -60,6 +60,7 @@ public class MenuManager : MonoBehaviour
         }
 
         versaoUiControles = version;
+        SomDeInterface.Ligar(root);
         LigarClique(root, BotaoIniciar, iniciarEvt => ComecarDepoisDosControles());
     }
 
@@ -130,6 +131,8 @@ public class MenuManager : MonoBehaviour
         // Settings
         volumes = new PainelDeVolumes(root);
         LigarClique(root, "VoltarSettings_btt", OnVoltarSettingsClicked);
+
+        SomDeInterface.Ligar(root);
 
         // A árvore nova começa no menu principal.
         MostrarPainel(painelPrincipal);

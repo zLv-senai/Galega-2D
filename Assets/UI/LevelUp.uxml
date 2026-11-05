@@ -1,4 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Tema.uss?fileID=7433441132597879392&amp;guid=f9dbec2f11f65c7caf30d098af8936ce&amp;type=3#Tema"/>
     <Style src="LevelUp.uss" />
     <!-- Tela cheia escurecida; escondida por padrão (o LevelUpUI.cs mostra com style.display) -->
     <ui:VisualElement name="LevelUpRaiz" class="lv-raiz">

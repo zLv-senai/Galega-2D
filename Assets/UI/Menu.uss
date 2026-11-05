@@ -1,60 +1,24 @@
 :root {
 }
 
+/* Layout dos botões. Cores, borda e hover vêm do Tema.uss (estado único de todas as telas). */
 .button {
-    justify-content: flex-start;
+    justify-content: center;
     align-self: center;
     align-content: auto;
-    align-items: stretch;
+    align-items: center;
     flex-grow: 0;
-    /* Integração: largura mínima para o texto "Leaderboard" caber no botão (antes: min-width auto). */
+    /* Integração: largura mínima para o texto "Configurações" caber no botão. */
     min-width: 460px;
     min-height: auto;
     max-width: none;
     width: 50%;
     height: auto;
     font-size: 45px;
-    -unity-font-style: bold;
-    -unity-text-outline-width: 2px;
-    -unity-text-outline-color: rgb(153, 0, 178);
-    text-shadow: -10px 8px 0 rgb(124, 79, 139);
-    color: rgba(0, 0, 0, 0);
-    background-color: rgba(118, 98, 117, 0.965);
-    border-top-width: 3px;
-    border-right-width: 6px;
-    border-bottom-width: 12px;
-    border-left-width: 6px;
-    border-top-left-radius: 45px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 45px;
-    border-bottom-left-radius: 0;
-    border-color: rgb(193, 112, 207);
-    letter-spacing: 10px;
-    /* Integração: espaçamento menor (era padding 20px e margin-bottom 45px) para caber o 4º botão (Infinito). */
+    letter-spacing: 4px;
+    padding-top: 14px;
     padding-bottom: 14px;
     margin-bottom: 24px;
-    padding-top: 14px;
-    background-image: url("project://database/Assets/Welcome/2d-template.png?fileID=3684732902739343859&guid=474ce57d7c1704418af05d72d996ae5e&type=3#2d-template_0");
-    background-size: auto auto;
-    backdrop-filter: none;
-}
-
-.button:hover {
-    -unity-text-outline-color: rgb(189, 0, 148);
-    text-shadow: -10px 8px 0 rgb(163, 80, 145);
-    border-color: rgb(238, 117, 222);
-}
-
-.button:hover {
-    -unity-text-outline-color: rgb(226, 18, 198);
-    text-shadow: -10px 8px 0 rgb(203, 129, 228);
-    color: rgba(143, 50, 187, 0.86);
-    background-color: rgba(67, 25, 92, 0.56);
-    border-color: rgb(227, 75, 247);
-    border-right-width: 8px;
-    border-bottom-width: 18px;
-    margin-bottom: 18px;
-    margin-right: 2px;
 }
 
 /* ================================================================================================
@@ -62,7 +26,7 @@
    Os painéis ficam escondidos (display: none); o MenuManager.cs mostra um de cada vez.
    ================================================================================================ */
 
-/* Moldura dos painéis: mesma aparência do containerMenu (que tem o estilo direto no MainMenu.uxml). */
+/* Moldura dos painéis: cor, borda e raio vêm do Tema.uss (.moldura-tema). */
 .moldura-menu {
     display: none;
     flex-direction: column;
@@ -71,11 +35,6 @@
     width: 80%;
     height: 85%;
     padding: 18px 28px 10px 28px;
-    color: rgba(255, 255, 255, 0.894);
-    background-color: rgba(41, 28, 53, 0.439);
-    border-color: rgba(125, 38, 255, 0.71);
-    border-width: 12px;
-    border-radius: 25px;
 }
 
 /* Título do painel: o "Menu" do Wagner em tamanho menor. */
@@ -83,12 +42,12 @@
     flex-shrink: 0;
     margin: 0 0 14px 0;
     padding: 6px 10px;
-    color: rgb(193, 112, 207);
+    color: var(--titulo);
     font-size: 72px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
     -unity-text-outline-width: 4px;
-    -unity-text-outline-color: rgb(153, 0, 178);
+    -unity-text-outline-color: var(--sombra-titulo);
     letter-spacing: 6px;
     text-shadow: -8px 6px 0 rgb(197, 126, 221);
 }
@@ -129,14 +88,14 @@
     font-size: 34px;
     -unity-text-align: middle-left;
     background-color: rgba(30, 14, 46, 0.9);
-    border-color: rgb(193, 112, 207);
+    border-color: var(--borda-botao);
     border-width: 3px;
     border-radius: 14px;
     --unity-cursor-color: rgb(255, 255, 255);
 }
 
 .campo-nome:focus .unity-base-text-field__input {
-    border-color: rgb(238, 117, 222);
+    border-color: var(--amarelo);
 }
 
 /* "Piloto" de fundo (placeholder): mais apagado que o texto digitado, para não parecer um nome já escrito. */
@@ -157,7 +116,7 @@
     margin-bottom: 14px;
 }
 
-/* Card do modo: botão grande clicável, com o formato do .button do Wagner (cantos opostos arredondados). */
+/* Card do modo: botão grande clicável, com a mesma linguagem dos botões (hover no Tema.uss). */
 .card-modo {
     flex-grow: 1;
     flex-shrink: 1;
@@ -166,38 +125,26 @@
     padding: 16px 20px;
     align-items: center;
     justify-content: center;
-    background-color: rgba(76, 52, 98, 0.92);
-    border-color: rgb(193, 112, 207);
-    border-top-width: 3px;
-    border-right-width: 6px;
-    border-bottom-width: 12px;
-    border-left-width: 6px;
-    border-top-left-radius: 36px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 36px;
-    border-bottom-left-radius: 0;
+    background-color: var(--botao-fundo);
+    border-color: var(--borda-botao);
+    border-width: 4px;
+    border-radius: 18px;
     transition-property: background-color, border-color, scale;
     transition-duration: 0.12s;
 }
 
-.card-modo:hover {
-    background-color: rgba(112, 52, 150, 0.96);
-    border-color: rgb(238, 117, 222);
-    scale: 1.03 1.03;
-}
-
 .card-modo:active {
-    background-color: rgba(67, 25, 92, 0.96);
+    scale: 0.98 0.98;
 }
 
 .card-titulo {
     margin: 0 0 10px 0;
-    color: rgb(226, 160, 244);
+    color: var(--lilas);
     font-size: 52px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
     -unity-text-outline-width: 3px;
-    -unity-text-outline-color: rgb(110, 0, 140);
+    -unity-text-outline-color: var(--sombra-titulo);
     letter-spacing: 4px;
     text-shadow: -5px 4px 0 rgb(124, 79, 139);
 }
@@ -230,7 +177,7 @@
 }
 
 .linha-ranking-topo {
-    color: rgb(255, 215, 90);
+    color: var(--amarelo);
 }
 
 .linha-ranking-vazio {
@@ -267,7 +214,7 @@
 
 .valor-config {
     width: 100px;
-    color: rgb(238, 150, 255);
+    color: var(--amarelo);
     font-size: 40px;
     -unity-font-style: bold;
     -unity-text-align: middle-right;
@@ -280,15 +227,15 @@
 }
 
 .slider-config .unity-base-slider__tracker {
-    background-color: rgba(125, 38, 255, 0.55);
-    border-color: rgb(193, 112, 207);
+    background-color: var(--roxo);
+    border-color: var(--borda-botao);
 }
 
 .slider-config .unity-base-slider__dragger {
-    background-color: rgb(238, 117, 222);
-    border-color: rgb(255, 255, 255);
+    background-color: var(--amarelo);
+    border-color: var(--texto);
 }
-/* Toggle "Tela cheia": caixa do tamanho dos sliders, marcada em rosa. */
+/* Toggle "Tela cheia": caixa do tamanho dos sliders, marcada em amarelo. */
 .toggle-config {
     flex-grow: 1;
     margin: 0 18px;
@@ -302,12 +249,12 @@
     width: 44px;
     height: 44px;
     background-color: rgba(30, 14, 46, 0.9);
-    border-color: rgb(193, 112, 207);
+    border-color: var(--borda-botao);
     border-width: 3px;
     border-radius: 10px;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgb(41, 28, 53);
 }
 
 .toggle-config:checked .unity-toggle__checkmark {
-    background-color: rgb(238, 117, 222);
+    background-color: var(--amarelo);
 }
