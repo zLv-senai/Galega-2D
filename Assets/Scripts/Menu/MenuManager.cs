@@ -42,6 +42,8 @@ public class MenuManager : MonoBehaviour
     // Menu em roda (MenuRoda.uxml): só existe se o UXML tiver o elemento "RodaOpcoes"; sem ele (MainMenu.uxml) tudo
     // funciona como antes, só pelos cliques.
     private RodaDeOpcoes roda;
+    // Gameplay decorativa de fundo (só com a roda): criada com o menu e destruída ao começar a partida.
+    private FundoDoMenu fundo;
     private const float CentroYDaRoda = 425f;   // meio da área acima do rodapé, na referência 1920x1080
     private static readonly string[] DescricoesDaRoda =
     {
@@ -99,6 +101,27 @@ public class MenuManager : MonoBehaviour
         else if (teclado.escapeKey.wasPressedThisFrame)
         {
             VoltarDosControles();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        DestruirFundo();
+    }
+
+    private void CriarFundo()
+    {
+        if (roda != null && fundo == null)
+        {
+            fundo = new GameObject("FundoDoMenu").AddComponent<FundoDoMenu>();
+        }
+    }
+
+    private void DestruirFundo()
+    {
+        if (fundo != null)
+        {
+            Destroy(fundo.gameObject);
         }
     }
 
@@ -206,6 +229,7 @@ public class MenuManager : MonoBehaviour
         LigarClique(root, "VoltarSettings_btt", OnVoltarSettingsClicked);
 
         roda = CriarRoda(root);
+        CriarFundo();
         SomDeInterface.Ligar(root);
 
         // A árvore nova começa no menu principal.
@@ -344,6 +368,7 @@ public class MenuManager : MonoBehaviour
     private void EscolherModo(ModoDeJogo modo)
     {
         modoEscolhido = modo;
+        DestruirFundo();
 
         if (telaDeControles == null)
         {
@@ -367,6 +392,7 @@ public class MenuManager : MonoBehaviour
         telaDeControles.SetActive(false);
         raizDoMenu.style.display = DisplayStyle.Flex;
         MostrarPainel(painelModo);
+        CriarFundo();
     }
 
     // Integração: guarda o nome e o modo escolhidos (o GerenciadorDeWaves lê ao entrar em OnPlay) e começa o jogo.
