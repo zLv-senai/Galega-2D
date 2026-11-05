@@ -20,6 +20,7 @@ public sealed class FundoDoMenu : MonoBehaviour
 
     // Mesmos prefabs que o EnemySpawn e o ControladorDeBoss usam por padrão (Assets/Resources).
     private static readonly string[] InimigosNoResources = { "EnemyUno", "EnemyDuo", "EnemyThree" };
+    private const string TiroNoResources = "Tiro";
     private static readonly string[] BossesNoResources = { "BOSS1(FINAL)", "BOSS2(FINAL)", "BOSS3(FINAL)" };
 
     // Aparência copiada do SpriteRenderer de um prefab (o prefab em si nunca é instanciado).
@@ -66,16 +67,23 @@ public sealed class FundoDoMenu : MonoBehaviour
     private void Start()
     {
         camera2D = Camera.main;
-        PlayerMove jogador = FindFirstObjectByType<PlayerMove>();
+        PlayerMove jogador = FindAnyObjectByType<PlayerMove>();
         player = jogador != null ? jogador.transform : null;
 
         CarregarVisuais(InimigosNoResources, visuaisDeInimigo);
         CarregarVisuais(BossesNoResources, visuaisDeBoss);
-        visualDoTiro = jogador != null ? LerVisual(jogador.tiroPrefab) : null;
+        // O tiro do player é um prefab de partículas, sem SpriteRenderer: cai no sprite do "Tiro" do Resources.
+        visualDoTiro = (jogador != null ? LerVisual(jogador.tiroPrefab) : null) ?? LerVisual(Resources.Load<GameObject>(TiroNoResources));
 
-        if (camera2D == null || player == null || visuaisDeInimigo.Count == 0 || visualDoTiro == null)
+        List<string> faltando = new List<string>();
+        if (camera2D == null) faltando.Add("câmera (Camera.main)");
+        if (player == null) faltando.Add("player (PlayerMove)");
+        if (visuaisDeInimigo.Count == 0) faltando.Add("inimigos (Resources)");
+        if (visualDoTiro == null) faltando.Add("tiro (sprite)");
+
+        if (faltando.Count > 0)
         {
-            Debug.LogWarning("FundoDoMenu: câmera, player, inimigos ou tiro não encontrados. A gameplay do fundo foi desligada.");
+            Debug.LogWarning("FundoDoMenu: faltou " + string.Join(", ", faltando) + ". A gameplay do fundo foi desligada.");
             enabled = false;
         }
     }
