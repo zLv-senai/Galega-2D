@@ -82,15 +82,15 @@ public class MenuManager : MonoBehaviour
     // É LateUpdate para o mesmo Enter não pausar o jogo: o MenuDePausa já rodou neste frame, ainda sem partida.
     private void LateUpdate()
     {
-        Keyboard teclado = Keyboard.current;
-        if (teclado == null)
+        if (telaDeControles == null || !telaDeControles.activeSelf)
         {
+            LerEntradaDaRoda();
             return;
         }
 
-        if (telaDeControles == null || !telaDeControles.activeSelf)
+        Keyboard teclado = Keyboard.current;
+        if (teclado == null)
         {
-            LerEntradaDaRoda(teclado);
             return;
         }
 
@@ -126,8 +126,8 @@ public class MenuManager : MonoBehaviour
     }
 
     // Menu em roda: com o painel principal à mostra (sem subpainel e sem tela de controles), as setas, W/S e o scroll
-    // mudam a opção e Enter confirma. Com um subpainel aberto as teclas não mexem na roda (o campo de nome recebe texto).
-    private void LerEntradaDaRoda(Keyboard teclado)
+    // mudam a opção; Enter ou botão esquerdo confirmam. Com um subpainel aberto a roda não ouve nada (o campo de nome recebe texto).
+    private void LerEntradaDaRoda()
     {
         if (roda == null || !PainelPrincipalVisivel())
         {
@@ -135,11 +135,7 @@ public class MenuManager : MonoBehaviour
         }
 
         roda.LerNavegacao();
-
-        if (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame)
-        {
-            roda.Confirmar();
-        }
+        roda.LerConfirmacao();
     }
 
     // True no estado Menu, com o painel principal visível (os outros painéis e a tela de controles fechados).

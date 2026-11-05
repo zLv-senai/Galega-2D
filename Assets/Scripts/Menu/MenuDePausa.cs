@@ -107,12 +107,11 @@ public class MenuDePausa : MonoBehaviour
     }
 
     // Pausa em roda (PausaRoda.uxml): com o menu principal da pausa à mostra, setas, W/S e scroll mudam a opção e Enter
-    // confirma a selecionada (não despausa direto). Devolve true se o Enter foi usado. Não age no frame em que a pausa abriu,
-    // para o mesmo Enter que pausou não confirmar a primeira opção.
+    // confirma a selecionada (não despausa direto); o botão esquerdo também confirma. Devolve true se confirmou. Não age no
+    // frame em que a pausa abriu, para o mesmo Enter que pausou não confirmar a primeira opção.
     private bool TratarEntradaDaRoda()
     {
-        Keyboard teclado = Keyboard.current;
-        if (roda == null || !visivel || teclado == null || Time.frameCount <= frameDaPausa
+        if (roda == null || !visivel || Time.frameCount <= frameDaPausa
             || painelPrincipal.resolvedStyle.display == DisplayStyle.None)
         {
             return false;
@@ -120,13 +119,7 @@ public class MenuDePausa : MonoBehaviour
 
         roda.LerNavegacao();
 
-        if (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame)
-        {
-            roda.Confirmar();
-            return true;
-        }
-
-        return false;
+        return roda.LerConfirmacao();
     }
 
     // Monta a roda se o UXML tiver o "RodaOpcoes"; devolve null no Pausa.uxml.

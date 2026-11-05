@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 // Roda de opções do menu principal e da pausa: os botões ficam em arco ao lado de uma bola grande (parte fora da
 // tela), e o selecionado vai para o meio. Só posiciona e destaca os botões; a movimentação suave é a transição do
-// USS (.roda-item), e o clique de cada botão continua sendo tratado por quem montou o menu.
+// USS (.roda-item). A opção muda só por scroll ou setas; Confirmar dispara o clique registrado por quem montou o menu.
 public sealed class RodaDeOpcoes
 {
     // Geometria na resolução de referência 1920x1080 (relativa ao canto superior esquerdo da tela).
@@ -41,11 +41,10 @@ public sealed class RodaDeOpcoes
 
         for (int i = 0; i < botoes.Count; i++)
         {
-            int indice = i;
             botoes[i].AddToClassList(ClasseItem);
-            // Só o mouse se mexendo seleciona: com o PointerEnter, o item que desliza para baixo do cursor parado
-            // seria selecionado sozinho, em cascata.
-            botoes[i].RegisterCallback<PointerMoveEvent>(evt => Selecionar(indice));
+            // O mouse não escolhe a opção: sem hover nem clique próprio. Quem muda é o scroll/teclado e quem confirma
+            // é o Enter ou o botão esquerdo (ver LerConfirmacao).
+            botoes[i].pickingMode = PickingMode.Ignore;
         }
 
         Aplicar(0);
@@ -89,6 +88,23 @@ public sealed class RodaDeOpcoes
             proximoScroll = Time.unscaledTime + IntervaloDoScroll;
             Passo(scroll < 0f ? 1 : -1);
         }
+    }
+
+    // Enter ou botão esquerdo do mouse confirmam a opção selecionada, onde quer que esteja o ponteiro. Usa o pressionar
+    // do mouse: o clique do "Voltar" dispara ao soltar, então não confirma a roda por engano. Devolve true se confirmou.
+    public bool LerConfirmacao()
+    {
+        Keyboard teclado = Keyboard.current;
+        Mouse mouse = Mouse.current;
+        bool enter = teclado != null && (teclado.enterKey.wasPressedThisFrame || teclado.numpadEnterKey.wasPressedThisFrame);
+        bool clique = mouse != null && mouse.leftButton.wasPressedThisFrame;
+        if (!enter && !clique)
+        {
+            return false;
+        }
+
+        Confirmar();
+        return true;
     }
 
     // Volta para a primeira opção sem tocar som (ao reabrir o menu de pausa).
